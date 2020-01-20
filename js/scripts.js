@@ -10,8 +10,14 @@ let app = new Vue({
     colors:{
       button: "#06874E",
       links: "#06874E",
-      header: "#333333",
-      footer: "#333333",
+      header: {
+        background: "#333333",
+        text: "#ffffff"
+      },
+      footer: {
+        background: "#333333",
+        text: "#ffffff"
+      }
     },
     analytics: {
       code: null,
@@ -69,6 +75,7 @@ let app = new Vue({
     }
   },
   methods: {
+
     savePosts(){
       sendSuccess("Posts Saved");
       localStorage.setItem("posts", JSON.stringify(this.posts));
@@ -233,13 +240,61 @@ let app = new Vue({
     copyNewsletterCode(){
       if(copyTextToClipboard(this.$refs.newsletter.outerHTML))
         sendSuccess("Copied HTML Code");
+    },
+    isLight(color){
+      let res = isLightColor(color);
+      return res;
+    },
+    scrollToTop () {
+      this.$refs.main.scrollTop = 0
     }
   },
   updated(){
     this.newsletterHTML = this.$refs.newsletter.outerHTML;
   }
 });
+function isLightColor(color) {
 
+  // Check the format of the color, HEX or RGB?
+  if (color.match(/^rgb/)) {
+
+    // If HEX --> store the red, green, blue values in separate variables
+    color = color.match(/^rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*(\d+(?:\.\d+)?))?\)$/);
+
+    r = color[1];
+    g = color[2];
+    b = color[3];
+  }
+  else {
+
+    // If RGB --> Convert it to HEX: http://gist.github.com/983661
+    color = +("0x" + color.slice(1).replace(
+      color.length < 5 && /./g, '$&$&'
+    )
+             );
+
+    r = color >> 16;
+    g = color >> 8 & 255;
+    b = color & 255;
+  }
+
+  // HSP (Highly Sensitive Poo) equation from http://alienryderflex.com/hsp.html
+  hsp = Math.sqrt(
+    0.299 * (r * r) +
+    0.587 * (g * g) +
+    0.114 * (b * b)
+  );
+
+  // Using the HSP value, determine whether the color is light or dark
+  if (hsp>127.5) {
+
+    return true;
+  }
+  else {
+
+    return false;
+  }
+}
 function copyTextToClipboard(text) {
    let textArea = document.createElement("textarea");
    textArea.style.position = 'fixed';

@@ -320,6 +320,11 @@ body{
   top: 6px;
   left: 10px;
   position: absolute;
+  cursor: pointer;
+}
+
+.form-item input[type="color"].light ~ label{
+  color: #111;
 }
 
 .form-item input[type="button"]:focus,
@@ -356,7 +361,7 @@ body{
 .tool-icon:hover{
   color: #aeaeae;
 }
-.newsletter-add{
+.card-title-icon{
   font-size: 1.5em;
   cursor: pointer;
   position: absolute;

@@ -19,25 +19,25 @@
         </span>
         <a class="sidebar-pin" @click="sidebarStuck = !sidebarStuck"><i class="fas fa-thumbtack"></i></a>
         <ul class="sidebar-menu">
-          <li class="sidebar-item" :class="{active: activeView === 'setup'}" @click="activeView = 'setup'">
+          <li class="sidebar-item" :class="{active: activeView === 'setup'}" @click="activeView = 'setup'; scrollToTop()">
             <i class="fa fa-toolbox fa-2x"></i> <p class="collapsed">Setup</p>
           </li>
-          <li class="sidebar-item" :class="{active: activeView === 'edit'}" @click="activeView = 'edit'">
+          <li class="sidebar-item" :class="{active: activeView === 'edit'}" @click="activeView = 'edit'; scrollToTop()">
             <i class="fa fa-edit fa-2x"></i> <p class="collapsed">Edit Items</p>
           </li>
-          <li class="sidebar-item" :class="{active: activeView === 'analytics'}" @click="activeView = 'analytics'">
+          <li class="sidebar-item" :class="{active: activeView === 'analytics'}" @click="activeView = 'analytics'; scrollToTop()">
             <i class="fa fa-chart-pie fa-2x"></i> <p class="collapsed">Analytics</p>
           </li>
-          <li class="sidebar-item" :class="{active: activeView === 'preview'}" @click="activeView = 'preview'">
+          <li class="sidebar-item" :class="{active: activeView === 'preview'}" @click="activeView = 'preview'; scrollToTop()">
             <i class="fa fa-eye fa-2x"></i> <p class="collapsed">Preview</p>
           </li>
         </ul>
         <span class="sidebar-split"></span>
         <ul class="sidebar-menu">
-          <li class="sidebar-item" :class="{active: activeView === 'load'}" @click="activeView = 'load'">
+          <li class="sidebar-item" :class="{active: activeView === 'load'}" @click="activeView = 'load'; scrollToTop()">
             <i class="fa fa-toolbox fa-2x"></i> <p class="collapsed">Load / Save</p>
           </li>
-          <li class="sidebar-item" :class="{active: activeView === 'use'}" @click="activeView = 'use'">
+          <li class="sidebar-item" :class="{active: activeView === 'use'}" @click="activeView = 'use'; scrollToTop()">
             <i class="fa fa-file-export fa-2x"></i> <p class="collapsed">Use Newsletter</p>
           </li>
         </ul>
@@ -57,15 +57,15 @@
                 <img :src="header.image" width="100%" style="width:100%">
               </td>
             </tr>
-            <tr v-else-if="header.style == '2'" style="position:relative;width: 100%; background: #333; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
+            <tr v-else-if="header.style == '2'" style="position:relative;width: 100%; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3" :style="{'background-color': colors.header.background}">
               <td colspan="2" valign="middle" style="padding: 25px">
-                <h2 style="margin:0;text-align:center;color: #fff;">{{header.title}}</h2>
-                <h4 style="margin:0;text-align:center;color: #fff;">{{header.subtitle}}</h4>
+                <h2 style="margin:0;text-align:center;" :style="{color: colors.header.text}">{{header.title}}</h2>
+                <h4 style="margin:0;text-align:center;" :style="{color: colors.header.text}">{{header.subtitle}}</h4>
               </td>
             </tr>
-            <tr v-else-if="header.style == '3'" style="position:relative;width: 100%; background: #333; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
+            <tr v-else-if="header.style == '3'" style="position:relative;width: 100%; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3" :style="{'background-color': colors.header.background}">
               <td colspan="2" valign="middle" style="padding: 25px">
-                 <span v-html="header.html" style="color: #fff"></span>
+                 <span v-html="header.html" :style="{color: colors.header.text}"></span>
               </td>
             </tr>
             <tr v-for="post in posts" style="position:relative;width: 100%; background: #f3f3f3; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
@@ -77,7 +77,7 @@
                 <h2 style="margin-bottom:0;">{{post.title}}</h2><p style="font-size: .75em; color: #777;">{{post.date}}</p><p>{{post.desc}}</p>
                 <table v-if="post.link"  width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table border="0" cellspacing="0" cellpadding="0"> <tr> <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center"><a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">Read More</strong></a></td> </tr> </table> </td> </tr> </table></td>
             </tr>
-            <tr v-if="footer.style == '1'" style="position:relative;width: 100%; background: #333; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
+            <tr v-if="footer.style == '1'" style="position:relative;width: 100%; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3" :style="{'background-color': colors.footer.background}">
               <td colspan="2" valign="middle" style="padding: 25px">
                 <p v-if="footer.preset.website || footer.preset.social.facebook || footer.preset.social.linkedin || footer.preset.social.twitter" style="margin:0;margin-bottom: 10px;text-align:center;color:#fff;">
                   <a v-if="footer.preset.website" :href="footer.preset.website" target="_blank" :style="{color: colors.links}">Website</a>
@@ -85,21 +85,21 @@
                   <span v-if="footer.preset.social.linkedin"><span v-if="footer.preset.website || footer.preset.social.facebook"> | </span><a :href="footer.preset.social.linkedin" target="_blank" :style="{color: colors.links}">LlinkedIn</a></span>
                   <span v-if="footer.preset.social.twitter"><span v-if="footer.preset.website || footer.preset.social.facebook || footer.preset.social.linkedin"> | </span><a :href="footer.preset.social.twitter" target="_blank" :style="{color: colors.links}">Twitter</a></span>
                 </p>
-                <h3 v-if="footer.preset.name" style="margin:0;margin-bottom: 10px;text-align:center;color:#fff;">{{footer.preset.name}}</h3>
-                <p v-if="footer.preset.location.address || footer.preset.location.city || footer.preset.location.postal" style="margin:0;text-align:center;color:#fff;">
-                  <span v-if="footer.preset.location.address">{{footer.preset.location.address}}</span>
-                  <span v-if="footer.preset.location.city"><span v-if="footer.preset.location.address"> | </span>{{footer.preset.location.city}},{{footer.preset.location.province}}</span>
-                  <span v-if="footer.preset.location.postal"><span v-if="footer.preset.location.address || footer.preset.location.city"> | </span>{{footer.preset.location.postal}}</span>
+                <h3 v-if="footer.preset.name" style="margin:0;margin-bottom: 10px;text-align:center;" :style="{color: colors.footer.text}">{{footer.preset.name}}</h3>
+                <p v-if="footer.preset.location.address || footer.preset.location.city || footer.preset.location.postal" style="margin:0;text-align:center;" :style="{color: colors.footer.text}">
+                  <span v-if="footer.preset.location.address" :style="{color: colors.footer.text}">{{footer.preset.location.address}}</span>
+                  <span v-if="footer.preset.location.city" :style="{color: colors.footer.text}"><span v-if="footer.preset.location.address"> | </span>{{footer.preset.location.city}},{{footer.preset.location.province}}</span>
+                  <span v-if="footer.preset.location.postal" :style="{color: colors.footer.text}"><span v-if="footer.preset.location.address || footer.preset.location.city"> | </span>{{footer.preset.location.postal}}</span>
                 </p>
-                <p v-if="footer.preset.phone" style="margin:0;margin-bottom: 10px;text-align:center;color:#fff;">{{footer.preset.phone}}</p>
-                <p style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;color:#fff;">Copyright © {{(new Date().getFullYear())}}  All rights reserved.<br>
+                <p v-if="footer.preset.phone" style="margin:0;margin-bottom: 10px;text-align:center;":style="{color: colors.footer.text}">{{footer.preset.phone}}</p>
+                <p style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;":style="{color: colors.footer.text}">Copyright © {{(new Date().getFullYear())}}  All rights reserved.<br>
 	         The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website <a href="http://www.manulifesecurities.ca"  target="_blank" :style="{color: colors.links}">www.manulifesecurities.ca</a>. Please confirm with your advisor which company you are dealing with for each of your products and services.<br><br>
 	         <em><a href="http://co.manulife.ca/securities/ms_corporatedisclaimers" target="_blank" :style="{color: colors.links}">Manulife Securities Disclaimers</a> | <a href="https://www.manulife.ca/corporate/privacy-policy.html" target="_blank" :style="{color: colors.links}">Privacy Policy</a> | <a href="https://www.manulife.com/en/legal.html" target="_blank" :style="{color: colors.links}">Legal</a></em></p>
               </td>
             </tr>
-            <tr v-else-if="footer.style == '2'" style="position:relative;width: 100%; background: #333; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
+            <tr v-else-if="footer.style == '2'" style="position:relative;width: 100%; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3" :style="{'background-color': colors.footer.background}">
               <td colspan="2" valign="middle" style="padding: 25px">
-                 <span v-html="footer.html" style="color: #fff"></span>
+                 <span v-html="footer.html" :style="{color: colors.footer.text}"></span>
               </td>
             </tr>
             <tr v-if="analyticsEnabled">
@@ -108,7 +108,7 @@
           </table>
         </div>
       </aside>
-      <main id="main">
+      <main id="main" ref="main">
       <vue-snotify></vue-snotify>
         <div id="setup" class="main-view" :class="{open: activeView === 'setup'}">
           <div class="card">
@@ -259,30 +259,45 @@
             </div>
           </div>
           <div class="card">
-            <h3 class="card-title">Other Settings</h3>
-            <!-- <div class="form-item">
-              <input id="headerColor" type="color" v-model="colors.header">
-              <label for="headerColor">Header Color</label>
-            </div> -->
-            <div class="form-item">
-              <input id="buttonColor" type="color" v-model="colors.button">
-              <label for="buttonColor">Button Color</label>
+            <h3 class="card-title">Colour Settings</h3>
+            <span class="card-title-icon" title="If you can't change the color, try changing the vertical slider"><i class="fas fa-question-circle tool-icon"></i></span>
+            <div class="form-item split even">
+              <div>
+                <input id="buttonColor" type="color" v-model.lazy="colors.button" :class="{light: isLight(colors.button)}">
+                <label for="buttonColor">Button Color</label>
             </div>
-            <div class="form-item">
-              <input id="linkColor" type="color" v-model="colors.links">
-              <label for="linkColor">Link Color</label>
+              <div>
+                <input id="linkColor" type="color" v-model.lazy="colors.links" :class="{light: isLight(colors.links)}">
+                <label for="linkColor">Link Color</label>
+              </div>
             </div>
-            <!-- <div class="form-item">
-              <input id="footerColor" type="color" v-model="colors.footer">
-              <label for="footerColor">Footer Color</label>
-            </div> -->
+            <div class="form-item split even">
+                <div>
+                  <input id="headerColor" type="color" v-model.lazy="colors.header.background" :class="{light: isLight(colors.header.background)}">
+                  <label for="headerColor">Header Color</label>
+              </div>
+              <div>
+                <input id="headerText" type="color" v-model.lazy="colors.header.text" :class="{light: isLight(colors.header.text)}">
+                <label for="headerText">Header Text</label>
+              </div>
+            </div>
+            <div class="form-item split even">
+                <div>
+                  <input id="footerColor" type="color" v-model.lazy="colors.footer.background" :class="{light: isLight(colors.footer.background)}">
+                  <label for="footerColor">Footer Color</label>
+              </div>
+              <div>
+                <input id="footerText" type="color" v-model.lazy="colors.footer.text" :class="{light: isLight(colors.footer.text)}">
+                <label for="footerText">Footer Text</label>
+              </div>
+            </div>
           </div>
         </div>
         <div id="edit" class="main-view" :class="{open: activeView === 'edit'}">
 
           <div class="card">
             <h3 class="card-title">Edit Newsletter</h3>
-            <span class="newsletter-add" title="Add Custom Post" @click="addPost"><i class="far fa-plus-square tool-icon"></i></span>
+            <span class="card-title-icon" title="Add Custom Post" @click="addPost"><i class="far fa-plus-square tool-icon"></i></span>
             <div class="edit-newsletter">
               <ul class="newsletter-list">
                 <p v-if="posts.length == 0">No Posts Loaded Yet</p>
@@ -328,6 +343,7 @@
 
           <div class="card">
             <h3 class="card-title">Google Analytics</h3>
+            <span class="card-title-icon" title="Analytics Help is coming soon"><i class="fas fa-question-circle tool-icon"></i></span>
             <div class="form-item">
               <input type="text" id="analytics-code" v-model="analytics.code" required>
               <label for="analytics-code">Analytics Code</label>
