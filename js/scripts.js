@@ -89,8 +89,10 @@ let app = new Vue({
         sendSuccess("Options Loaded");
         if(!options)
           options = JSON.parse(localStorage.options);
-        this.$refs.loadPosts.value = options.loadPosts;
-        this.$refs.loadPost.value = options.loadPost;
+        if(options.loadPosts)
+          this.$refs.loadPosts.value = options.loadPosts;
+        if(options.loadPost)
+          this.$refs.loadPost.value = options.loadPost;
         if(options.header)
           this.header = options.header;
         if(options.footer)

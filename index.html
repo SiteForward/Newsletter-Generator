@@ -359,23 +359,24 @@
           <div class="card">
             <h3 class="card-title">Option Management</h3>
             <div class="form-item split even">
-              <input type="button" value="Save Options Locally" @click="saveOptions">
               <input type="button" value="Load Options Locally" @click="loadOptions">
+              <input type="button" value="Import Options" @click="importOptions">
             </div>
             <div class="form-item split even">
-                <input type="button" value="Export Options" @click="exportOptions">
-                <input type="button" value="Import Options" @click="importOptions">
-              </div>
+              <input type="button" value="Save Options Locally" @click="saveOptions">
+              <input type="button" value="Export Options" @click="exportOptions">
+            </div>
           </div>
           <div class="card">
             <h3 class="card-title">Post Management</h3>
             <div class="form-item split even">
-              <input type="button" value="Save Posts Locally" @click="savePosts">
               <input type="button" value="Load Posts Locally" @click="loadPosts">
-            </div>  <div class="form-item split even">
-                <input type="button" value="Export Posts" @click="exportPosts">
-                <input type="button" value="Import Posts" @click="importPosts">
-              </div>
+              <input type="button" value="Import Posts" @click="importPosts">
+            </div>
+            <div class="form-item split even">
+              <input type="button" value="Save Posts Locally" @click="savePosts">
+              <input type="button" value="Export Posts" @click="exportPosts">
+            </div>
           </div>
         </div>
 
