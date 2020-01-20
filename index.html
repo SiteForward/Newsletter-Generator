@@ -32,14 +32,17 @@
           <li class="sidebar-item" :class="{active: activeView === 'preview'}" @click="activeView = 'preview'; scrollToTop()">
             <i class="fa fa-eye fa-2x"></i> <p class="collapsed">Preview</p>
           </li>
+          <li class="sidebar-item" :class="{active: activeView === 'use'}" @click="activeView = 'use'; scrollToTop()">
+            <i class="fa fa-file-export fa-2x"></i> <p class="collapsed">Use Newsletter</p>
+          </li>
         </ul>
         <span class="sidebar-split"></span>
         <ul class="sidebar-menu">
           <li class="sidebar-item" :class="{active: activeView === 'load'}" @click="activeView = 'load'; scrollToTop()">
             <i class="fas fa-clone fa-2x"></i> <p class="collapsed">Load / Save</p>
           </li>
-          <li class="sidebar-item" :class="{active: activeView === 'use'}" @click="activeView = 'use'; scrollToTop()">
-            <i class="fa fa-file-export fa-2x"></i> <p class="collapsed">Use Newsletter</p>
+          <li class="sidebar-item" :class="{active: activeView === 'options'}" @click="activeView = 'options'; scrollToTop()">
+            <i class="fa fa-cog fa-2x"></i> <p class="collapsed">Settings</p>
           </li>
         </ul>
 
@@ -415,6 +418,10 @@
               <input type="button" value="Copy Newsletter" @click="copyNewsletter">
             </div>
           </div>
+        </div>
+
+        <div id="options" class="main-view" :class="{open: activeView === 'options'}">
+
           <div class="card">
             <h3 class="card-title">Enable MS Word Support</h3>
             <p><small>This can cause issues if enabled and is being used in an email.<br><br>After pasting into word right click on the table, open table properties, go to columns, and unselect <strong>Preffered Width</strong>. Then you can drag the column width manually to fit the image</small></p>
