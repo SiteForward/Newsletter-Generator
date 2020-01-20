@@ -189,9 +189,6 @@ body{
   #preview{
     width:0;
   }
-  #preview.large{
-
-  }
 }
 .main-view{
   position: absolute;
