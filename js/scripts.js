@@ -253,6 +253,7 @@ let app = new Vue({
     copyNewsletter(){
       selectElementContents(this.$refs.newsletter);
       document.execCommand('copy');
+      if (window.getSelection) window.getSelection().removeAllRanges();
       sendSuccess("Copied Newsletter");
     },
     copyNewsletterCode(){
