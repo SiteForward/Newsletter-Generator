@@ -168,14 +168,30 @@ body{
   width: calc(calc(100% - 260px) - 850px);
 }
 #preview.large ~ #main{
-  left: calc(-1 * calc(calc(110% - 80px) - 900px));
+  left: calc(-1 * calc(calc(110% - 80px) - 850px));
 }
 #preview.large{
   width: calc(100% - 80px);
 }
-
 #preview.large .preview-header{
   width: 100%;
+}
+@media(max-width: 1024px){
+  #main{
+    width: calc(100% - 80px);
+  }
+  #sidebar.stuck ~ #main{
+    width: calc(100% - 260px);
+  }
+  #preview.large ~ #main{
+    left: calc(-1 * calc(110% - 80px));
+  }
+  #preview{
+    width:0;
+  }
+  #preview.large{
+
+  }
 }
 .main-view{
   position: absolute;
