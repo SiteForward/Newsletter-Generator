@@ -132,6 +132,11 @@
           </div>
           <div class="card">
             <h3 class="card-title">Header Settings</h3>
+            <div class="accordion" :class="{open: header.style == 0}" @click="header.style = 0">
+              <div class="accordion-title">
+                <p>No Header</p>
+              </div>
+            </div>
             <div class="accordion" :class="{open: header.style == 1}" @click="header.style = 1">
               <div class="accordion-title">
                 <p>Use Image</p>
@@ -172,6 +177,11 @@
           </div>
           <div class="card">
             <h3 class="card-title">Footer Settings</h3>
+            <div class="accordion" :class="{open: footer.style == 0}" @click="footer.style = 0">
+              <div class="accordion-title">
+                <p>No Foooter</p>
+              </div>
+            </div>
             <div class="accordion" :class="{open: footer.style == 1}" @click="footer.style = 1">
               <div class="accordion-title">
                 <p>Use Template</p>
