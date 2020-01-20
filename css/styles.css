@@ -268,7 +268,7 @@ body{
 
 .form-item{
 	position:relative;
-	margin-bottom:25px;
+  margin-bottom:15px;
 }
 .form-item label{
 	position:absolute;
@@ -391,9 +391,6 @@ body{
   display: flex;
   flex-flow: column nowrap;
 }
-.newsletter-list .post .data .form-item{
-  margin-bottom: 15px;
-}
 .tool-list{
   display: flex;
   flex-flow: row nowrap;
@@ -425,8 +422,12 @@ body{
 .accordion-title{
   background: #eee;
   transition: all .35s;
-  padding: 10px;
+  padding: 5px 10px;
   position: relative;
+}
+.accordion-title p{
+  margin-block-start: 10px;
+  margin-block-end: 10px;
 }
 .accordion-title::before{
   content: ' ';
