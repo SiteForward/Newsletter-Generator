@@ -54,21 +54,6 @@ let app = new Vue({
     posts: [],
     newsletterHTML: ""
   },
-  mounted() {
-    if (localStorage.options){
-      let options = JSON.parse(localStorage.options);
-      this.$refs.loadPosts.value = options.loadPosts;
-      this.$refs.loadPost.value = options.loadPost;
-      if(options.header)
-        this.header = options.header;
-      if(options.footer)
-        this.footer = options.footer;
-      if(options.colors)
-        this.colors = options.colors;
-      if(options.analytics)
-        this.analytics = options.analytics;
-    }
-  },
   computed: {
     analyticsEnabled: function(){
       return this.analytics.code && this.analytics.name;
@@ -91,16 +76,19 @@ let app = new Vue({
         analytics: this.analytics
       }));
     },
-    loadPosts(){
-      if (localStorage.posts){
+    loadPosts(posts){
+      if (posts || localStorage.posts){
         sendSuccess("Posts Loaded");
-        this.posts = JSON.parse(localStorage.posts);
+        if(!posts)
+          posts = JSON.parse(localStorage.posts);
+        this.posts = posts;
       }
     },
-    loadOptions(){
-      if (localStorage.options){
+    loadOptions(options){
+      if (options || localStorage.options){
         sendSuccess("Options Loaded");
-        let options = JSON.parse(localStorage.options);
+        if(!options)
+          options = JSON.parse(localStorage.options);
         this.$refs.loadPosts.value = options.loadPosts;
         this.$refs.loadPost.value = options.loadPost;
         if(options.header)
@@ -113,7 +101,26 @@ let app = new Vue({
           this.analytics = options.analytics;
       }
     },
+    exportPosts(){
+      exportJSONToFile(this.posts, "Newsleter - Posts.json");
+    },
+    exportOptions(){
+        exportJSONToFile({
+          loadPosts: this.$refs.loadPosts.value,
+          loadPost: this.$refs.loadPost.value,
+          header: this.header,
+          footer: this.footer,
+          colors: this.colors,
+          analytics: this.analytics
+        }, "Newsleter - Options.json");
+    },
+    importPosts(){
+      loadJSONFile(d => this.loadPosts(d));
 
+    },
+    importOptions(){
+      loadJSONFile(d => this.loadOptions(d));
+    },
     loadPostsFromURL(){
       var url = this.$refs.loadPosts.value;
       if(!url || url.length < 0)
@@ -253,6 +260,53 @@ let app = new Vue({
     this.newsletterHTML = this.$refs.newsletter.outerHTML;
   }
 });
+function loadJSONFile(cb){
+  var div = document.createElement("div"),
+   input = document.createElement("input");
+   input.type="file";
+ 	 div.style.width = "0";
+ 	 div.style.height = "0";
+ 	 div.style.position = "fixed";
+   document.body.appendChild(div);
+   div.appendChild(input);
+   var ev = new MouseEvent("click",{});
+   input.dispatchEvent(ev);
+   input.addEventListener('change', function(e){
+     let file = e.target.files[0];
+     let reader = new FileReader();
+     reader.readAsText(file);
+     reader.onload = function(){
+       let res = JSON.parse(reader.result);
+       console.log(res);
+       cb(res);
+       document.body.removeChild(div);
+     }
+   });
+ //  var fileReader = new FileReader();
+ //  fileReader.onload = function() {
+ //   cb(this.result);
+ // });
+}
+function exportJSONToFile(obj, fileName){
+  var json = JSON.stringify(obj);    // test -> localStorage
+  var file = new File([json], fileName, {type: "text/txt"});
+  var blobUrl = (URL || webkitURL).createObjectURL(file);
+	var div = document.createElement("div"),
+	   anch = document.createElement("a");
+
+	document.body.appendChild(div);
+	div.appendChild(anch);
+
+	anch.innerHTML = "&nbsp;";
+	div.style.width = "0";
+	div.style.height = "0";
+	anch.href = blobUrl;
+	anch.download = fileName;
+
+	var ev = new MouseEvent("click",{});
+	anch.dispatchEvent(ev);
+	document.body.removeChild(div);
+}
 function isLightColor(color) {
 
   // Check the format of the color, HEX or RGB?

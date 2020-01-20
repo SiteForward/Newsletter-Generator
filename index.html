@@ -165,7 +165,7 @@
             </div>
             <div class="accordion" :class="{open: header.style == 3}"  @click="header.style = 3">
               <div class="accordion-title">
-                <p>Cutom HTML</p>
+                <p>Custom HTML</p>
               </div>
               <div class="accordion-content">
                 <div class="form-item">
@@ -179,7 +179,7 @@
             <h3 class="card-title">Footer Settings</h3>
             <div class="accordion" :class="{open: footer.style == 0}" @click="footer.style = 0">
               <div class="accordion-title">
-                <p>No Foooter</p>
+                <p>No Footer</p>
               </div>
             </div>
             <div class="accordion" :class="{open: footer.style == 1}" @click="footer.style = 1">
@@ -264,17 +264,17 @@
             <div class="form-item split even">
               <div>
                 <input id="buttonColor" type="color" v-model.lazy="colors.button" :class="{light: isLight(colors.button)}">
-                <label for="buttonColor">Button Color</label>
+                <label for="buttonColor">Button Colour</label>
             </div>
               <div>
                 <input id="linkColor" type="color" v-model.lazy="colors.links" :class="{light: isLight(colors.links)}">
-                <label for="linkColor">Link Color</label>
+                <label for="linkColor">Link Colour</label>
               </div>
             </div>
             <div class="form-item split even">
                 <div>
                   <input id="headerColor" type="color" v-model.lazy="colors.header.background" :class="{light: isLight(colors.header.background)}">
-                  <label for="headerColor">Header Color</label>
+                  <label for="headerColor">Header Colour</label>
               </div>
               <div>
                 <input id="headerText" type="color" v-model.lazy="colors.header.text" :class="{light: isLight(colors.header.text)}">
@@ -284,7 +284,7 @@
             <div class="form-item split even">
                 <div>
                   <input id="footerColor" type="color" v-model.lazy="colors.footer.background" :class="{light: isLight(colors.footer.background)}">
-                  <label for="footerColor">Footer Color</label>
+                  <label for="footerColor">Footer Colour</label>
               </div>
               <div>
                 <input id="footerText" type="color" v-model.lazy="colors.footer.text" :class="{light: isLight(colors.footer.text)}">
@@ -359,16 +359,23 @@
           <div class="card">
             <h3 class="card-title">Option Management</h3>
             <div class="form-item split even">
-              <input type="button" value="Save Options" @click="saveOptions">
-              <input type="button" value="Load Options" @click="loadOptions">
+              <input type="button" value="Save Options Locally" @click="saveOptions">
+              <input type="button" value="Load Options Locally" @click="loadOptions">
             </div>
+            <div class="form-item split even">
+                <input type="button" value="Export Options" @click="exportOptions">
+                <input type="button" value="Import Options" @click="importOptions">
+              </div>
           </div>
           <div class="card">
             <h3 class="card-title">Post Management</h3>
             <div class="form-item split even">
-              <input type="button" value="Save Posts" @click="savePosts">
-              <input type="button" value="Load Posts" @click="loadPosts">
-            </div>
+              <input type="button" value="Save Posts Locally" @click="savePosts">
+              <input type="button" value="Load Posts Locally" @click="loadPosts">
+            </div>  <div class="form-item split even">
+                <input type="button" value="Export Posts" @click="exportPosts">
+                <input type="button" value="Import Posts" @click="importPosts">
+              </div>
           </div>
         </div>
 
