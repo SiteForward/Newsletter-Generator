@@ -6,6 +6,7 @@ let app = new Vue({
     sidebarHover: false,
     sidebarStuck: false,
     previewing: false,
+    wordSupport: true,
     activeView: "setup",
     colors:{
       button: "#06874E",
@@ -57,6 +58,11 @@ let app = new Vue({
   computed: {
     analyticsEnabled: function(){
       return this.analytics.code && this.analytics.name;
+    }
+  },
+  watch:{
+    wordSupport: function(){
+      sendInfo("Word support turned "+(this.wordSupport ? "on" : "off"));
     }
   },
   methods: {

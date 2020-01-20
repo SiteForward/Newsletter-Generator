@@ -333,6 +333,14 @@ body{
   position: absolute;
   cursor: pointer;
 }
+.form-item input[type="checkbox"] ~ label{
+  left: 20px;
+  top: 1px;
+}
+.form-item input[type="checkbox"]:hover,
+.form-item input[type="checkbox"] ~ label{
+  cursor: pointer;
+}
 
 .form-item input[type="color"].light ~ label{
   color: #111;
