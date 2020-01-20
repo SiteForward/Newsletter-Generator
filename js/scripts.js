@@ -79,7 +79,7 @@ let app = new Vue({
     loadPosts(posts){
       if (posts || localStorage.posts){
         sendSuccess("Posts Loaded");
-        if(!posts)
+        if(!posts || options.target)
           posts = JSON.parse(localStorage.posts);
         this.posts = posts;
       }
@@ -87,8 +87,9 @@ let app = new Vue({
     loadOptions(options){
       if (options || localStorage.options){
         sendSuccess("Options Loaded");
-        if(!options)
+        if(!options || options.target)
           options = JSON.parse(localStorage.options);
+          console.log(options);
         if(options.loadPosts)
           this.$refs.loadPosts.value = options.loadPosts;
         if(options.loadPost)
@@ -118,7 +119,6 @@ let app = new Vue({
     },
     importPosts(){
       loadJSONFile(d => this.loadPosts(d));
-
     },
     importOptions(){
       loadJSONFile(d => this.loadOptions(d));
@@ -262,6 +262,7 @@ let app = new Vue({
     this.newsletterHTML = this.$refs.newsletter.outerHTML;
   }
 });
+// Load JSON File
 function loadJSONFile(cb){
   var div = document.createElement("div"),
    input = document.createElement("input");
@@ -284,11 +285,9 @@ function loadJSONFile(cb){
        document.body.removeChild(div);
      }
    });
- //  var fileReader = new FileReader();
- //  fileReader.onload = function() {
- //   cb(this.result);
- // });
 }
+
+//Export JSON File
 function exportJSONToFile(obj, fileName){
   var json = JSON.stringify(obj);    // test -> localStorage
   var file = new File([json], fileName, {type: "text/txt"});
@@ -309,6 +308,8 @@ function exportJSONToFile(obj, fileName){
 	anch.dispatchEvent(ev);
 	document.body.removeChild(div);
 }
+
+// Is the color light
 function isLightColor(color) {
 
   // Check the format of the color, HEX or RGB?
@@ -351,6 +352,8 @@ function isLightColor(color) {
     return false;
   }
 }
+
+//Copy text to clipboard
 function copyTextToClipboard(text) {
    let textArea = document.createElement("textarea");
    textArea.style.position = 'fixed';
@@ -379,8 +382,9 @@ function copyTextToClipboard(text) {
    document.body.removeChild(textArea);
    return successful;
 }
-//Select the contents
- function selectElementContents(el) {
+
+//Select the Newsleter
+function selectElementContents(el) {
     let body = document.body,
        range, sel;
     if (document.createRange && window.getSelection) {
@@ -396,6 +400,8 @@ function copyTextToClipboard(text) {
        range.select();
     }
  }
+
+//Move items in array
 function moveItem(array, from, to) {
 	   // remove `from` item and store it
 	   let f = array.splice(from, 1)[0];
@@ -403,14 +409,20 @@ function moveItem(array, from, to) {
 	   array.splice(to, 0, f);
 	   return array;
 	}
+
+//Send Error Popup
 function sendError(msg,er){
   app.$snotify.error(msg);
   console.log("Error: "+er ? er : msg);
 }
+
+//Send Success Popup
 function sendSuccess(msg){
   app.$snotify.success(msg);
   console.log("Success: "+msg);
 }
+
+//Send Info Popup
 function sendInfo(msg){
   app.$snotify.info(msg);
   console.log("Info: "+msg);
