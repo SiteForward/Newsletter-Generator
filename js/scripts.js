@@ -6,7 +6,7 @@ let app = new Vue({
     sidebarHover: false,
     sidebarStuck: false,
     previewing: false,
-    wordSupport: true,
+    wordSupport: false,
     activeView: "setup",
     colors:{
       button: "#06874E",
