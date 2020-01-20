@@ -266,31 +266,31 @@
             <span class="card-title-icon" title="If you can't change the color, try changing the vertical slider"><i class="fas fa-question-circle tool-icon"></i></span>
             <div class="form-item split even">
               <div>
-                <input id="buttonColor" type="color" v-model.lazy="colors.button" :class="{light: isLight(colors.button)}">
+                <input id="buttonColor" type="color" v-model="colors.button" :class="{light: isLight(colors.button)}">
                 <label for="buttonColor">Button Colour</label>
             </div>
               <div>
-                <input id="linkColor" type="color" v-model.lazy="colors.links" :class="{light: isLight(colors.links)}">
+                <input id="linkColor" type="color" v-model="colors.links" :class="{light: isLight(colors.links)}">
                 <label for="linkColor">Link Colour</label>
               </div>
             </div>
             <div class="form-item split even">
                 <div>
-                  <input id="headerColor" type="color" v-model.lazy="colors.header.background" :class="{light: isLight(colors.header.background)}">
+                  <input id="headerColor" type="color" v-model="colors.header.background" :class="{light: isLight(colors.header.background)}">
                   <label for="headerColor">Header Colour</label>
               </div>
               <div>
-                <input id="headerText" type="color" v-model.lazy="colors.header.text" :class="{light: isLight(colors.header.text)}">
+                <input id="headerText" type="color" v-model="colors.header.text" :class="{light: isLight(colors.header.text)}">
                 <label for="headerText">Header Text</label>
               </div>
             </div>
             <div class="form-item split even">
                 <div>
-                  <input id="footerColor" type="color" v-model.lazy="colors.footer.background" :class="{light: isLight(colors.footer.background)}">
+                  <input id="footerColor" type="color" v-model="colors.footer.background" :class="{light: isLight(colors.footer.background)}">
                   <label for="footerColor">Footer Colour</label>
               </div>
               <div>
-                <input id="footerText" type="color" v-model.lazy="colors.footer.text" :class="{light: isLight(colors.footer.text)}">
+                <input id="footerText" type="color" v-model="colors.footer.text" :class="{light: isLight(colors.footer.text)}">
                 <label for="footerText">Footer Text</label>
               </div>
             </div>
@@ -346,7 +346,6 @@
 
           <div class="card">
             <h3 class="card-title">Google Analytics</h3>
-            <span class="card-title-icon" title="Analytics Help is coming soon"><i class="fas fa-question-circle tool-icon"></i></span>
             <div class="form-item">
               <input type="text" id="analytics-code" v-model="analytics.code" required>
               <label for="analytics-code">Analytics Code</label>
@@ -356,6 +355,20 @@
               <label for="analytics-name">Analytics Name</label>
             </div>
           </div>
+          <div class="card">
+            <h3 class="card-title">How To Setup Analytics?</h3>
+            <ol>
+              <li>If you don't have access to your Google Analytics, please send our team at SiteForward an email requesting access<br><small>Please include your Google Email in your request</small></li>
+              <li>Open your Google Analytics account and get your Google Analytics ID<br><small><a href="https://support.google.com/analytics/answer/1008080?hl=en">Need Help?</a></small></li>
+              <li>Enter your Newsletter's name</li>
+            </ol>
+          </div>  <div class="card">
+              <h3 class="card-title">How To View Analytics?</h3>
+              <ol>
+                <li>Open your Google Anlytics Dashboard</li>
+                <li>Open your Events tab<br><small>Located under the Realtime tab</small></li>
+              </ol>
+            </div>
         </div>
 
         <div id="load" class="main-view" :class="{open: activeView === 'load'}">

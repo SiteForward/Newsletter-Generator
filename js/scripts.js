@@ -79,7 +79,7 @@ let app = new Vue({
     loadPosts(posts){
       if (posts || localStorage.posts){
         sendSuccess("Posts Loaded");
-        if(!posts || options.target)
+        if(!posts || posts.target)
           posts = JSON.parse(localStorage.posts);
         this.posts = posts;
       }
