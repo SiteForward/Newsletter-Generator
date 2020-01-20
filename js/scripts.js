@@ -138,39 +138,41 @@ let app = new Vue({
      	   let items = channels.querySelectorAll("item");
 
      	   //For every blog found get the values and create a blog item
-     	   items.forEach((item) => {
+     	   items.forEach((item , i) => {
+            if(i < this.$refs.loadPostsCount.value){
 
-     	      let post = {};
-     	      //Remove the prefix of the node values
-     	      let title = item.querySelector("title").innerHTML;
-     	      let titlePrefix = '<![CDATA[';
+       	      let post = {};
+       	      //Remove the prefix of the node values
+       	      let title = item.querySelector("title").innerHTML;
+       	      let titlePrefix = '<![CDATA[';
 
-     	      title = title.substr(titlePrefix.length, title.length - 3 - titlePrefix.length);
-     	      let link = item.querySelector("link").innerHTML;
-     	      let img = item.getElementsByTagName("media:thumbnail")[0];
-     	      if (img)
-     	         img = img.attributes[0].nodeValue;
-     	      let desc = item.querySelector("description");
-     	      if (desc) {
-     	         desc = desc.innerHTML;
-     	         desc = desc.substr(titlePrefix.length, desc.length - 3 - titlePrefix.length);
-     	      }
+       	      title = title.substr(titlePrefix.length, title.length - 3 - titlePrefix.length);
+       	      let link = item.querySelector("link").innerHTML;
+       	      let img = item.getElementsByTagName("media:thumbnail")[0];
+       	      if (img)
+       	         img = img.attributes[0].nodeValue;
+       	      let desc = item.querySelector("description");
+       	      if (desc) {
+       	         desc = desc.innerHTML;
+       	         desc = desc.substr(titlePrefix.length, desc.length - 3 - titlePrefix.length);
+       	      }
 
-     	      //Format the date
-     	      let date = item.querySelector("pubDate").innerHTML;
-     	      if (date) {
-     	         date = date.split(' ');
-     	         date = date.slice(0, 4);
-     	         date = date.join(' ');
-     	      }
+       	      //Format the date
+       	      let date = item.querySelector("pubDate").innerHTML;
+       	      if (date) {
+       	         date = date.split(' ');
+       	         date = date.slice(0, 4);
+       	         date = date.join(' ');
+       	      }
 
-     	      //Create the blog post item, and add it to the list
-     	      post.title = title;
-     	      post.date = date;
-     	      post.link = link;
-     	      post.img = img;
-     	      post.desc = desc;
-     	     this.posts.push(post);
+       	      //Create the blog post item, and add it to the list
+       	      post.title = title;
+       	      post.date = date;
+       	      post.link = link;
+       	      post.img = img;
+       	      post.desc = desc;
+       	     this.posts.push(post);
+           }
      	   });
          sendSuccess("Loaded Posts");
         })

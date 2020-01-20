@@ -258,6 +258,7 @@ body{
 	font-size:12px;
 }
 .form-item input[type="text"]:focus,
+.form-item input[type="number"]:focus,
 .form-item textarea:focus
 {
  border:none;
@@ -286,6 +287,16 @@ body{
   width:100%;
   padding:8px 0 5px 0;
   resize: vertical;
+}
+.form-item input[type="number"]{
+	outline: none;
+  border: 0;
+	margin:0 10px;
+	cursor:pointer;
+	position:relative;
+  top: -6px;
+  width: 40px;
+  border-bottom:1px solid #d2d2d2;
 }
 .form-item input[type="button"]{
   color:#fff;
