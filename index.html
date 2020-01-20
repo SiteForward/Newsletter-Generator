@@ -1,0 +1,297 @@
+<html>
+  <head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="css\snotify-material.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="js\snotify.min.js"></script>
+
+    <link rel="stylesheet" href="css\styles.css">
+
+    <title>Newsleter Generator v2</title>
+  </head>
+  <body>
+    <div id="body-wrapper">
+      <aside id="sidebar" @mouseover="sidebarHover = true" @mouseleave="sidebarHover = false" :class="{open: sidebarHover || sidebarStuck, stuck: sidebarStuck}">
+        <span class="sidebar-title">
+          <i class="fa fa-th fa-2x"></i> <p class="collapsed">Newsletter Generator</p>
+        </span>
+        <a class="sidebar-pin" @click="sidebarStuck = !sidebarStuck"><i class="fas fa-thumbtack"></i></a>
+        <ul class="sidebar-menu">
+          <li class="sidebar-item" :class="{active: activeView === 'setup'}" @click="activeView = 'setup'">
+            <i class="fa fa-toolbox fa-2x"></i> <p class="collapsed">Setup</p>
+          </li>
+          <li class="sidebar-item" :class="{active: activeView === 'edit'}" @click="activeView = 'edit'">
+            <i class="fa fa-edit fa-2x"></i> <p class="collapsed">Edit Items</p>
+          </li>
+          <li class="sidebar-item" :class="{active: activeView === 'analytics'}" @click="activeView = 'analytics'">
+            <i class="fa fa-chart-pie fa-2x"></i> <p class="collapsed">Analytics</p>
+          </li>
+          <li class="sidebar-item" :class="{active: activeView === 'preview'}" @click="activeView = 'preview'">
+            <i class="fa fa-eye fa-2x"></i> <p class="collapsed">Preview</p>
+          </li>
+        </ul>
+        <span class="sidebar-split"></span>
+        <ul class="sidebar-menu">
+          <li class="sidebar-item" :class="{active: activeView === 'load'}" @click="activeView = 'load'">
+            <i class="fa fa-toolbox fa-2x"></i> <p class="collapsed">Load / Save</p>
+          </li>
+          <li class="sidebar-item" :class="{active: activeView === 'use'}" @click="activeView = 'use'">
+            <i class="fa fa-file-export fa-2x"></i> <p class="collapsed">Use Newsletter</p>
+          </li>
+        </ul>
+
+        <span class="footer">
+          Randy Bimm<br>
+          &copy; 2020
+      </aside>
+      <aside id="preview"  :class="{large: activeView == 'preview'}">
+        <div class="preview-header">
+          <h3>Newsletter Preview</h3>
+        </div>
+        <div class="preview-body">
+          <table align="center" style="overflow-wrap: break-word; max-width: 800px; width: 100%; Margin: 5px auto 0px;border-spacing:0 9px;border-collapse: separate;" ref="newsletter">
+            <tr v-if="header.style == '1'" style="position:relative;width: 100%; border-radius: 15px; padding: 10px; align-items: center;">
+              <td colspan="2" valign="middle">
+                <img :src="header.image" width="100%" style="width:100%">
+              </td>
+            </tr>
+            <tr v-else-if="header.style == '2'" style="position:relative;width: 100%; background: #333; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
+              <td colspan="2" valign="middle" style="padding: 25px">
+                <h2 style="margin:0;text-align:center;color: #fff;">{{header.title}}</h2>
+                <h4 style="margin:0;text-align:center;color: #fff;">{{header.subtitle}}</h4>
+              </td>
+            </tr>
+            <tr v-else-if="header.style == '3'" style="position:relative;width: 100%; background: #333; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
+              <td colspan="2" valign="middle" style="padding: 25px">
+                 <span v-html="header.html" style="color: #fff"></span>
+              </td>
+            </tr>
+            <tr v-for="post in posts" style="position:relative;width: 100%; background: #f3f3f3; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
+              <td v-if="post.img" style="width:200px; padding-right:25px;" valign="top"><img :src="post.img" width="100%" style="width: 100%;min-width:200px; height: auto;padding: 10px;"></td>
+               <td v-if="post.img" style="width:100%;padding:10px; padding-bottom: 20px;">
+                 <h2 style="margin-bottom:0;">{{post.title}}</h2><p style="font-size: .75em; color: #777;">{{post.date}}</p><p>{{post.desc}}</p>
+                 <table v-if="post.link" width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table border="0" cellspacing="0" cellpadding="0"> <tr> <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center"><a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">Read More</strong></a></td> </tr> </table> </td> </tr> </table></td>
+              <td v-else colspan="2" style="width:100%;padding:10px; padding-bottom: 20px;">
+                <h2 style="margin-bottom:0;">{{post.title}}</h2><p style="font-size: .75em; color: #777;">{{post.date}}</p><p>{{post.desc}}</p>
+                <table v-if="post.link"  width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table border="0" cellspacing="0" cellpadding="0"> <tr> <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center"><a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">Read More</strong></a></td> </tr> </table> </td> </tr> </table></td>
+            </tr>
+            <tr v-if="footer.style == '1'" style="position:relative;width: 100%; background: #333; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
+              <td colspan="2" valign="middle" style="padding: 25px">
+                <h2 style="margin:0;text-align:center;color: #fff;">Footer Template Data Here</h2>
+              </td>
+            </tr>
+            <tr v-else-if="footer.style == '2'" style="position:relative;width: 100%; background: #333; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
+              <td colspan="2" valign="middle" style="padding: 25px">
+                 <span v-html="footer.html" style="color: #fff"></span>
+              </td>
+            </tr>
+            <tr v-if="analyticsEnabled">
+              <td colspan="2"><img :src="'https://www.google-analytics.com/collect?v=1&tid'+analytics.code+'&cid=555&t=event&ec=Email+Newsletter&ea=open&el='+analytics.name"/></td>
+            </tr>
+          </table>
+        </div>
+      </aside>
+      <main id="main">
+      <vue-snotify></vue-snotify>
+        <div id="setup" class="main-view" :class="{open: activeView === 'setup'}">
+          <div class="card">
+            <h3 class="card-title">Load Posts For the Newsletter</h3>
+            <p>Load Multiple Posts</p>
+            <div class="form-item split">
+              <div>
+                <input type="text" id="loadPosts" required ref="loadPosts">
+                <label for="loadPosts">Post Page's URL</label>
+              </div>
+              <input type="button" value="Load Posts" @click="loadPostsFromURL">
+            </div>
+            <p>Load Individual Posts</p>
+            <div class="form-item split">
+              <div>
+                <input type="text" id="loadPost" required ref="loadPost">
+                <label for="loadPost">Post's URL</label>
+              </div>
+              <input type="button" value="Load Post" @click="loadPostFromURL">
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Header Settings</h3>
+            <div class="accordion" :class="{open: header.style == 1}" @click="header.style = 1">
+              <div class="accordion-title">
+                <p>Use Image</p>
+              </div>
+              <div class="accordion-content">
+                <div class="form-item">
+                  <input type="text" id="header-image" v-model="header.image" required>
+                  <label for="header-image">Header Image URL</label>
+                </div>
+              </div>
+            </div>
+            <div class="accordion" :class="{open: header.style == 2}" @click="header.style = 2">
+              <div class="accordion-title">
+                <p>Use Titles</p>
+              </div>
+              <div class="accordion-content">
+                <div class="form-item">
+                  <input type="text" id="header-title" v-model="header.title" required>
+                  <label for="header-title">Header Title</label>
+                </div>
+                <div class="form-item">
+                  <input type="text" id="header-subtitle" v-model="header.subtitle" required>
+                  <label for="header-subtitle">Header Subtitle</label>
+                </div>
+              </div>
+            </div>
+            <div class="accordion" :class="{open: header.style == 3}"  @click="header.style = 3">
+              <div class="accordion-title">
+                <p>Cutom HTML</p>
+              </div>
+              <div class="accordion-content">
+                <div class="form-item">
+                  <textarea id="header-html" v-model="header.html" required></textarea>
+                  <label for="header-html">Header HTML</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Footer Settings</h3>
+            <div class="accordion" :class="{open: footer.style == 1}" @click="header.style = 1">
+              <div class="accordion-title">
+                <p>Use Template</p>
+              </div>
+              <div class="accordion-content">
+                <div class="form-item split even">
+                  <div>
+                    <input type="text" id="header-image" v-model="header.image" required>
+                    <label for="header-image">Header Image URL</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion" :class="{open: footer.style == 2}"  @click="footer.style = 2">
+              <div class="accordion-title">
+                <p>Cutom HTML</p>
+              </div>
+              <div class="accordion-content">
+                <div class="form-item">
+                  <textarea id="footer-html" v-model="footer.html" required></textarea>
+                  <label for="footer-html">Footer HTML</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Other Settings</h3>
+            <!-- <div class="form-item">
+              <input id="headerColor" type="color" v-model="colors.header">
+              <label for="headerColor">Header Color</label>
+            </div> -->
+            <div class="form-item">
+              <input id="buttonColor" type="color" v-model="colors.button">
+              <label for="buttonColor">Button Color</label>
+            </div>
+            <!-- <div class="form-item">
+              <input id="footerColor" type="color" v-model="colors.footer">
+              <label for="footerColor">Footer Color</label>
+            </div> -->
+          </div>
+        </div>
+        <div id="edit" class="main-view" :class="{open: activeView === 'edit'}">
+
+          <div class="card">
+            <h3 class="card-title">Edit Newsletter</h3>
+            <span class="newsletter-add" title="Add Custom Post" @click="addPost"><i class="far fa-plus-square tool-icon"></i></span>
+            <div class="edit-newsletter">
+              <ul class="newsletter-list">
+                <p v-if="posts.length == 0">No Posts Loaded Yet</p>
+                <li v-for="(post, pos) in posts" class="card" style="margin-bottom:10px;" :key="pos">
+
+                  <div class="tool-list vertical">
+                    <i v-if="pos > 0" class="fas fa-chevron-up tool-icon" @click="movePost(-1, pos)"></i>
+                    <i v-if="pos != posts.length-1" class="fas fa-chevron-down tool-icon" @click="movePost(1, pos)"></i>
+                  </div>
+                  <div class="post">
+                      <img v-if="post.img" :src="post.img">
+                    <div class="data">
+                      <div class="form-item">
+                        <input type="text" v-model="post.title">
+                        <label>Title</label>
+                      </div>
+                      <div class="form-item">
+                        <textarea v-model="post.desc"></textarea>
+                        <label>Description</label>
+                      </div>
+                      <div class="form-item">
+                        <input type="text" v-model="post.date" style="font-size: 11px">
+                        <label>Date</label>
+                      </div>
+                      <div class="form-item">
+                        <input type="text" v-model="post.link" style="font-size: 11px">
+                        <label>Link</label>
+                      </div>
+                      <div class="form-item">
+                        <input type="text" v-model="post.img" style="font-size: 11px">
+                        <label>Image URL</label>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="tool-list">
+                    <i class="fas fa-trash-alt tool-icon" @click="deletePost(pos)" title="Remove Post"></i>
+                  </span>
+                </li>
+            </div>
+          </div>
+        </div>
+        <div id="analytics" class="main-view" :class="{open: activeView === 'analytics'}">
+
+          <div class="card">
+            <h3 class="card-title">Google Analytics</h3>
+            <div class="form-item">
+              <input type="text" id="analytics-code" v-model="analytics.code" required>
+              <label for="analytics-code">Analytics Code</label>
+            </div>
+            <div class="form-item">
+              <input type="text" id="analytics-name" v-model="analytics.name" required>
+              <label for="analytics-name">Analytics Name</label>
+            </div>
+          </div>
+        </div>
+
+        <div id="load" class="main-view" :class="{open: activeView === 'load'}">
+          <div class="card">
+            <h3 class="card-title">Option Management</h3>
+            <div class="form-item split even">
+              <input type="button" value="Save Options" @click="saveOptions">
+              <input type="button" value="Load Options" @click="loadOptions">
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Post Management</h3>
+            <div class="form-item split even">
+              <input type="button" value="Save Posts" @click="savePosts">
+              <input type="button" value="Load Posts" @click="loadPosts">
+            </div>
+          </div>
+        </div>
+
+        <div id="use" class="main-view" :class="{open: activeView === 'use'}">
+          <div class="card">
+            <h3 class="card-title">Use The Newsletter</h3>
+            <div class="form-item">
+              <textarea disabled v-model="newsletterHTML" style="min-height: 100px;" ></textarea>
+            </div>
+            <div class="form-item even">
+              <input type="button" value="Copy Code" @click="copyNewsletterCode">
+
+              <input type="button" value="Copy Newsletter" @click="copyNewsletter">
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
+
+  <script src="js\scripts.js"></script>
+</html>
