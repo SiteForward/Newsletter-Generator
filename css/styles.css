@@ -231,6 +231,7 @@ body{
 }
 .preview-body{
   margin-top: 75px;
+  font-family: "Muli", Helvetica, sans-serif;
 }
 .preview-header > *{
   font-weight:normal;
@@ -308,7 +309,6 @@ body{
   position: absolute;
 }
 
-
 .form-item input[type="button"]:focus,
 .form-item input[type="button"]:hover{
 	background-color: #04711f;
@@ -316,12 +316,16 @@ body{
 .form-item.split{
   display: flex;
   flex-flow: row nowrap;
+  position: relative;
 }
 .form-item.split > *:first-child{
   flex-grow: 1;
+  position: relative;
 }
 .form-item.split.even > *{
   flex-grow: 1;
+  position: relative;
+  margin-left: 10px;
 }
 .newsletter-list{
   list-style:none;

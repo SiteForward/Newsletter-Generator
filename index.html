@@ -79,7 +79,22 @@
             </tr>
             <tr v-if="footer.style == '1'" style="position:relative;width: 100%; background: #333; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
               <td colspan="2" valign="middle" style="padding: 25px">
-                <h2 style="margin:0;text-align:center;color: #fff;">Footer Template Data Here</h2>
+                <p v-if="footer.preset.website || footer.preset.social.facebook || footer.preset.social.linkedin || footer.preset.social.twitter" style="margin:0;margin-bottom: 10px;text-align:center;color:#fff;">
+                  <a v-if="footer.preset.website" :href="footer.preset.website" target="_blank" :style="{color: colors.links}">Website</a>
+                  <span v-if="footer.preset.social.facebook"><span v-if="footer.preset.website"> | </span><a :href="footer.preset.social.facebook" target="_blank" :style="{color: colors.links}">Facebook</a></span>
+                  <span v-if="footer.preset.social.linkedin"><span v-if="footer.preset.website || footer.preset.social.facebook"> | </span><a :href="footer.preset.social.linkedin" target="_blank" :style="{color: colors.links}">LlinkedIn</a></span>
+                  <span v-if="footer.preset.social.twitter"><span v-if="footer.preset.website || footer.preset.social.facebook || footer.preset.social.linkedin"> | </span><a :href="footer.preset.social.twitter" target="_blank" :style="{color: colors.links}">Twitter</a></span>
+                </p>
+                <h3 v-if="footer.preset.name" style="margin:0;margin-bottom: 10px;text-align:center;color:#fff;">{{footer.preset.name}}</h3>
+                <p v-if="footer.preset.location.address || footer.preset.location.city || footer.preset.location.postal" style="margin:0;text-align:center;color:#fff;">
+                  <span v-if="footer.preset.location.address">{{footer.preset.location.address}}</span>
+                  <span v-if="footer.preset.location.city"><span v-if="footer.preset.location.address"> | </span>{{footer.preset.location.city}},{{footer.preset.location.province}}</span>
+                  <span v-if="footer.preset.location.postal"><span v-if="footer.preset.location.address || footer.preset.location.city"> | </span>{{footer.preset.location.postal}}</span>
+                </p>
+                <p v-if="footer.preset.phone" style="margin:0;margin-bottom: 10px;text-align:center;color:#fff;">{{footer.preset.phone}}</p>
+                <p style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;color:#fff;">Copyright © {{(new Date().getFullYear())}}  All rights reserved.<br>
+	         The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website <a href="http://www.manulifesecurities.ca"  target="_blank" :style="{color: colors.links}">www.manulifesecurities.ca</a>. Please confirm with your advisor which company you are dealing with for each of your products and services.<br><br>
+	         <em><a href="http://co.manulife.ca/securities/ms_corporatedisclaimers" target="_blank" :style="{color: colors.links}">Manulife Securities Disclaimers</a> | <a href="https://www.manulife.ca/corporate/privacy-policy.html" target="_blank" :style="{color: colors.links}">Privacy Policy</a> | <a href="https://www.manulife.com/en/legal.html" target="_blank" :style="{color: colors.links}">Legal</a></em></p>
               </td>
             </tr>
             <tr v-else-if="footer.style == '2'" style="position:relative;width: 100%; background: #333; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
@@ -157,15 +172,66 @@
           </div>
           <div class="card">
             <h3 class="card-title">Footer Settings</h3>
-            <div class="accordion" :class="{open: footer.style == 1}" @click="header.style = 1">
+            <div class="accordion" :class="{open: footer.style == 1}" @click="footer.style = 1">
               <div class="accordion-title">
                 <p>Use Template</p>
               </div>
               <div class="accordion-content">
                 <div class="form-item split even">
                   <div>
-                    <input type="text" id="header-image" v-model="header.image" required>
-                    <label for="header-image">Header Image URL</label>
+                    <input type="text" id="footer-preset-name" v-model="footer.preset.name" required>
+                    <label for="footer-preset-name">Name</label>
+                  </div>
+                  <div>
+                    <input type="text" id="footer-preset-email" v-model="footer.preset.email" required>
+                    <label for="footer-preset-email">Email</label>
+                  </div>
+                </div>
+                <div class="form-item split even">
+                  <div>
+                    <input type="text" id="footer-preset-phone" v-model="footer.preset.phone" required>
+                    <label for="footer-preset-phone">Phone</label>
+                  </div>
+                  <div>
+                    <input type="text" id="footer-preset-website" v-model="footer.preset.website" required>
+                    <label for="footer-preset-website">Website</label>
+                  </div>
+                </div>
+                <div class="form-item split even">
+                  <div>
+                    <input type="text" id="footer-preset-social-facebook" v-model="footer.preset.social.facebook" required>
+                    <label for="footer-preset-social-facebook">Facebook Page</label>
+                  </div>
+                  <div>
+                    <input type="text" id="footer-preset-social-linkedin" v-model="footer.preset.social.linkedin" required>
+                    <label for="footer-preset-social-linkedin">LinkedIn Page</label>
+                  </div>
+                </div>
+                <div class="form-item split even">
+                  <div>
+                    <input type="text" id="footer-preset-social-twitter" v-model="footer.preset.social.twitter" required>
+                    <label for="footer-preset-social-twitter">Twitter Page</label>
+                  </div>
+                  <div></div>
+                </div>
+                <div class="form-item split even">
+                  <div>
+                    <input type="text" id="footer-preset-location-address" v-model="footer.preset.location.address" required>
+                    <label for="footer-preset-location-address">Address</label>
+                  </div>
+                  <div>
+                    <input type="text" id="footer-preset-location-city" v-model="footer.preset.location.city" required>
+                    <label for="footer-preset-location-city">City</label>
+                  </div>
+                </div>
+                <div class="form-item split even">
+                  <div>
+                    <input type="text" id="footer-preset-location-province" v-model="footer.preset.location.province" required>
+                    <label for="footer-preset-location-province">Province</label>
+                  </div>
+                  <div>
+                    <input type="text" id="footer-preset-location-postal" v-model="footer.preset.location.postal" required>
+                    <label for="footer-preset-location-postal">Postal</label>
                   </div>
                 </div>
               </div>
@@ -191,6 +257,10 @@
             <div class="form-item">
               <input id="buttonColor" type="color" v-model="colors.button">
               <label for="buttonColor">Button Color</label>
+            </div>
+            <div class="form-item">
+              <input id="linkColor" type="color" v-model="colors.links">
+              <label for="linkColor">Link Color</label>
             </div>
             <!-- <div class="form-item">
               <input id="footerColor" type="color" v-model="colors.footer">

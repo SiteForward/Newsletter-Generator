@@ -9,6 +9,7 @@ let app = new Vue({
     activeView: "setup",
     colors:{
       button: "#06874E",
+      links: "#06874E",
       header: "#333333",
       footer: "#333333",
     },
