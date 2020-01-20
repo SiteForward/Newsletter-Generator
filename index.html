@@ -89,7 +89,7 @@
                 <h3 v-if="footer.preset.name" style="margin:0;margin-bottom: 10px;text-align:center;" :style="{color: colors.footer.text}">{{footer.preset.name}}</h3>
                 <p v-if="footer.preset.location.address || footer.preset.location.city || footer.preset.location.postal" style="margin:0;text-align:center;" :style="{color: colors.footer.text}">
                   <span v-if="footer.preset.location.address" :style="{color: colors.footer.text}">{{footer.preset.location.address}}</span>
-                  <span v-if="footer.preset.location.city" :style="{color: colors.footer.text}"><span v-if="footer.preset.location.address"> | </span>{{footer.preset.location.city}},{{footer.preset.location.province}}</span>
+                  <span v-if="footer.preset.location.city" :style="{color: colors.footer.text}"><span v-if="footer.preset.location.address"> | </span>{{footer.preset.location.city}}, {{footer.preset.location.province}}</span>
                   <span v-if="footer.preset.location.postal" :style="{color: colors.footer.text}"><span v-if="footer.preset.location.address || footer.preset.location.city"> | </span>{{footer.preset.location.postal}}</span>
                 </p>
                 <p v-if="footer.preset.phone" style="margin:0;margin-bottom: 10px;text-align:center;":style="{color: colors.footer.text}">{{footer.preset.phone}}</p>
