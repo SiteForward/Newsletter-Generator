@@ -70,7 +70,7 @@
               </td>
             </tr>
             <tr v-for="post in posts" style="position:relative;width: 100%; background: #f3f3f3; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3">
-              <td v-if="post.img" width="200px" style="width:200px; padding-right:25px;" valign="top"><img :src="post.img" width="200" height="150" style="width: 100%;min-width:200px; height: auto;padding: 10px;"></td>
+              <td v-if="post.img" style="width:200px; padding-right:25px;" valign="top"><img :src="post.img" width="220" height="157" style="width: 100%;min-width:200px; height: auto;padding: 10px;"></td>
               <td v-if="post.img" style="width:100%;padding:10px; padding-bottom: 20px;">
                  <h2 style="margin-bottom:0;">{{post.title}}</h2><p style="font-size: .75em; color: #777;">{{post.date}}</p><p>{{post.desc}}</p>
                  <table v-if="post.link" width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table border="0" cellspacing="0" cellpadding="0"> <tr> <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center"><a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">Read More</strong></a></td> </tr> </table> </td> </tr> </table></td>
