@@ -307,8 +307,14 @@
                 <li v-for="(post, pos) in posts" class="card" style="margin-bottom:10px;" :key="pos">
 
                   <div class="tool-list vertical">
-                    <i v-if="pos > 0" class="fas fa-chevron-up tool-icon" @click="movePost(-1, pos)"></i>
-                    <i v-if="pos != posts.length-1" class="fas fa-chevron-down tool-icon" @click="movePost(1, pos)"></i>
+                    <div class="tool-list vertical">
+                      <i v-if="pos > 0" class="fas fa-chevron-up tool-icon" @click="movePost(0, pos)"></i>
+                      <i v-if="pos > 0" class="fas fa-sort-up tool-icon" @click="movePost(pos-1, pos)"></i>
+                    </div>
+                    <div class="tool-list vertical">
+                      <i v-if="pos != posts.length-1" class="fas fa-sort-down tool-icon" @click="movePost(1, pos)"></i>
+                      <i v-if="pos != posts.length-1" class="fas fa-chevron-down tool-icon" @click="movePost(posts.length, pos)"></i>
+                    </div>
                   </div>
                   <div class="post">
                       <img v-if="post.img" :src="post.img">

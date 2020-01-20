@@ -232,7 +232,7 @@ let app = new Vue({
     },
     movePost(dir, pos){
       sendSuccess("Moved Post");
-      moveItem(this.posts, pos, pos+dir);
+      moveItem(this.posts, pos, dir);
     },
     editPost(pos, key, value){
       this.posts[pos][key] = value;
