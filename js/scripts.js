@@ -92,7 +92,7 @@ let app = new Vue({
   },
   methods: {
     updateData(){
-      if(this.footer.preset.useDisclaimer == null)
+      if(typeof this.footer.preset.useDisclaimer == 'undefined')
         this.footer.preset.useDisclaimer = true;
     },
     loadPosts(posts){
