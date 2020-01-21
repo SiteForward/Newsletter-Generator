@@ -96,19 +96,23 @@ let app = new Vue({
         this.footer.preset.useDisclaimer = true;
     },
     loadPosts(posts){
-      if (posts || localStorage.posts){
+      if((!posts || posts.target) && localStorage.posts)
+        posts = JSON.parse(localStorage.posts);
+
+      if(!posts || posts.target)
+        sendError("Unable to load posts");
+      else{
         sendSuccess("Posts Loaded");
-        if(!posts || posts.target)
-          posts = JSON.parse(localStorage.posts);
         this.posts = posts;
       }
     },
     loadOptions(options){
-      if (options || localStorage.options){
-        sendSuccess("Options Loaded");
-        if(!options || options.target)
-          options = JSON.parse(localStorage.options);
-          console.log(options);
+      if((!options || options.target) && localStorage.options)
+        options = JSON.parse(localStorage.options);
+
+      if(!options || options.target)
+        sendError("Unable to load options");
+      else{
         if(options.loadPosts)
           this.$refs.loadPosts.value = options.loadPosts;
         if(options.loadPost)
@@ -123,6 +127,7 @@ let app = new Vue({
           this.analytics = options.analytics;
 
         this.updateData();
+        sendSuccess("Options Loaded");
       }
     },
     savePosts(){
