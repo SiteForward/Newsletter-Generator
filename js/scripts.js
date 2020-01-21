@@ -216,7 +216,11 @@ let app = new Vue({
            }
      	   });
          sendSuccess("Loaded Posts");
-         ga('send', 'event', 'Loading Posts', 'Page', url);
+         gtag('event', 'Page', {
+           'event_category': 'Loading Posts',
+           'event_label': url,
+           'event_value': this.$refs.loadPostsCount.value
+         });
         })
         .catch(error => sendError("Unable to load URL", error));
       }
@@ -264,7 +268,10 @@ let app = new Vue({
           this.posts.push(post);
 
           sendSuccess("Loaded Posts");
-          ga('send', 'event', 'Loading Posts', 'Post', url);
+          gtag('event', 'Post', {
+            'event_category': 'Loading Posts',
+            'event_label': url
+});
          })
          .catch(error => sendError("Unable to load URL", error));
       }
