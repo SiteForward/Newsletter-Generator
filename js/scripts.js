@@ -93,7 +93,7 @@ let app = new Vue({
   methods: {
     updateData(){
       if(typeof this.footer.preset.useDisclaimer == 'undefined')
-        this.$set("footer.preset.useDisclaimer", "true");
+        this.$set(this.footer.preset, "useDisclaimer", true);
     },
     loadPosts(posts){
       if((!posts || posts.target) && localStorage.posts)
