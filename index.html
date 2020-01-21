@@ -423,7 +423,8 @@
         <div id="settings" class="main-view" :class="{open: activeView === 'settings'}">
           <div class="card">
             <h3 class="card-title">Enable MS Word Support</h3>
-            <p><small>This can cause issues if enabled and is being used in an email.<br><br>After pasting into word right click on the table, open table properties, go to columns, and unselect <strong>Preffered Width</strong>. Then you can drag the column width manually to fit the image</small></p>
+            <p><small><strong>This can cause issues if enabled and is being used in an email.</strong>
+              <br><br>After pasting into word right click on the table, open table properties, go to columns, and unselect <strong>Preffered Width</strong>. Then you can drag the column width manually to fit the image</small></p>
             <div class="form-item">
               <input type="checkbox" v-model="wordSupport" id="enableWordSupport">
               <label for="enableWordSupport">Word Support</label>
