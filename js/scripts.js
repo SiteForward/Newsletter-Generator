@@ -216,6 +216,7 @@ let app = new Vue({
            }
      	   });
          sendSuccess("Loaded Posts");
+         ga('send', 'event', 'Loading Posts', 'Page', url);
         })
         .catch(error => sendError("Unable to load URL", error));
       }
@@ -263,6 +264,7 @@ let app = new Vue({
           this.posts.push(post);
 
           sendSuccess("Loaded Posts");
+          ga('send', 'event', 'Loading Posts', 'Post', url);
          })
          .catch(error => sendError("Unable to load URL", error));
       }
