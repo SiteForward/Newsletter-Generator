@@ -112,8 +112,7 @@ body{
 #sidebar.stuck .sidebar-pin{
   opacity: 1;
   border: 1px solid rgba(180,180,180,.7);
-  background-color: #00a72a;
-
+  background-color: #343434;
 }
 .sidebar-title::after{
   content: '';
@@ -297,6 +296,7 @@ body{
   top: -6px;
   width: 40px;
   border-bottom:1px solid #d2d2d2;
+  text-align: center;
 }
 .form-item input[type="button"]{
   color:#fff;
@@ -334,7 +334,7 @@ body{
   cursor: pointer;
 }
 .form-item input[type="checkbox"] ~ label{
-  left: 20px;
+  left: 25px;
   top: 1px;
 }
 .form-item input[type="checkbox"]:hover,
@@ -432,6 +432,7 @@ body{
   transition: all .35s;
   padding: 5px 10px;
   position: relative;
+  cursor: pointer;
 }
 .accordion-title p{
   margin-block-start: 10px;
