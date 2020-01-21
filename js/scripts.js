@@ -49,7 +49,8 @@ let app = new Vue({
           city: null,
           province: null,
           postal: null
-        }
+        },
+        useDisclaimer: true
       }
     },
     posts: [],
@@ -65,22 +66,34 @@ let app = new Vue({
       sendInfo("Word support turned "+(this.wordSupport ? "on" : "off"));
     }
   },
+  mounted(){
+    if(localStorage.options)
+      this.$snotify.info('Did you want to load local options', {
+        timeout: 5000,
+        showProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        buttons: [
+          {text: 'Yes',  action: (toast) => {this.loadOptions(); this.$snotify.remove(toast.id);}},
+          {text: 'No'},
+        ]
+      });
+      if(localStorage.posts)
+        this.$snotify.info('Did you want to load local posts', {
+          timeout: 5000,
+          showProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          buttons: [
+            {text: 'Yes', action: (toast) => {this.loadPosts(); this.$snotify.remove(toast.id);}},
+            {text: 'No'},
+          ]
+        });
+  },
   methods: {
-
-    savePosts(){
-      sendSuccess("Posts Saved");
-      localStorage.setItem("posts", JSON.stringify(this.posts));
-    },
-    saveOptions(){
-      sendSuccess("Options Saved");
-      localStorage.setItem("options", JSON.stringify({
-        loadPosts: this.$refs.loadPosts.value,
-        loadPost: this.$refs.loadPost.value,
-        header: this.header,
-        footer: this.footer,
-        colors: this.colors,
-        analytics: this.analytics
-      }));
+    updateData(){
+      if(this.footer.preset.useDisclaimer == null)
+        this.footer.preset.useDisclaimer = true;
     },
     loadPosts(posts){
       if (posts || localStorage.posts){
@@ -108,7 +121,24 @@ let app = new Vue({
           this.colors = options.colors;
         if(options.analytics)
           this.analytics = options.analytics;
+
+        this.updateData();
       }
+    },
+    savePosts(){
+      sendSuccess("Posts Saved");
+      localStorage.setItem("posts", JSON.stringify(this.posts));
+    },
+    saveOptions(){
+      sendSuccess("Options Saved");
+      localStorage.setItem("options", JSON.stringify({
+        loadPosts: this.$refs.loadPosts.value,
+        loadPost: this.$refs.loadPost.value,
+        header: this.header,
+        footer: this.footer,
+        colors: this.colors,
+        analytics: this.analytics
+      }));
     },
     exportPosts(){
       exportJSONToFile(this.posts, "Newsleter - Posts.json");
