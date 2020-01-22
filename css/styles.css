@@ -188,6 +188,12 @@ body{
   #preview{
     width:0;
   }
+  #sidebar.stuck ~ #preview.large{
+    width: calc(100% - 260px);
+  }
+  #sidebar.stuck ~ #preview.large .preview-header{
+    width: calc(100% - 260px);
+  }
 }
 .main-view{
   position: absolute;
