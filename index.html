@@ -130,6 +130,7 @@
         <div id="setup" class="main-view" :class="{open: activeView === 'setup'}">
           <div class="card">
             <h3 class="card-title">Load Posts For the Newsletter</h3>
+            <span class="card-title-icon" title="For multiple posts use your blog page's url&#10;For single posts use the blog post's url"><i class="fas fa-question-circle tool-icon"></i></span>
             <p>Load Multiple Posts</p>
             <div class="form-item split">
               <div>
@@ -395,7 +396,7 @@
         <div id="load" class="main-view" :class="{open: activeView === 'load'}">
           <div class="card">
             <h3 class="card-title">Option Management</h3>
-            <span class="card-title-icon" title="Hover over each button for more help"><i class="fas fa-question-circle tool-icon"></i></span>
+            <span class="card-title-icon" title="Load/Save Locally:    Load/Save settings to/from your browser&#10;Import/Export:          Load/Save a .json file with settings"><i class="fas fa-question-circle tool-icon"></i></span>
             <div class="form-item split even">
               <input type="button" value="Load Options Locally" @click="loadOptions" title="Load Options that have been saved into your browser">
               <input type="button" value="Import Options" @click="importOptions" title="Load Options that have been saved into a .json file">
