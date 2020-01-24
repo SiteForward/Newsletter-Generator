@@ -65,12 +65,16 @@ let app = new Vue({
       sendInfo("Word support turned "+(this.wordSupport ? "on" : "off"));
     },
     activeView: function(){
-      if(this.activeView == "help")
-        this.$refs.preview.classList.add("closed");
-      else
-        this.$refs.preview.classList.remove("closed");
+      let activeView = this.activeView,
+          preview = this.$refs.preview;
+          
+      setTimeout(function(){
+        if(activeView == "help")
+          preview.classList.add("closed");
+        else
+          preview.classList.remove("closed");
+      }, 1);
     }
-
   },
   mounted(){
     if(localStorage.options)
