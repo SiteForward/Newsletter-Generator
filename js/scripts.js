@@ -5,7 +5,6 @@ let app = new Vue({
   data: {
     sidebarHover: false,
     sidebarStuck: false,
-    previewing: false,
     wordSupport: false,
     activeView: "setup",
     colors:{
@@ -64,7 +63,14 @@ let app = new Vue({
   watch:{
     wordSupport: function(){
       sendInfo("Word support turned "+(this.wordSupport ? "on" : "off"));
+    },
+    activeView: function(){
+      if(this.activeView == "help")
+        this.$refs.preview.classList.add("closed");
+      else
+        this.$refs.preview.classList.remove("closed");
     }
+
   },
   mounted(){
     if(localStorage.options)
@@ -177,10 +183,11 @@ let app = new Vue({
           //Search through the XML for the nodes
      	   let channels = doc.querySelector("channel");
      	   let items = channels.querySelectorAll("item");
+         let maxCount = this.$refs.loadPostsCount.value;
 
      	   //For every blog found get the values and create a blog item
      	   items.forEach((item , i) => {
-            if(i < this.$refs.loadPostsCount.value){
+            if(i < maxCount){
 
        	      let post = {};
        	      //Remove the prefix of the node values
@@ -219,7 +226,7 @@ let app = new Vue({
          gtag('event', 'Page', {
            'event_category': 'Loading Posts',
            'event_label': url,
-           'event_value': this.$refs.loadPostsCount.value
+           'event_value': maxCount
          });
         })
         .catch(error => sendError("Unable to load URL", error));
@@ -271,7 +278,7 @@ let app = new Vue({
           gtag('event', 'Post', {
             'event_category': 'Loading Posts',
             'event_label': url
-});
+          });
          })
          .catch(error => sendError("Unable to load URL", error));
       }

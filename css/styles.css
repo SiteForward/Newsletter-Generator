@@ -76,6 +76,7 @@ body{
     justify-content: center;
     line-height: 30px;
     opacity: .8;
+    width: 32px;
 }
 #sidebar .sidebar-title i{
   opacity: 1;
@@ -204,6 +205,16 @@ body{
 }
 .main-view.open{
   left: 0;
+}
+
+#preview.closed{
+  width: 0%;
+}
+#preview.closed ~ #main{
+  width: calc(calc(100% - 80px));
+}
+#sidebar.stuck ~ #preview.closed ~ #main{
+  width: calc(calc(100% - 260px));
 }
 .card{
   background: #fff;

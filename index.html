@@ -56,13 +56,16 @@
           <li class="sidebar-item" :class="{active: activeView === 'settings'}" @click="activeView = 'settings'; scrollToTop()">
             <i class="fa fa-cog fa-2x"></i> <p class="collapsed">Settings</p>
           </li>
+          <li class="sidebar-item" :class="{active: activeView === 'help'}" @click="activeView = 'help'; scrollToTop()">
+            <i class="far fa-question-circle fa-2x"></i> <p class="collapsed">Help</p>
+          </li>
         </ul>
 
         <span class="footer">
           Randy Bimm<br>
           &copy; 2020
       </aside>
-      <aside id="preview"  :class="{large: activeView == 'preview'}">
+      <aside id="preview"  :class="{large: activeView == 'preview'}" ref="preview">
         <div class="preview-header">
           <h3>Newsletter Preview</h3>
         </div>
@@ -453,6 +456,128 @@
               <input type="checkbox" v-model="footer.preset.useDisclaimer" id="useManulifeDisclaimer">
               <label for="useManulifeDisclaimer">Use Disclaimer</label>
             </div>
+          </div>
+        </div>
+
+        <div id="settings" class="main-view" :class="{open: activeView === 'settings'}">
+          <div class="card">
+            <h3 class="card-title">Enable MS Word Support</h3>
+            <p><small><strong>This can cause issues if enabled and is being used in an email.</strong>
+              <br><br>After pasting into word right click on the table, open table properties, go to columns, and unselect <strong>Preffered Width</strong>. Then you can drag the column width manually to fit the image</small></p>
+            <div class="form-item">
+              <input type="checkbox" v-model="wordSupport" id="enableWordSupport">
+              <label for="enableWordSupport">Word Support</label>
+            </div>
+          </div>
+          <div class="card">
+            <h3 class="card-title">Use Manulife Disclaimer in Footer Preset</h3>
+            <p><small>Copyright &copy; 2020 All rights reserved.
+              The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website www.manulifesecurities.ca. Please confirm with your advisor which company you are dealing with for each of your products and services.
+              <br><br>
+              Manulife Securities Disclaimers | Privacy Policy | Legal</small></p>
+            <div class="form-item">
+              <input type="checkbox" v-model="footer.preset.useDisclaimer" id="useManulifeDisclaimer">
+              <label for="useManulifeDisclaimer">Use Disclaimer</label>
+            </div>
+          </div>
+        </div>
+
+        <div id="help" class="main-view" :class="{open: activeView === 'help'}">
+          <div class="card">
+            <h3 class="card-title">How to <strong>Setup</strong> the Newsletter</h3>
+            <ol>
+              <li>Go to the <strong>Setup</strong> tab</li>
+              <li>Add your blog posts <small>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> for tips)</small></li>
+              <ul style="list-style-type: square">
+                <li><strong>Load Multiple Posts</strong> will load blogs from your blog page - You can even choose how many to load in using the number beside the field</li>
+                <li><strong>Load Individual Posts</strong> lets you Load a single post - Use your blog post's URL link in this field</li>
+              </ul>
+              <li>Choose your header option</li>
+              <ul style="list-style-type: square">
+                <li><strong>No Header</strong> will make it so no header appears</li>
+                <li><strong>Use Image</strong> allows you to use a banner image</li>
+                <li><strong>Use Titles</strong> allows you to enter your own title & subtitle</li>
+                <li><strong>Custom HTML</strong> allows you to enter your own HTML code to design your own header</li>
+              </ul>
+              <li>Choose your footer option</li>
+              <ul style="list-style-type: square">
+                <li><strong>No Footer</strong> will make it so no footer appears</li>
+                <li><strong>Use Template</strong> allows you to use a premade footer template - This will include the required disclaimers</li>
+                <li><strong>Custom HTML</strong> allows you to enter your own HTML code to design your own footer</li>
+              </ul>
+              <li>Optional: Change your colours by clicking on the coloured box <small>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> for tips)</small></li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3 class="card-title">How to <strong>Edit</strong> the Newsletter</h3>
+            <ol>
+              <li>Go to the <strong>Edit Items</strong> tab</li>
+              <li>If you have loaded posts during setup you'll see a list of them here</li>
+              <li>Clicking the <strong><i class="far fa-plus-square" style="color: #aeaeae;"></i></strong> in the top right will create a new post</li>
+              <li>Clicking the <strong><i class="fas fa-trash-alt" style="color: #aeaeae;"></i></strong> to the right of each post will remove that post</li>
+              <li>Edit the contents of each post by clicking on the field and typing</li>
+              <ul style="list-style-type: square">
+                <li><strong>Title</strong> will change the title of the post <small>(Supports HTML)</small></li>
+                <li><strong>Description</strong> will change the description of the post <small>(Supports HTML)</small></li>
+                <li><strong>Date</strong> will change the subtext under the post's title <small>(Supports HTML)</small></li>
+                <li><strong>Link</strong> will change where the "Read More" button directs to</li>
+                <li><strong>Image URL</strong> will change the image to the left of the post</li>
+              </ul>
+              <li>Re-order your posts using the arrow head icons to the left of each post</li>
+              <ul style="list-style-type: square">
+                <li><strong><i class="fas fa-sort-up" style="color: #aeaeae;"></i></strong> will move the post up/down</li>
+                  <li><strong><i class="fas fa-chevron-up" style="color: #aeaeae;"></i></strong> will move the post to the top/bottom</li>
+              </ul>
+            </ol>
+          </div>
+          <div class="card">
+            <h3 class="card-title">How to use <strong>Analytics</strong> with the Newsletter</h3>
+            <p><strong><small>View the Analytics tab for more information</small></strong></p>
+            <ol>
+              <li>Go to the <strong>Analytics</strong> tab</li>
+              <li>If you don't have access to your Google Analytics, please send our team at SiteForward an email requesting access<br><small>Please include your Google Email in your request</small></li>
+              <li>Open your Google Analytics account and get your Google Analytics ID<br><small>Similar to: (UA-XXXXXX-1) - <a href="https://support.google.com/analytics/answer/1008080?hl=en" target="_blank">Need Help?</a></small></li>
+              <li>Enter your Newsletter's name</li>
+            </ol>
+          </div>
+          <div class="card">
+            <h3 class="card-title">How to <strong>Use</strong> the Newsletter</h3>
+            <p><strong><small>If you're planning to use the newsletter in MS Word make sure to enable MS Word Support in the settings tab</small></strong></p>
+            <ol>
+              <li>Go to the <strong>Use Newsletter</strong> tab</li>
+              <li><strong>Copy Code</strong> will copy the code to your clipboard</li>
+
+              <ul style="list-style-type: square">
+                <li>Use this if you're using a CRM and require HTML code</li>
+              </ul>
+              <li><strong>Copy Newsleter</strong> will copy the whole newsletter to your clipboard</li>
+
+              <ul style="list-style-type: square">
+                <li>Use this if you're using Outlook or Gmail</li>
+              </ul>
+              <li>Paste the newsletter/code to where you need it</li>
+            </ol>
+          </div><div class="card">
+            <h3 class="card-title">How to <strong>Load / Save</strong> the Newsletter Options & Posts</h3>
+            <p><strong><small>If options/posts have been saved locally you'll recieve a popup in the bottom right to quickly load them when you open the newsletter generator
+              <br>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> or each button for tips)</small></strong></p>
+            <ol>
+              <li>Go to the <strong>Load / Save</strong> tab</li>
+              <li><strong>Option Management</strong> will manage your header, footer and colours</li>
+              <ul style="list-style-type: square">
+                <li><strong>Load Options Locally</strong> will load your options you've saved locally in your browser</li>
+                <li><strong>Save Options Locally</strong> will save your options into your browser</li>
+                <li><strong>Import Options</strong> will load a .json file containing your options</li>
+                <li><strong>Export Options</strong> will save a .json file containing your options</li>
+              </ul>
+              <li><strong>Post Management</strong> will manage your loaded posts, and custom posts</li>
+              <ul style="list-style-type: square">
+                <li><strong>Load Posts Locally</strong>will load your posts you've saved locally in your browser</li>
+                <li><strong>Save Posts Locally</strong> will save your posts into your browser</li>
+                <li><strong>Import Posts</strong> will load a .json file containing your posts</li>
+                <li><strong>Export Posts</strong> will save a .json file containing your posts</li>
+              </ul>
+            </ol>
           </div>
         </div>
       </main>
