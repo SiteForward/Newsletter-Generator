@@ -31,6 +31,7 @@ body{
   display: flex;
   flex-flow: column nowrap;
   z-index: 99;
+  padding-bottom: 32px;
 }
 #sidebar.open{
   width: 260px;
@@ -60,6 +61,7 @@ body{
   list-style: none;
   margin: 5px 0;
   padding: 0;
+  overflow-y: auto;
 }
 .sidebar-item:hover{
   background-color: rgba(155,155,155,.3);
