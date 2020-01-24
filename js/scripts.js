@@ -67,7 +67,7 @@ let app = new Vue({
     activeView: function(){
       let activeView = this.activeView,
           preview = this.$refs.preview;
-          
+
       setTimeout(function(){
         if(activeView == "help")
           preview.classList.add("closed");
@@ -286,6 +286,22 @@ let app = new Vue({
          })
          .catch(error => sendError("Unable to load URL", error));
       }
+    },
+    findAnalyticsCode(){
+      sendInfo("Searching for Google Analytics Code");
+      let websiteURL = this.$refs.analyticsWebURL.value;
+      if(websiteURL.indexOf('http') != 0)
+        websiteURL = "https://"+websiteURL;
+      fetch(websiteURL)
+      .then(res => res.text())
+      .then(data =>{
+        console.log(data);
+        let analyticsCode = data.match(/UA-\w*-1/g);
+        this.analytics.code = analyticsCode;
+
+        sendSuccess("Found Analytics Code: " + analyticsCode);
+      })
+      .catch(error => sendError("Unable to find Google Analytics Code", error));;
     },
     deletePost(pos){
       sendSuccess("Deleted Post");

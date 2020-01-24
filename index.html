@@ -368,9 +368,19 @@
           </div>
         </div>
         <div id="analytics" class="main-view" :class="{open: activeView === 'analytics'}">
-
+          <div class="card">
+            <h3 class="card-title">Find Google Analytics Code</h3>
+            <div class="form-item split">
+              <div>
+                <input type="text" id="analyticsWebURL" ref="analyticsWebURL" required>
+                <label for="analytics-code">Website URL</label>
+              </div>
+              <input type="button" value="Find Code" @click="findAnalyticsCode">
+            </div>
+          </div>
           <div class="card">
             <h3 class="card-title">Google Analytics</h3>
+            <span class="card-title-icon" title="Google Analytics on Newsletters is still being tested&#10;We don't guarentee that the analytics on newsletters will work as intended"><i class="fas fa-question-circle tool-icon"></i></span>
             <div class="form-item">
               <input type="text" id="analytics-code" v-model="analytics.code" required>
               <label for="analytics-code">Analytics Code</label>
@@ -381,19 +391,13 @@
             </div>
           </div>
           <div class="card">
-            <h3 class="card-title">How To Setup Analytics?</h3>
+            <h3 class="card-title">How To View Analytics?</h3>
             <ol>
               <li>If you don't have access to your Google Analytics, please send our team at SiteForward an email requesting access<br><small>Please include your Google Email in your request</small></li>
-              <li>Open your Google Analytics account and get your Google Analytics ID<br><small>Similar to: (UA-XXXXXX-1) - <a href="https://support.google.com/analytics/answer/1008080?hl=en" target="_blank">Need Help?</a></small></li>
-              <li>Enter your Newsletter's name</li>
+              <li>Open your Google Analytics Dashboard</li>
+              <li>Open your Events tab<br><small>Located under the Behaviour tab</small></li>
             </ol>
-          </div>  <div class="card">
-              <h3 class="card-title">How To View Analytics?</h3>
-              <ol>
-                <li>Open your Google Analytics Dashboard</li>
-                <li>Open your Events tab<br><small>Located under the Behaviour tab</small></li>
-              </ol>
-            </div>
+          </div>
         </div>
 
         <div id="load" class="main-view" :class="{open: activeView === 'load'}">
@@ -532,12 +536,11 @@
           </div>
           <div class="card">
             <h3 class="card-title">How to use <strong>Analytics</strong> with the Newsletter</h3>
-            <p><strong><small>View the Analytics tab for more information</small></strong></p>
+            <p><strong><small>View the Analytics tab for more information on how to view the analytics</small></strong></p>
             <ol>
               <li>Go to the <strong>Analytics</strong> tab</li>
-              <li>If you don't have access to your Google Analytics, please send our team at SiteForward an email requesting access<br><small>Please include your Google Email in your request</small></li>
-              <li>Open your Google Analytics account and get your Google Analytics ID<br><small>Similar to: (UA-XXXXXX-1) - <a href="https://support.google.com/analytics/answer/1008080?hl=en" target="_blank">Need Help?</a></small></li>
-              <li>Enter your Newsletter's name</li>
+              <li>Find your Google Analytics Code by entering your website's URL and clicking <strong>Find Code</strong></li>
+              <li>Enter your Newsletter's name <small>(This can be something simliar to: Winter 2019)</small></li>
             </ol>
           </div>
           <div class="card">
