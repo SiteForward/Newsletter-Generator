@@ -467,20 +467,38 @@ body{
   width: 1px;
   background-color: #fff;
 }
-.accordion-title::after{
-  content: ' ';
+.accordion-title div{
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   bottom: 0;
   right: 30px;
+  border-radius: 50%;
   height: 15px;
   width: 15px;
-  border-radius: 50%;
   border: 1px solid #cacaca;
+  transition: all .35s;
 }
-.accordion.open .accordion-title::after{
+.accordion.open .accordion-title div{
+  border: 1px solid #00a72a;
+}
+
+.accordion .accordion-title div::before{
+  content: ' ';
+  position: absolute;
+  top: 50%;
+  right: 50%;
+  border-radius: 50%;
+  height: 1px;
+  width: 1px;
+  opacity: 0;
   background-color: #00a72a;
+  transition: transform .25s linear;
+  transform-origin: center center;
+}
+.accordion.open .accordion-title div::before{
+  opacity: 1;
+  transform: scale(16);
 }
 .accordion-content{
   max-height: 0;
