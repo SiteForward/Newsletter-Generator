@@ -498,7 +498,7 @@ body{
 }
 .accordion.open .accordion-title div::before{
   opacity: 1;
-  transform: scale(16);
+  transform: scale(12);
 }
 .accordion-content{
   max-height: 0;
