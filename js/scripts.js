@@ -14,6 +14,10 @@ let app = new Vue({
         background: "#333333",
         text: "#ffffff"
       },
+      posts:{
+        background: "#f3f3f3",
+        text: "#000000"
+      },
       footer: {
         background: "#333333",
         text: "#ffffff"
@@ -105,8 +109,17 @@ let app = new Vue({
   },
   methods: {
     updateData(){
+      //Update useDisclaimer
       if(typeof this.footer.preset.useDisclaimer == 'undefined')
         this.$set(this.footer.preset, "useDisclaimer", true);
+
+      //Update Post Colours
+      if(typeof this.colors.posts == 'undefined')
+          this.$set(this.colors, "posts", {});
+      if(typeof this.colors.posts.background == 'undefined')
+          this.$set(this.colors.posts, "background", "#f3f3f3");
+      if(typeof this.colors.posts.text == 'undefined')
+          this.$set(this.colors.posts, "text", "#000000");
     },
     loadPosts(posts){
       if((!posts || posts.target) && localStorage.posts)
