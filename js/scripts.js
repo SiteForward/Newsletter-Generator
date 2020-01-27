@@ -64,6 +64,9 @@ let app = new Vue({
     wordSupport: function(){
       sendInfo("Word support turned "+(this.wordSupport ? "on" : "off"));
     },
+    'footer.preset.useDisclaimer': function(){
+      sendInfo("Manulife Securities Disclaimer turned "+(this.footer.preset.useDisclaimer ? "on" : "off"));
+    },
     activeView: function(){
       let activeView = this.activeView,
           preview = this.$refs.preview;

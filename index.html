@@ -447,28 +447,6 @@
           </div>
         </div>
 
-        <div id="settings" class="main-view" :class="{open: activeView === 'settings'}">
-          <div class="card">
-            <h3 class="card-title">Enable MS Word Support</h3>
-            <p><small><strong>This can cause issues if enabled and is being used in an email.</strong>
-              <br><br>After pasting into word right click on the table, open table properties, go to columns, and unselect <strong>Preffered Width</strong>. Then you can drag the column width manually to fit the image</small></p>
-            <div class="form-item">
-              <input type="checkbox" v-model="wordSupport" id="enableWordSupport">
-              <label for="enableWordSupport">Word Support</label>
-            </div>
-          </div>
-          <div class="card">
-            <h3 class="card-title">Use Manulife Disclaimer in Footer Preset</h3>
-            <p><small>Copyright &copy; 2020 All rights reserved.
-              The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website www.manulifesecurities.ca. Please confirm with your advisor which company you are dealing with for each of your products and services.
-              <br><br>
-              Manulife Securities Disclaimers | Privacy Policy | Legal</small></p>
-            <div class="form-item">
-              <input type="checkbox" v-model="footer.preset.useDisclaimer" id="useManulifeDisclaimer">
-              <label for="useManulifeDisclaimer">Use Disclaimer</label>
-            </div>
-          </div>
-        </div>
 
         <div id="settings" class="main-view" :class="{open: activeView === 'settings'}">
           <div class="card">
@@ -481,7 +459,7 @@
             </div>
           </div>
           <div class="card">
-            <h3 class="card-title">Use Manulife Disclaimer in Footer Preset</h3>
+            <h3 class="card-title">Use Manulife Securities Disclaimer in Footer Preset</h3>
             <p><small>Copyright &copy; 2020 All rights reserved.
               The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website www.manulifesecurities.ca. Please confirm with your advisor which company you are dealing with for each of your products and services.
               <br><br>
