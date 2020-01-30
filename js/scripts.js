@@ -6,7 +6,6 @@ Vue.component('editabletext', {
       this.$emit('input', this.$el.innerHTML);
     },
     customShortcuts(e){
-      console.log(e.keyCode);
       if(e.ctrlKey)
         if(e.keyCode == 76){
           e.preventDefault();
@@ -24,7 +23,7 @@ Vue.component('editabletext', {
   },
   mounted(){
     if(typeof this.value != 'undefined')
-      this.$el.innerText = this.value;
+      this.$el.innerHTML = this.value;
   }
 });
 
@@ -353,7 +352,6 @@ let app = new Vue({
       fetch(websiteURL)
       .then(res => res.text())
       .then(data =>{
-        console.log(data);
         let analyticsCode = data.match(/UA-\w*-1/g);
         this.analytics.code = analyticsCode;
 
@@ -429,7 +427,6 @@ function loadJSONFile(cb){
      reader.readAsText(file);
      reader.onload = function(){
        let res = JSON.parse(reader.result);
-       console.log(res);
        cb(res);
        document.body.removeChild(div);
      }
