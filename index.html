@@ -336,7 +336,8 @@
 
           <div class="card">
             <h3 class="card-title">Edit Newsletter</h3>
-            <span class="card-title-icon" title="Add Custom Post" @click="addPost"><i class="far fa-plus-square tool-icon"></i></span>
+            <span class="card-title-icon" title="Add Custom Post" @click="addPost"  style="right: 50px"><i class="far fa-plus-square tool-icon"></i></span>
+            <span class="card-title-icon" title="These fields support shortcut key formatting. &#10;View the help page for more info"><i class="fas fa-question-circle tool-icon"></i></span>
             <div class="edit-newsletter">
               <ul class="newsletter-list">
                 <p v-if="posts.length == 0">No Posts Loaded Yet</p>
