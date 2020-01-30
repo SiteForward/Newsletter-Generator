@@ -189,6 +189,8 @@ let app = new Vue({
           this.colors = options.colors;
         if(options.analytics)
           this.analytics = options.analytics;
+        if(options.editableText)
+          this.editableText = options.editableText;
 
         this.updateData();
         sendSuccess("Options Loaded");
@@ -206,7 +208,8 @@ let app = new Vue({
         header: this.header,
         footer: this.footer,
         colors: this.colors,
-        analytics: this.analytics
+        analytics: this.analytics,
+        editableText: this.editableText
       }));
     },
     exportPosts(){
@@ -219,7 +222,8 @@ let app = new Vue({
           header: this.header,
           footer: this.footer,
           colors: this.colors,
-          analytics: this.analytics
+          analytics: this.analytics,
+          editableText: this.editableText
         }, "Newsleter - Options.json");
     },
     importPosts(){
