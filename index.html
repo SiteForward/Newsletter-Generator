@@ -420,6 +420,7 @@
         <div id="load" class="main-view" :class="{open: activeView === 'load'}">
           <div class="card">
             <h3 class="card-title">Option Management</h3>
+            <p><small><strong>Option Management</strong> will manage your header, footer and colours</small></p>
             <span class="card-title-icon" title="Load/Save Locally:    Load/Save settings to/from your browser&#10;Import/Export:          Load/Save a .json file with settings"><i class="fas fa-question-circle tool-icon"></i></span>
             <div class="form-item split even">
               <input type="button" value="Load Options Locally" @click="loadOptions" title="Load Options that have been saved into your browser">
@@ -432,6 +433,7 @@
           </div>
           <div class="card">
             <h3 class="card-title">Post Management</h3>
+            <p><small><strong>Post Management</strong> will manage your loaded posts, and custom posts</small></p>
             <div class="form-item split even">
               <input type="button" value="Load Posts Locally" @click="loadPosts" title="Load Posts that have been saved into your browser">
               <input type="button" value="Import Posts" @click="importPosts" title="Load Posts that have been saved into a .json file">
