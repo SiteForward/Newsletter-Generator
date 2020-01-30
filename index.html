@@ -356,27 +356,27 @@
                     <img v-if="post.img" :src="post.img">
                     <div class="data">
                       <div class="form-item">
-                        <editabletext v-if="editableText" :id="'post-title-'+pos" v-model="post.title" :value="post.desc">{{post.title}}</editabletext>
+                        <editabletext v-if="!editHTML" :id="'post-title-'+pos" v-model="post.title" :value="post.desc">{{post.title}}</editabletext>
                         <input v-else :id="'post-title-'+pos" type="text" v-model="post.title" required>
                         <label :for="'post-title-'+pos">Title</label>
                       </div>
                       <div class="form-item">
-                        <editabletext v-if="editableText" :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc">{{post.desc}}</editabletext>
+                        <editabletext v-if="!editHTML" :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc">{{post.desc}}</editabletext>
                         <textarea v-else :id="'post-desc-'+pos" v-model="post.desc"required></textarea>
                         <label :for="'post-desc-'+pos">Description</label>
                       </div>
                       <div class="form-item">
-                        <editabletext v-if="editableText" :id="'post-date-'+pos" v-model="post.date" :value="post.date" style="font-size: 11px">{{post.date}}</editabletext>
+                        <editabletext v-if="!editHTML" :id="'post-date-'+pos" v-model="post.date" :value="post.date" style="font-size: 11px">{{post.date}}</editabletext>
                         <input v-else :id="'post-date-'+pos" type="text" v-model="post.date" style="font-size: 11px" required>
                         <label :for="'post-date-'+pos">Date</label>
                       </div>
                       <div class="form-item">
-                        <editabletext v-if="editableText" :id="'post-link-'+pos" v-model="post.link" :value="post.link" style="font-size: 11px">{{post.link}}</editabletext>
+                        <editabletext v-if="!editHTML" :id="'post-link-'+pos" v-model="post.link" :value="post.link" style="font-size: 11px">{{post.link}}</editabletext>
                         <input v-else :id="'post-link-'+pos" type="text" v-model="post.link" style="font-size: 11px" required>
                         <label :for="'post-link-'+pos">Link</label>
                       </div>
                       <div class="form-item">
-                        <editabletext v-if="editableText" :id="'post-img-'+pos" v-model="post.img" :value="post.img" style="font-size: 11px">{{post.img}}</editabletext>
+                        <editabletext v-if="!editHTML" :id="'post-img-'+pos" v-model="post.img" :value="post.img" style="font-size: 11px">{{post.img}}</editabletext>
                         <input v-else :id="'post-img-'+pos" type="text" v-model="post.img" style="font-size: 11px" required>
                         <label :for="'post-img-'+pos">Image URL</label>
                       </div>
@@ -486,20 +486,11 @@
               <label for="useManulifeDisclaimer">Use Disclaimer</label>
             </div>
           </div><div class="card">
-            <h3 class="card-title">Turn Post editing inputs into Editable Content</h3>
-            <p><small>This allows the use of the following shortcut keys<br>
-            <strong>By Default this is disabled to allow the use of custom HTML</strong></small></p>
-            <ul style="list-style-type: square">
-              <li><small><strong>CTRL + B</strong>: Bold</small></li>
-              <li><small><strong>CTRL + I</strong>: Italic</small></li>
-              <li><small><strong>CTRL + U</strong>: Underline</small></li>
-              <li><small><strong>CTRL + L</strong>: Left Align</small></li>
-              <li><small><strong>CTRL + E</strong>: Center Align</small></li>
-              <li><small><strong>CTRL + R</strong>: Right Align</small></li>
-            </ul>
+            <h3 class="card-title">Turn on Editing in HTML</h3>
+            <p><small>This allows the use of custom HTML when editing posts</small></p>
             <div class="form-item">
-              <input type="checkbox" v-model="editableText" id="editableTextToggle">
-              <label for="editableTextToggle">Enable Editable Text</label>
+              <input type="checkbox" v-model="editHTML" id="editHTMLToggle">
+              <label for="editHTMLToggle">Enable Editing in HTML</label>
             </div>
           </div>
         </div>
@@ -532,25 +523,41 @@
           </div>
           <div class="card">
             <h3 class="card-title">How to <strong>Edit</strong> the Newsletter</h3>
-            <ol>
-              <li>Go to the <strong>Edit Items</strong> tab</li>
-              <li>If you have loaded posts during setup you'll see a list of them here</li>
-              <li>Clicking the <strong><i class="far fa-plus-square" style="color: #aeaeae;"></i></strong> in the top right will create a new post</li>
-              <li>Clicking the <strong><i class="fas fa-trash-alt" style="color: #aeaeae;"></i></strong> to the right of each post will remove that post</li>
-              <li>Edit the contents of each post by clicking on the field and typing</li>
-              <ul style="list-style-type: square">
-                <li><strong>Title</strong> will change the title of the post <small>(Supports HTML)</small></li>
-                <li><strong>Description</strong> will change the description of the post <small>(Supports HTML)</small></li>
-                <li><strong>Date</strong> will change the subtext under the post's title <small>(Supports HTML)</small></li>
-                <li><strong>Link</strong> will change where the "Read More" button directs to</li>
-                <li><strong>Image URL</strong> will change the image to the left of the post</li>
-              </ul>
-              <li>Re-order your posts using the arrow head icons to the left of each post</li>
-              <ul style="list-style-type: square">
-                <li><strong><i class="fas fa-chevron-up" style="color: #aeaeae;"></i> <i class="fas fa-chevron-down" style="color: #aeaeae;"></i></strong> will move the post to the top/bottom</li>
-                <li><strong><i class="fas fa-sort-up" style="color: #aeaeae;"></i> <i class="fas fa-sort-down" style="color: #aeaeae;vertical-align: super;"></i></strong> will move the post up/down</li>
-              </ul>
-            </ol>
+            <div class="row middle">
+              <div class="col">
+                <ol>
+                  <li>Go to the <strong>Edit Items</strong> tab</li>
+                  <li>If you have loaded posts during setup you'll see a list of them here</li>
+                  <li>Clicking the <strong><i class="far fa-plus-square" style="color: #aeaeae;"></i></strong> in the top right will create a new post</li>
+                  <li>Clicking the <strong><i class="fas fa-trash-alt" style="color: #aeaeae;"></i></strong> to the right of each post will remove that post</li>
+                  <li>Edit the contents of each post by clicking on the field and typing</li>
+                  <ul style="list-style-type: square">
+                    <li><strong>Title</strong> will change the title of the post <small>(Supports HTML)</small></li>
+                    <li><strong>Description</strong> will change the description of the post <small>(Supports HTML)</small></li>
+                    <li><strong>Date</strong> will change the subtext under the post's title <small>(Supports HTML)</small></li>
+                    <li><strong>Link</strong> will change where the "Read More" button directs to</li>
+                    <li><strong>Image URL</strong> will change the image to the left of the post</li>
+                  </ul>
+                  <li>Re-order your posts using the arrow head icons to the left of each post</li>
+                  <ul style="list-style-type: square">
+                    <li><strong><i class="fas fa-chevron-up" style="color: #aeaeae;"></i> <i class="fas fa-chevron-down" style="color: #aeaeae;"></i></strong> will move the post to the top/bottom</li>
+                    <li><strong><i class="fas fa-sort-up" style="color: #aeaeae;"></i> <i class="fas fa-sort-down" style="color: #aeaeae;vertical-align: super;"></i></strong> will move the post up/down</li>
+                  </ul>
+                </ol>
+              </div>
+              <div class="col">
+                <p>Formatting Options</p>
+                <ul style="list-style-type: square">
+                  <li><strong>CTRL + B</strong>: &nbsp; Bold</li>
+                  <li><strong>CTRL + I</strong>: &nbsp;&nbsp; Italic</li>
+                  <li><strong>CTRL + U</strong>: &nbsp; Underline</li>
+                  <li><strong>CTRL + L</strong>: &nbsp; Left Align</li>
+                  <li><strong>CTRL + C</strong>: &nbsp; Center Align</li>
+                  <li><strong>CTRL + R</strong>: &nbsp; Right Align</li>
+                  <li><strong>CTRL + J</strong>: &nbsp; Justify Align</li>
+                </ul>
+              </div>
+            </div>
           </div>
           <div class="card">
             <h3 class="card-title">How to use <strong>Analytics</strong> with the Newsletter</h3>

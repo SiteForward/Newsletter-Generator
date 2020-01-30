@@ -242,8 +242,22 @@ body{
   background-color: rgba(180,180,180,.3);
 }
 .row{
-  margin-left: 0;
-  margin-right: 0;
+  display: flex;
+  flex-flow: column nowrap;
+}
+.row.middle{
+  align-items: center;
+}
+.col{
+  flex-basis: 100%;
+}
+@media(min-width: 820px){
+  .row{
+    flex-flow: row wrap;
+  }
+  .col{
+    flex-basis: 50%;
+  }
 }
 #preview{
   display: flex;
@@ -274,14 +288,14 @@ body{
 .form-item textarea:focus ~ label,
 .form-item textarea:valid ~ label,
 .form-item .contentEditable:focus ~ label,
-.form-item .contentEditable:valid ~ label{
+.form-item .contentEditable:not(:empty) ~ label{
 	top:-12px;
 	font-size:12px;
 }
 .form-item input[type="text"]:focus,
 .form-item input[type="number"]:focus,
 .form-item textarea:focus,
-.form-item .contentEditable:focus ~ label{
+.form-item .contentEditable:focus{
  border:none;
  outline:none;
  border-bottom:1px solid #00a72a;
@@ -312,7 +326,7 @@ body{
   font-size: 13px;
 }
 .form-item .contentEditable{
-  margin-bottom: 0;
+  margin: 0;
 }
 .form-item input[type="number"]{
 	outline: none;

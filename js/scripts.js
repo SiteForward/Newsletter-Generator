@@ -6,6 +6,7 @@ Vue.component('editabletext', {
       this.$emit('input', this.$el.innerHTML);
     },
     customShortcuts(e){
+      console.log(e.keyCode);
       if(e.ctrlKey)
         if(e.keyCode == 76){
           e.preventDefault();
@@ -15,9 +16,13 @@ Vue.component('editabletext', {
           e.preventDefault();
           document.execCommand("justifyRight");
         }
-        else if(e.keyCode == 69){
+        else if(e.keyCode == 69 || e.keyCode == 67){
           e.preventDefault();
           document.execCommand("justifyCenter");
+        }
+        else if(e.keyCode == 74){
+          e.preventDefault();
+          document.execCommand("justifyFull");
         }
     }
   },
@@ -35,7 +40,7 @@ let app = new Vue({
     sidebarHover: false,
     sidebarStuck: false,
     wordSupport: false,
-    editableText: false,
+    editHTML: false,
     activeView: "setup",
     silentToggle: [],
     colors:{
@@ -100,9 +105,9 @@ let app = new Vue({
       if(!this.silentToggle.includes('wordSupport'))
         sendInfo("Word support turned "+(this.wordSupport ? "on" : "off"));
     },
-    editableText: function(){
-      if(!this.silentToggle.includes('editableText'))
-        sendInfo("EditableText support turned "+(this.editableText ? "on" : "off"));
+    editHTML: function(){
+      if(!this.silentToggle.includes('editHTML'))
+        sendInfo("Edit HTML support turned "+(this.editHTML ? "on" : "off"));
     },
     'footer.preset.useDisclaimer': function(){
       if(!this.silentToggle.includes('footer.preset.useDisclaimer'))
@@ -188,8 +193,8 @@ let app = new Vue({
           this.colors = options.colors;
         if(options.analytics)
           this.analytics = options.analytics;
-        if(options.editableText)
-          this.editableText = options.editableText;
+        if(options.editHTML)
+          this.editHTML = options.editHTML;
 
         this.updateData();
         sendSuccess("Options Loaded");
@@ -208,7 +213,7 @@ let app = new Vue({
         footer: this.footer,
         colors: this.colors,
         analytics: this.analytics,
-        editableText: this.editableText
+        editHTML: this.editHTML
       }));
     },
     exportPosts(){
@@ -222,7 +227,7 @@ let app = new Vue({
           footer: this.footer,
           colors: this.colors,
           analytics: this.analytics,
-          editableText: this.editableText
+          editHTML: this.editHTML
         }, "Newsleter - Options.json");
     },
     importPosts(){
@@ -359,23 +364,23 @@ let app = new Vue({
       })
       .catch(error => sendError("Unable to find Google Analytics Code", error));;
     },
-    toggleEditableText(){
-      this.silentToggle.push('editableText');
-      this.editableText = false;
+    toggleEditHTML(){
+      this.silentToggle.push('editHTML');
+      this.editHTML = false;
       setTimeout(function(){
-        app.editableText = true;
-        app.silentToggle.remove('editableText');
+        app.editHTML = true;
+        app.silentToggle.remove('editHTML');
       },1);
     },
     deletePost(pos){
       sendSuccess("Deleted Post");
       this.posts.splice(pos, 1);
-      this.toggleEditableText();
+      this.toggleEditHTML();
     },
     movePost(dir, pos){
       sendSuccess("Moved Post");
       moveItem(this.posts, pos, dir);
-      this.toggleEditableText();
+      this.toggleEditHTML();
     },
     editPost(pos, key, value){
       this.posts[pos][key] = value;
