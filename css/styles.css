@@ -171,7 +171,8 @@ body{
   width: calc(calc(100% - 260px) - 850px);
 }
 #preview.large ~ #main{
-  left: calc(-1 * calc(calc(110% - 80px) - 850px));
+  width: 0;
+  /* left: calc(-1 * calc(calc(110% - 80px) - 850px)); */
 }
 #preview.large{
   width: calc(100% - 80px);
