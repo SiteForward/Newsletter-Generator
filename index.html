@@ -70,7 +70,7 @@
           <h3>Newsletter Preview</h3>
         </div>
         <div class="preview-body">
-          <table align="center" style="overflow-wrap: break-word; max-width: 800px; width: 100%; Margin: 5px auto 0px;border-spacing:0 9px;border-collapse: separate;" ref="newsletter">
+          <table class="no-borders" align="center" style="overflow-wrap: break-word; max-width: 800px; width: 100%; Margin: 5px auto 0px;border-spacing:0 9px;border-collapse: separate;" ref="newsletter">
             <tr v-if="header.style == '1'" style="position:relative;width: 100%; border-radius: 15px; padding: 10px; align-items: center;">
               <td colspan="2" valign="middle">
                 <img :src="header.image" width="100%" style="width:100%">
@@ -87,14 +87,14 @@
                  <span v-html="header.html" :style="{color: colors.header.text}"></span>
               </td>
             </tr>
-            <tr v-for="post in posts" style="position:relative;width: 100%; background: #f3f3f3; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3" :style="{'background-color': colors.posts.background}">
+            <tr v-for="(post, pos) in posts" style="position:relative;width: 100%; background: #f3f3f3; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3" :style="{'background-color': postColor(pos, 'background')}">
               <td v-if="post.img" :width="[wordSupport ? '200' : '']" style="width:200px; padding-right:25px;" valign="top"><img :src="post.img" :width="[wordSupport ? '220' : '100%']" :height="[wordSupport ? '157' : 'auto']" style="width: 100%;min-width:200px; height: auto;padding: 10px;"></td>
               <td v-if="post.img" style="width:100%;padding:10px; padding-bottom: 20px;">
-                 <h2 style="margin-bottom:0;" v-html="post.title" :style="{'color': colors.posts.text}"></h2><p style="font-size: .75em;opacity: .75;" :style="{'color': colors.posts.text}" v-html="post.date"></p><p :style="{'color': colors.posts.text}" v-html="post.desc" ></p>
-                 <table v-if="post.link" width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table border="0" cellspacing="0" cellpadding="0"> <tr> <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center"><a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">Read More</strong></a></td> </tr> </table> </td> </tr> </table></td>
+                 <h2 style="margin-bottom:0;" v-html="post.title" :style="{'color': postColor(pos, 'text')}"></h2><p style="font-size: .75em;opacity: .75;" :style="{'color': postColor(pos, 'text')}" v-html="post.date"></p><p :style="{'color': postColor(pos, 'text')}" v-html="post.desc" ></p>
+                 <table class="no-borders" v-if="post.link" width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table class="no-borders" border="0" cellspacing="0" cellpadding="0" style="margin-right: calc(70%); width:30%"> <tr> <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center"><a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">Read More</strong></a></td> </tr> </table> </td> </tr> </table></td>
               <td v-else colspan="2" style="width:100%;padding:10px; padding-bottom: 20px;">
-                <h2 style="margin-bottom:0;" :style="{'color': colors.posts.text}" v-html="post.title"></h2><p style="font-size: .75em; opacity:.75;" :style="{'color': colors.posts.text}" v-html="post.date"></p><p :style="{'color': colors.posts.text}" v-html="post.desc"></p>
-                <table v-if="post.link"  width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table border="0" cellspacing="0" cellpadding="0"> <tr> <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center"><a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">Read More</strong></a></td> </tr> </table> </td> </tr> </table></td>
+                <h2 style="margin-bottom:0;" :style="{'color': postColor(pos, 'text')}" v-html="post.title"></h2><p style="font-size: .75em; opacity:.75;" :style="{'color': postColor(pos, 'text')}" v-html="post.date"></p><p :style="{'color': postColor(pos, 'text')}" v-html="post.desc"></p>
+                <table class="no-borders" v-if="post.link"  width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table class="no-borders" border="0" cellspacing="0" cellpadding="0" style="margin-right: calc(70%); width:30%"> <tr> <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center"><a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">Read More</strong></a></td> </tr> </table> </td> </tr> </table></td>
             </tr>
             <tr v-if="footer.style == '1'" style="position:relative;width: 100%; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3" :style="{'background-color': colors.footer.background}">
               <td colspan="2" valign="middle" style="padding: 25px">
@@ -111,7 +111,7 @@
                   <span v-if="footer.preset.location.postal" :style="{color: colors.footer.text}"><span v-if="footer.preset.location.address || footer.preset.location.city"> | </span>{{footer.preset.location.postal}}</span>
                 </p>
                 <p v-if="footer.preset.phone" style="margin:0;margin-bottom: 10px;text-align:center;":style="{color: colors.footer.text}">{{footer.preset.phone}}</p>
-                <p v-if="footer.preset.useDisclaimer" style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;":style="{color: colors.footer.text}">Copyright &copy; {{(new Date().getFullYear())}}  All rights reserved.<br>
+                <p v-if="footer.preset.useDisclaimer" style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;":style="{color: colors.footer.text}"><br>Copyright &copy; {{(new Date().getFullYear())}}  All rights reserved.<br>
 	         The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website <a href="http://www.manulifesecurities.ca"  target="_blank" :style="{color: colors.links}">www.manulifesecurities.ca</a>. Please confirm with your advisor which company you are dealing with for each of your products and services.<br><br>
 	         <em><a href="http://co.manulife.ca/securities/ms_corporatedisclaimers" target="_blank" :style="{color: colors.links}">Manulife Securities Disclaimers</a> | <a href="https://www.manulife.ca/corporate/privacy-policy.html" target="_blank" :style="{color: colors.links}">Privacy Policy</a> | <a href="https://www.manulife.com/en/legal.html" target="_blank" :style="{color: colors.links}">Legal</a></em></p>
             <p v-if="footer.preset.email" style="margin: 0;font-size:12px; text-align: center;"><a :href="'mailto:' + footer.preset.email + '?subject=Unsubscribe from newsletters'":style="{color: colors.links}">Unsubscribe from newsletters</a></p
@@ -343,12 +343,12 @@
                 <p v-if="posts.length == 0">No Posts Loaded Yet</p>
                 <li v-for="(post, pos) in posts" class="card" style="margin-bottom:10px;" :key="pos">
 
-                  <div class="tool-list vertical">
-                    <div class="tool-list vertical">
+                  <div class="tool-list vertical space-even">
+                    <div class="tool-list vertical space-even">
                       <i v-if="pos > 0" class="fas fa-chevron-up tool-icon" @click="movePost(0, pos)" title="Top"></i>
                       <i v-if="pos > 0" class="fas fa-sort-up tool-icon" @click="movePost(pos-1, pos)" title="Up"></i>
                     </div>
-                    <div class="tool-list vertical">
+                    <div class="tool-list vertical space-even">
                       <i v-if="pos != posts.length-1" class="fas fa-sort-down tool-icon" @click="movePost(1, pos)" title="Down"></i>
                       <i v-if="pos != posts.length-1" class="fas fa-chevron-down tool-icon" @click="movePost(posts.length, pos)" title="Bottom"></i>
                     </div>
@@ -383,8 +383,10 @@
                       </div>
                     </div>
                   </div>
-                  <span class="tool-list">
+                  <span class="tool-list vertical">
                     <i class="fas fa-trash-alt tool-icon" @click="deletePost(pos)" title="Remove Post"></i>
+                    <input type="color" :value='postColor(pos, "background")' @input='e=>editPost(pos, "background", e.target.value)' class="postColorSelector" title="Customize Post Background Color">
+                    <input type="color" :value='postColor(pos, "text")' @input='e=>editPost(pos, "text", e.target.value)' class="postColorSelector" title="Customize Post Text Color">
                   </span>
                 </li>
             </div>

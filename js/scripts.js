@@ -150,6 +150,9 @@ let app = new Vue({
         });
   },
   methods: {
+    postColor: function(pos, key){
+      return typeof this.posts[pos][key] == 'undefined' ? this.colors.posts[key] : this.posts[pos][key];
+    },
     updateData(){
       //Update useDisclaimer
       if(typeof this.footer.preset.useDisclaimer == 'undefined')
@@ -384,6 +387,7 @@ let app = new Vue({
     },
     editPost(pos, key, value){
       this.posts[pos][key] = value;
+      this.toggleEditHTML();
     },
     addPost(){
       sendSuccess("Added New Post");

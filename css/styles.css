@@ -354,14 +354,27 @@ body{
 	position:relative;
   transition: background-color .35s;
 }
-.form-item input[type="color"]{
+input[type="color"]{
   outline: none;
   border: 0;
-  width: 100%;
   padding: 0;
-  height: 30px;
   margin: 0;
   cursor: pointer;
+}
+input[type="color"].postColorSelector{
+  width: 20px;
+  height: 20px;
+  opacity: .75;
+  margin-top: 5px;
+}
+
+input[type="color"].postColorSelector:hover,
+input[type="color"].postColorSelector:focus{
+opacity: 1;
+}
+.form-item input[type="color"]{
+  width: 100%;
+  height: 30px;
 }
 .form-item input[type="checkbox"]{
   -webkit-appearance: none;
@@ -470,6 +483,7 @@ body{
 }
 .newsletter-list .post .data{
   margin-left: 5px;
+  margin-right: 5px;
   flex-grow: 1;
   display: flex;
   flex-flow: column nowrap;
@@ -481,9 +495,11 @@ body{
 .tool-list.vertical{
   display: flex;
   flex-flow: column nowrap;
-  justify-content: space-around;
-  margin-right: 10px;
+  margin: 5px;
   text-align: center;
+}
+.tool-list.vertical.space-even{
+  justify-content: space-around;
 }
 
 .tool-list.vertical i{
@@ -497,6 +513,7 @@ body{
   width: 124px;
   height: auto;
   object-fit: cover;
+  margin-left:5px;
 }
 .accordion{
   border-radius: 2px;
