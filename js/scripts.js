@@ -1,3 +1,33 @@
+Vue.component('editabletext', {
+  template: '<p contentEditable="true" class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
+  props: ['value'],
+  methods: {
+    updateInput(e){
+      this.$emit('input', this.$el.innerHTML);
+    },
+    customShortcuts(e){
+      console.log(e.keyCode);
+      if(e.ctrlKey)
+        if(e.keyCode == 76){
+          e.preventDefault();
+          document.execCommand("justifyLeft");
+        }
+        else if(e.keyCode == 82){
+          e.preventDefault();
+          document.execCommand("justifyRight");
+        }
+        else if(e.keyCode == 69){
+          e.preventDefault();
+          document.execCommand("justifyCenter");
+        }
+    }
+  },
+  mounted(){
+    if(typeof this.value != 'undefined')
+      this.$el.innerText = this.value;
+  }
+});
+
 let app = new Vue({
   el: '#body-wrapper',
   props:{
@@ -6,7 +36,9 @@ let app = new Vue({
     sidebarHover: false,
     sidebarStuck: false,
     wordSupport: false,
+    editableText: false,
     activeView: "setup",
+    silentToggle: [],
     colors:{
       button: "#06874E",
       links: "#06874E",
@@ -66,10 +98,16 @@ let app = new Vue({
   },
   watch:{
     wordSupport: function(){
-      sendInfo("Word support turned "+(this.wordSupport ? "on" : "off"));
+      if(!this.silentToggle.includes('wordSupport'))
+        sendInfo("Word support turned "+(this.wordSupport ? "on" : "off"));
+    },
+    editableText: function(){
+      if(!this.silentToggle.includes('editableText'))
+        sendInfo("EditableText support turned "+(this.editableText ? "on" : "off"));
     },
     'footer.preset.useDisclaimer': function(){
-      sendInfo("Manulife Securities Disclaimer turned "+(this.footer.preset.useDisclaimer ? "on" : "off"));
+      if(!this.silentToggle.includes('footer.preset.useDisclaimer'))
+        sendInfo("Manulife Securities Disclaimer turned "+(this.footer.preset.useDisclaimer ? "on" : "off"));
     },
     activeView: function(){
       let activeView = this.activeView,
@@ -319,13 +357,23 @@ let app = new Vue({
       })
       .catch(error => sendError("Unable to find Google Analytics Code", error));;
     },
+    toggleEditableText(){
+      this.silentToggle.push('editableText');
+      this.editableText = false;
+      setTimeout(function(){
+        app.editableText = true;
+        app.silentToggle.remove('editableText');
+      },1);
+    },
     deletePost(pos){
       sendSuccess("Deleted Post");
-      this.posts.splice(pos,1);
+      this.posts.splice(pos, 1);
+      this.toggleEditableText();
     },
     movePost(dir, pos){
       sendSuccess("Moved Post");
       moveItem(this.posts, pos, dir);
+      this.toggleEditableText();
     },
     editPost(pos, key, value){
       this.posts[pos][key] = value;
