@@ -1,3 +1,10 @@
+var issuedUpdateNotice = false;
+Vue.config.errorHandler = function (err, vm, info) {
+   if(!issuedUpdateNotice && err.toString().match(/TypeError: \w* is not a function/g)){
+    alert("The Newsletter Generator is currently updating, please come back later.");
+    issuedUpdateNotice = true;
+  }
+ }
 Vue.component('editabletext', {
   template: '<p contentEditable="true" class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
   props: ['value'],
