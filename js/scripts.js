@@ -298,7 +298,11 @@ let app = new Vue({
        	     this.posts.push(post);
            }
      	   });
-         sendSuccess("Loaded Posts");
+         if(items.length > 0)
+          sendSuccess("Loaded Posts");
+         else
+          sendError("No posts were found");
+
          gtag('event', 'Page', {
            'event_category': 'Loading Posts',
            'event_label': url,
