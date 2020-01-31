@@ -297,13 +297,13 @@
             </div>
               <div>
                 <input id="linkColor" type="color" v-model="colors.links" :class="{light: isLight(colors.links)}">
-                <label for="linkColor">Link Colour</label>
+                <label for="linkColor">Footer Link Colour</label>
               </div>
             </div>
             <div class="form-item split even">
                 <div>
                   <input id="headerColor" type="color" v-model="colors.header.background" :class="{light: isLight(colors.header.background)}">
-                  <label for="headerColor">Header Colour</label>
+                  <label for="headerColor">Header Background Colour</label>
               </div>
               <div>
                 <input id="headerText" type="color" v-model="colors.header.text" :class="{light: isLight(colors.header.text)}">
@@ -313,7 +313,7 @@
             <div class="form-item split even">
                 <div>
                   <input id="postColor" type="color" v-model="colors.posts.background" :class="{light: isLight(colors.posts.background)}">
-                  <label for="postColor">Post Colour</label>
+                  <label for="postColor">Post Background Colour</label>
               </div>
               <div>
                 <input id="postText" type="color" v-model="colors.posts.text" :class="{light: isLight(colors.posts.text)}">
@@ -323,7 +323,7 @@
             <div class="form-item split even">
                 <div>
                   <input id="footerColor" type="color" v-model="colors.footer.background" :class="{light: isLight(colors.footer.background)}">
-                  <label for="footerColor">Footer Colour</label>
+                  <label for="footerColor">Footer Background Colour</label>
               </div>
               <div>
                 <input id="footerText" type="color" v-model="colors.footer.text" :class="{light: isLight(colors.footer.text)}">
@@ -337,7 +337,7 @@
           <div class="card">
             <h3 class="card-title">Edit Newsletter</h3>
             <span class="card-title-icon" title="Add Custom Post" @click="addPost"  style="right: 50px"><i class="far fa-plus-square tool-icon"></i></span>
-            <span class="card-title-icon" title="These fields support shortcut key formatting. &#10;View the help page for more info"><i class="fas fa-question-circle tool-icon"></i></span>
+            <span class="card-title-icon" title="These fields support shortcut key formatting. &#10;CTRL + L: Left Align&#10;CTRL + C: Center Align&#10;CTRL + R: Right Align&#10;CTRL + R: Right Align&#10;CTRL + B: Bold&#10;CTRL + I: Italic&#10;CTRL + U: Underline"><i class="fas fa-question-circle tool-icon"></i></span>
             <div class="edit-newsletter">
               <ul class="newsletter-list">
                 <p v-if="posts.length == 0">No Posts Loaded Yet</p>
@@ -519,7 +519,7 @@
                 <li><strong>Use Template</strong> allows you to use a premade footer template - This will include the required disclaimers</li>
                 <li><strong>Custom HTML</strong> allows you to enter your own HTML code to design your own footer</li>
               </ul>
-              <li>Optional: Change your colours by clicking on the coloured box <small>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> for tips)</small></li>
+              <li>Optional: Customize each post's colours by clicking on the coloured box</li>
             </ol>
           </div>
           <div class="card">
@@ -544,6 +544,7 @@
                     <li><strong><i class="fas fa-chevron-up" style="color: #aeaeae;"></i> <i class="fas fa-chevron-down" style="color: #aeaeae;"></i></strong> will move the post to the top/bottom</li>
                     <li><strong><i class="fas fa-sort-up" style="color: #aeaeae;"></i> <i class="fas fa-sort-down" style="color: #aeaeae;vertical-align: super;"></i></strong> will move the post up/down</li>
                   </ul>
+                  <li>Optional: Change your colours by clicking on the coloured box <small>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> for tips)</small></li>
                 </ol>
               </div>
               <div class="col">
@@ -579,7 +580,7 @@
           </div>
           <div class="card">
             <h3 class="card-title">How to <strong>Use</strong> the Newsletter</h3>
-            <p><strong><small>If you're planning to use the newsletter in MS Word make sure to enable MS Word Support in the settings tab</small></strong></p>
+            <p><strong><small>If you're planning to use the newsletter in MS Word make sure to enable MS Word Support in the Settings tab in the newsletter generator</small></strong></p>
             <ol>
               <li>Go to the <strong>Use Newsletter</strong> tab</li>
               <li><strong>Copy Code</strong> will copy the code to your clipboard</li>
@@ -590,7 +591,7 @@
               <li><strong>Copy Newsleter</strong> will copy the whole newsletter to your clipboard</li>
 
               <ul style="list-style-type: square">
-                <li>Use this if you're using Outlook or Gmail</li>
+                <li>Use this if you're using Outlook/Gmail or posting as a blog on your website</li>
               </ul>
               <li>Paste the newsletter/code to where you need it</li>
             </ol>
