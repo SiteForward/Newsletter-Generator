@@ -372,13 +372,11 @@
                         <label :for="'post-date-'+pos">Date</label>
                       </div>
                       <div class="form-item">
-                        <editabletext v-if="!editHTML" :id="'post-link-'+pos" v-model="post.link" :value="post.link" style="font-size: 11px">{{post.link}}</editabletext>
-                        <input v-else :id="'post-link-'+pos" type="text" v-model="post.link" style="font-size: 11px" required>
+                        <input :id="'post-link-'+pos" type="text" v-model="post.link" style="font-size: 11px" required>
                         <label :for="'post-link-'+pos">Link</label>
                       </div>
                       <div class="form-item">
-                        <editabletext v-if="!editHTML" :id="'post-img-'+pos" v-model="post.img" :value="post.img" style="font-size: 11px">{{post.img}}</editabletext>
-                        <input v-else :id="'post-img-'+pos" type="text" v-model="post.img" style="font-size: 11px" required>
+                        <input :id="'post-img-'+pos" type="text" v-model="post.img" style="font-size: 11px" required>
                         <label :for="'post-img-'+pos">Image URL</label>
                       </div>
                     </div>
