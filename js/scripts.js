@@ -374,16 +374,19 @@ let app = new Vue({
         let analyticsCode = data.match(/UA-\w*-1/g);
         this.analytics.code = analyticsCode;
 
-        sendSuccess("Found Analytics Code: " + analyticsCode);
+        if(analyticsCode != null)
+          sendSuccess("Found Analytics Code: " + analyticsCode);
+        else
+          sendError("Unable to find Google Analytics Code");
       })
       .catch(error => sendError("Unable to find Google Analytics Code", error));;
     },
     toggleEditHTML(){
       this.silentToggle.push('editHTML');
-      this.editHTML = false;
+      this.editHTML = true;
       setTimeout(function(){
-        app.editHTML = true;
-        app.silentToggle.remove('editHTML');
+        app.editHTML = false;
+        app.silentToggle.splice(app.silentToggle.indexOf('editHTML'), 1);
       },1);
     },
     deletePost(pos){
