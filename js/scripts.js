@@ -387,9 +387,9 @@ let app = new Vue({
       setTimeout(function(){
         app.editHTML = false;
         setTimeout(function(){
-        app.silentToggle.splice(app.silentToggle.indexOf('editHTML'), 1);
+          app.silentToggle.splice(app.silentToggle.indexOf('editHTML'), 1);
+        },1);
       },1);
-    },1);
     },
     deletePost(pos){
       sendSuccess("Deleted Post");
