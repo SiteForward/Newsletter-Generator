@@ -381,27 +381,29 @@ let app = new Vue({
       })
       .catch(error => sendError("Unable to find Google Analytics Code", error));;
     },
-    toggleEditHTML(){
+    toggleEditHTMLSilently(){
       this.silentToggle.push('editHTML');
       this.editHTML = true;
       setTimeout(function(){
         app.editHTML = false;
+        setTimeout(function(){
         app.silentToggle.splice(app.silentToggle.indexOf('editHTML'), 1);
       },1);
+    },1);
     },
     deletePost(pos){
       sendSuccess("Deleted Post");
       this.posts.splice(pos, 1);
-      this.toggleEditHTML();
+      this.toggleEditHTMLSilently();
     },
     movePost(dir, pos){
       sendSuccess("Moved Post");
       moveItem(this.posts, pos, dir);
-      this.toggleEditHTML();
+      this.toggleEditHTMLSilently();
     },
     editPost(pos, key, value){
       this.posts[pos][key] = value;
-      this.toggleEditHTML();
+      this.toggleEditHTMLSilently();
     },
     addPost(){
       sendSuccess("Added New Post");
