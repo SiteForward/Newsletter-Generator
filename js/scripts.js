@@ -1,10 +1,10 @@
 var issuedUpdateNotice = false;
 Vue.config.errorHandler = function (err, vm, info) {
-   if(!issuedUpdateNotice && err.toString().match(/TypeError: \w* is not a function/g)){
+  if(!issuedUpdateNotice && err.toString().match(/TypeError: \w* is not a function/g)){
     alert("The Newsletter Generator is currently updating, please come back later.");
     issuedUpdateNotice = true;
   }
- }
+}
 Vue.component('editabletext', {
   template: '<p contentEditable="true" class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
   props: ['value'],
@@ -211,11 +211,21 @@ let app = new Vue({
       }
     },
     savePosts(){
-      sendSuccess("Posts Saved");
+      if(localStorage.getItem("options"))
+        if(!confirm("Do you want to overwrite your currently saved posts?")){
+          sendInfo("Didn't Save Posts");
+          return;
+        }
       localStorage.setItem("posts", JSON.stringify(this.posts));
+      sendSuccess("Posts Saved");
     },
     saveOptions(){
-      sendSuccess("Options Saved");
+      if(localStorage.getItem("options"))
+        if(!confirm("Do you want to overwrite your currently saved options?")){
+          sendInfo("Didn't Save Options");
+          return;
+        }
+
       localStorage.setItem("options", JSON.stringify({
         loadPosts: this.$refs.loadPosts.value,
         loadPost: this.$refs.loadPost.value,
@@ -225,6 +235,7 @@ let app = new Vue({
         analytics: this.analytics,
         editHTML: this.editHTML
       }));
+      sendSuccess("Options Saved");
     },
     exportPosts(){
       exportJSONToFile(this.posts, "Newsleter - Posts.json");

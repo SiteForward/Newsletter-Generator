@@ -466,6 +466,7 @@ opacity: 1;
   color: #dedede;
   cursor: pointer;
 }
+.card-title-icon:hover .tool-icon,
 .tool-icon:hover{
   color: #aeaeae;
 }
@@ -475,6 +476,31 @@ opacity: 1;
   position: absolute;
   top: 20px;
   right: 20px;
+}
+.card-title-help{
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  max-height: 1px;
+  top: 50%;
+  right: 0;
+  width: 1px;
+  background: #eee;
+  padding: 5px;
+  font-size: 11px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  cursor: text;
+  overflow: hidden;
+  z-index: 1;
+  transition: top .35s, visibility .35s, opacity .35s, max-height 1s;
+}
+.card-title-icon:hover .card-title-help {
+  visibility: visible;
+  top: -10%;
+  width: 200px;
+  max-height: 1000px;
+  opacity: 1;
 }
 
 .newsletter-list .post{

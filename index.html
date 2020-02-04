@@ -53,6 +53,9 @@
           <li class="sidebar-item" :class="{active: activeView === 'load'}" @click="activeView = 'load'; scrollToTop()">
             <i class="fas fa-clone fa-2x"></i> <p class="collapsed">Load / Save</p>
           </li>
+          <li class="sidebar-item" :class="{active: activeView === 'tools'}" @click="activeView = 'tools'; scrollToTop()">
+            <i class="fa fa-briefcase fa-2x"></i> <p class="collapsed">Tools</p>
+          </li>
           <li class="sidebar-item" :class="{active: activeView === 'settings'}" @click="activeView = 'settings'; scrollToTop()">
             <i class="fa fa-cog fa-2x"></i> <p class="collapsed">Settings</p>
           </li>
@@ -133,7 +136,9 @@
         <div id="setup" class="main-view" :class="{open: activeView === 'setup'}">
           <div class="card">
             <h3 class="card-title">Load Posts For the Newsletter</h3>
-            <span class="card-title-icon" title="For multiple posts use your blog page's url&#10;For individual posts use the blog post's url"><i class="fas fa-question-circle tool-icon"></i></span>
+            <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:215px">
+              For multiple posts use your blog page's url<br>For individual posts use the blog post's url
+            </span></span>
             <p>Load Multiple Posts</p>
             <div class="form-item split">
               <div>
@@ -289,7 +294,10 @@
           </div>
           <div class="card">
             <h3 class="card-title">Colour Settings</h3>
-            <span class="card-title-icon" title="If you can't change the color, try changing the vertical slider"><i class="fas fa-question-circle tool-icon"></i></span>
+            <span class="card-title-icon" ><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:150px">
+              If you can't change the color, try changing the vertical slider first<br>
+              <img src="imgs\colourSlider.png" width="128px">
+            </span></span>
             <div class="form-item split even">
               <div>
                 <input id="buttonColor" type="color" v-model="colors.button" :class="{light: isLight(colors.button)}">
@@ -337,7 +345,18 @@
           <div class="card">
             <h3 class="card-title">Edit Newsletter</h3>
             <span class="card-title-icon" title="Add Custom Post" @click="addPost"  style="right: 50px"><i class="far fa-plus-square tool-icon"></i></span>
-            <span class="card-title-icon" title="These fields support shortcut key formatting. &#10;CTRL + L: Left Align&#10;CTRL + C: Center Align&#10;CTRL + R: Right Align&#10;CTRL + R: Right Align&#10;CTRL + B: Bold&#10;CTRL + I: Italic&#10;CTRL + U: Underline"><i class="fas fa-question-circle tool-icon"></i></span>
+
+            <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:230px">
+              These fields support shortcut key formatting.<hr>
+              <div class="row">
+                <div class="col">
+                  <strong>CTRL + L</strong>: Left Align<br><strong>CTRL + C</strong>: Center Align<br><strong>CTRL + R</strong>: Right Align<br><strong>CTRL + R</strong>: Right Align
+                </div>
+                <div class="col">
+                  <strong>CTRL + B</strong>: Bold<br><strong>CTRL + I</strong>: Italic<br><strong>CTRL + U</strong>: Underline
+                </div>
+              </div>
+            </span></span>
             <div class="edit-newsletter">
               <ul class="newsletter-list">
                 <p v-if="posts.length == 0">No Posts Loaded Yet</p>
@@ -403,7 +422,9 @@
           </div>
           <div class="card">
             <h3 class="card-title">Google Analytics</h3>
-            <span class="card-title-icon" title="Google Analytics on Newsletters is still being tested&#10;We don't guarantee that analytics on newsletters will work as intended"><i class="fas fa-question-circle tool-icon"></i></span>
+            <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:200px">
+            Google Analytics on Newsletters is still being tested
+            </span></span>
             <div class="form-item">
               <input type="text" id="analytics-code" v-model="analytics.code" required>
               <label for="analytics-code">Analytics Code</label>
@@ -428,7 +449,10 @@
             <h3 class="card-title">Option Management</h3>
             <p><small><strong>Option Management</strong> will manage your header, footer and colours</small>
               <br><strong><small>For most situations you should only use the load/save locally buttons</small></strong></p>
-            <span class="card-title-icon" title="Load/Save Locally:    Load/Save settings to/from your browser&#10;Import/Export:          Load/Save a .json file with settings"><i class="fas fa-question-circle tool-icon"></i></span>
+            <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
+            Load/Save Locally: &nbsp;Load/Save settings to/from your browser<br>
+            Import/Export: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Load/Save a .json file with settings
+            </span></span>
             <div class="form-item split even">
               <input type="button" value="Load Options Locally" @click="loadOptions" title="Load Options that have been saved into your browser">
               <input type="button" value="Import Options" @click="importOptions" title="Load Options that have been saved into a .json file">
