@@ -79,10 +79,11 @@
                 <img :src="header.image" width="100%" style="width:100%">
               </td>
             </tr>
+
             <tr v-else-if="header.style == '2'" style="position:relative;width: 100%; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3" :style="{'background-color': colors.header.background}">
               <td colspan="2" valign="middle" style="padding: 25px">
-                <h2 style="margin:0;text-align:center;" :style="{color: colors.header.text}">{{header.title}}</h2>
-                <h4 style="margin:0;text-align:center;" :style="{color: colors.header.text}">{{header.subtitle}}</h4>
+                <h2 style="margin:0;text-align:center;" :style="{color: colors.header.text}">{{header.titles.title}}</h2>
+                <h4 style="margin:0;text-align:center;" :style="{color: colors.header.text}">{{header.titles.subtitle}}</h4>
               </td>
             </tr>
             <tr v-else-if="header.style == '3'" style="position:relative;width: 100%; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3" :style="{'background-color': colors.header.background}">
@@ -184,12 +185,12 @@
               </div>
               <div class="accordion-content">
                 <div class="form-item">
-                  <input type="text" id="header-title" v-model="header.title" required>
-                  <label for="header-title">Header Title</label>
+                  <input type="text" id="header-titles-title" v-model="header.titles.title" required>
+                  <label for="header-titles-title">Header Title</label>
                 </div>
                 <div class="form-item">
-                  <input type="text" id="header-subtitle" v-model="header.subtitle" required>
-                  <label for="header-subtitle">Header Subtitle</label>
+                  <input type="text" id="header-titles-subtitle" v-model="header.titles.subtitle" required>
+                  <label for="header-titles-subtitle">Header Subtitle</label>
                 </div>
               </div>
             </div>

@@ -1,8 +1,10 @@
-var issuedUpdateNotice = false;
 Vue.config.errorHandler = function (err, vm, info) {
   if(!issuedUpdateNotice && err.toString().match(/TypeError: \w* is not a function/g)){
     alert("The Newsletter Generator is currently updating, please come back later.");
     issuedUpdateNotice = true;
+  }else {
+    console.log(err);
+    console.log(info);
   }
 }
 Vue.component('editabletext', {
@@ -72,10 +74,12 @@ let app = new Vue({
     },
     header: {
       style: 0,
+      html: null,
       image: null,
-      title: null,
-      subtitle: null,
-      html: null
+      titles: {
+        title: null,
+        subtitle: null
+      }
     },
     footer: {
       style: 0,
@@ -157,7 +161,14 @@ let app = new Vue({
         });
   },
   methods: {
-    postColor: function(pos, key){
+    // updateCreatedImage(){
+    //   app.header.create.createdImage = "https://bimmr.com/newsletter/tools/createbanner.php?"+
+    //                                     "image=" + encodeURIComponent(this.header.create.image) +
+    //                                     "&textcolor=" + this.colors.header.text +
+    //                                     (this.header.create.title ? "&title=" + this.header.create.title : '')+
+    //                                     (this.header.create.subtitle ? "&subtitle=" + this.header.create.subtitle : '');
+    // },
+    postColor(pos, key){
       return typeof this.posts[pos][key] == 'undefined' ? this.colors.posts[key] : this.posts[pos][key];
     },
     updateData(){
@@ -172,6 +183,18 @@ let app = new Vue({
           this.$set(this.colors.posts, "background", "#f3f3f3");
       if(typeof this.colors.posts.text == 'undefined')
           this.$set(this.colors.posts, "text", "#000000");
+
+      //Update Header
+      if(typeof this.header.titles == 'undefined')
+          this.$set(this.header, "titles", {});
+      if(typeof this.header.title != 'undefined'){
+        this.$set(this.header.titles, "title", this.header.title);
+        delete this.header.title;
+      }
+      if(typeof this.header.subtitle != 'undefined'){
+        this.$set(this.header.titles, "subtitle", this.header.subtitle);
+        delete this.header.subtitle;
+      }
     },
     loadPosts(posts){
       if((!posts || posts.target) && localStorage.posts)
@@ -211,7 +234,7 @@ let app = new Vue({
       }
     },
     savePosts(){
-      if(localStorage.getItem("options"))
+      if(localStorage.getItem("posts"))
         if(!confirm("Do you want to overwrite your currently saved posts?")){
           sendInfo("Didn't Save Posts");
           return;
