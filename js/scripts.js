@@ -104,7 +104,19 @@ let app = new Vue({
       }
     },
     posts: [],
-    newsletterHTML: ""
+    newsletterHTML: "",
+    tools:{
+      banner:{
+        title: null,
+        subtitle: null,
+        color: "#000000",
+        align: 'center center',
+        textAlign: 'center',
+        image: null,
+        verticalOffset: 0,
+        horizontalOffset: 0
+      }
+    }
   },
   computed: {
     analyticsEnabled: function(){
@@ -134,6 +146,30 @@ let app = new Vue({
         else
           preview.classList.remove("closed");
       }, 1);
+    },
+    'tools.banner.title': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.subtitle': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.image': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.align': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.textAlign': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.color': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.verticalOffset': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.horizontalOffset': function(){
+      this.updateCreatedBanner();
     }
   },
   mounted(){
@@ -161,13 +197,30 @@ let app = new Vue({
         });
   },
   methods: {
-    // updateCreatedImage(){
-    //   app.header.create.createdImage = "https://bimmr.com/newsletter/tools/createbanner.php?"+
-    //                                     "image=" + encodeURIComponent(this.header.create.image) +
-    //                                     "&textcolor=" + this.colors.header.text +
-    //                                     (this.header.create.title ? "&title=" + this.header.create.title : '')+
-    //                                     (this.header.create.subtitle ? "&subtitle=" + this.header.create.subtitle : '');
-    // },
+    useCustomBanner(){
+      this.header.style= 1;
+      this.header.image = this.$refs.bannerCreatedImage.src;
+    },
+    copyBannerURL(){
+      copyTextToClipboard(this.$refs.bannerCreatedImage.src);
+    },
+    updateCreatedBanner(){
+      if(this.tools.banner.image){
+        let url = "https://bimmr.com/newsletter/tools/createbanner.php?createNew=true";
+        for(let [key, value] of Object.entries(this.tools.banner)){
+          if(key == "color")
+            value = value.substring(1);
+          if(key == "align"){
+            let aligns = value.split(' ')
+            url+= "&horizontalAlign="+aligns[1] + "&verticalAlign="+aligns[0];
+          }
+          else if(value != null)
+            url+= "&"+key+"="+value;
+        }
+        this.$refs.bannerCreatedImage.src = url;
+        this.$refs.bannerValidWrapper.style.display = "block";
+      }
+    },
     postColor(pos, key){
       return typeof this.posts[pos][key] == 'undefined' ? this.colors.posts[key] : this.posts[pos][key];
     },

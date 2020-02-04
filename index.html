@@ -495,10 +495,71 @@
         <div id="tools" class="main-view" :class="{open: activeView === 'tools'}">
           <div class="card">
             <h3 class="card-title">Create a Banner Image</h3>
-            <p>Coming Soon</p>
+            <div class="form-item">
+              <input id="tool-banner-image" type="text" v-model="tools.banner.image"  required>
+              <label for="tool-banner-image">Banner Image</label>
+            </div>
+            <div class="form-item split even">
+              <div>
+                <input type="text" v-model="tools.banner.title" id="tool-banner-title"  required>
+                <label for="tool-banner-title">Banner Title</label>
+              </div>
+              <div>
+                <input type="text" v-model="tools.banner.subtitle" id="tool-banner-subtitle"required>
+                <label for="tool-banner-subtitle">Banner Subtitle</label>
+              </div>
+            </div>
 
+            <div class="form-item split even">
+              <div>
+                <input type="number" v-model="tools.banner.verticalOffset" id="tool-banner-verticalOffset"  required step="5">
+                <label for="tool-banner-verticalOffset">Vertical Offset</label>
+              </div>
+              <div>
+                <input type="number" v-model="tools.banner.horizontalOffset" id="tool-banner-horizontalOffset"required step="5">
+                <label for="tool-banner-horizontalOffset">Horizontal Offset</label>
+              </div>
+            </div>
+            <div class="form-item">
+              <input id="tool-banner-color" type="color" v-model="tools.banner.color"  :class="{light: isLight(colors.button)}">
+              <label for="tool-banner-color">Banner Text Colour</label>
+            </div>
+            <div class="form-item split even">
+              <div>
+                <select v-model="tools.banner.align" id="tool-banner-align"  required>
+                  <option value="top left">Top Left</option>
+                  <option value="top center">Top Center</option>
+                  <option value="top right">Top Right</option>
+
+                  <option value="center left">Center Left</option>
+                  <option value="center center">Center Center</option>
+                  <option value="center right">Center Right</option>
+
+                  <option value="bottom left">Bottom Left</option>
+                  <option value="bottom center">Bottom Center</option>
+                  <option value="bottom right">Bottom Right</option>
+                </select>
+                <label for="tool-banner-align">Image Alignment:</label>
+              </div>
+              <div>
+                <select v-model="tools.banner.textAlign" id="tool-banner-textAlign"  required>
+                  <option value="center">Center</option>
+                  <option value="left">Left</option>
+                  <option value="right">Right</option>
+                </select>
+                <label for="tool-banner-textAlign">Text Alignment:</label>
+              </div>
+            </div>
+            <div ref="bannerValidWrapper" style="display: none; text-align:center">
+              <hr>
+              <img width="100%" style="max-width: 800px;border: 1px solid #eee;" ref="bannerCreatedImage">
+
+              <div class="form-item" style="margin-top: 5px;">
+                <input type="button" value="Copy Banner URL" @click="copyBannerURL">
+                <input type="button" value="Use Custom Banner" @click="useCustomBanner">
+              </div>
+            </div>
           </div>
-
         </div>
 
         <div id="settings" class="main-view" :class="{open: activeView === 'settings'}">

@@ -316,10 +316,22 @@ body{
   cursor: text;
   color: #aaa;
 }
+.form-item input[type="number"]{
+  text-align: right;
+	position:relative;
+  top: -6px;
+	cursor: pointer;
+}
+input::-webkit-inner-spin-button {
+  margin-left: 20px;
+}
 .form-item input[type="text"],
+.form-item input[type="number"],
 .form-item textarea,
-.form-item .contentEditable{
+.form-item .contentEditable,
+.form-item select{
   border:0;
+  outline: none;
   border-bottom:1px solid #d2d2d2;
   background:transparent;
   width:100%;
@@ -327,19 +339,24 @@ body{
   resize: vertical;
   font-size: 13px;
 }
+.form-item select{
+  text-align-last: center;
+}
+.form-item select ~ label{
+  top: 8px;
+}
 .form-item .contentEditable{
   margin: 0;
 }
-.form-item input[type="number"]{
-	outline: none;
+.form-item > div ~ input[type="number"]::-webkit-inner-spin-button{
+  margin-left: 0;
+}
+.form-item > div ~ input[type="number"]{
+  text-align: center;
   border: 0;
-	margin:0 10px;
-	cursor:pointer;
-	position:relative;
-  top: -6px;
+  margin:0 10px;
   width: 40px;
   border-bottom:1px solid #d2d2d2;
-  text-align: center;
 }
 .form-item input[type="button"]{
   color:#fff;
@@ -371,7 +388,7 @@ input[type="color"].postColorSelector{
 
 input[type="color"].postColorSelector:hover,
 input[type="color"].postColorSelector:focus{
-opacity: 1;
+  opacity: 1;
 }
 .form-item input[type="color"]{
   width: 100%;
@@ -451,7 +468,12 @@ opacity: 1;
 .form-item.split.even > *{
   flex-grow: 1;
   position: relative;
-  margin-left: 10px;
+}
+.form-item.split.even > *:not(:first-of-type){
+  margin-left: 5px;
+}
+.form-item.split.even > *:first-of-type{
+  margin-right: 5px;
 }
 .newsletter-list{
   list-style:none;
