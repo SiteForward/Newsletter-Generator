@@ -286,7 +286,7 @@ body{
   color: #fff;
 }
 .form-item input[type="text"]:focus ~ label,
-.form-item input[type="text"]:valid ~ label
+.form-item input[type="text"]:valid ~ label,
 .form-item input[type="search"]:focus ~ label,
 .form-item input[type="search"]:valid ~ label,
 .form-item textarea:focus ~ label,
@@ -635,7 +635,4 @@ input[type="color"].postColorSelector:focus{
 .accordion.open .accordion-content{
   max-height:1000px;
   padding: 15px 10px;
-}
-.highlighedText{
-  background-color: yellow;
 }
