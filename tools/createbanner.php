@@ -2,7 +2,7 @@
 $displayImg = true;
 
 if($displayImg)
-  header('Content-type: image/jpg');
+  header('Content-Type: image/png');
 
 $font         = realpath('./muli.ttf');
 $titleSize    = 30;
@@ -16,7 +16,7 @@ $horizontalOffset = $_GET['horizontalOffset'];
 $verticalOffset   = $_GET['verticalOffset'];
 $color            = $_GET['color'];
 
-$img          = imagecreatefromjpeg($imgurl);
+$img          = imagecreatefromstring(file_get_contents($imgurl))
 $img          = imagescale($img, 800);
 $img          = cropAlign($img, 800, min(imagesy($img), 225), $horizontalAlign, $verticalAlign);
 $imgSize      = array(imagesx($img), imagesy($img));
@@ -52,7 +52,7 @@ imagettftext($img, $subtitleSize, 0, $subtitlePosX, $subtitlePosY, $color, $font
 
 // Output the image
 if($displayImg){
-  imagejpeg($img, null, 100);
+  imagepng($img, null, 100);
   imagedestroy($img);
 }
 
