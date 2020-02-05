@@ -15,6 +15,7 @@ $align            = $_GET['textAlign'];
 $horizontalOffset = $_GET['horizontalOffset'];
 $verticalOffset   = $_GET['verticalOffset'];
 $color            = $_GET['color'];
+$shadowColor      = $_GET['shadowColor'];
 
 $extension = strtolower(strrchr($imgurl, '.'));
 if($extension == '.jpg' || $extension == '.jpeg')
@@ -31,8 +32,8 @@ $subtitle     = "Subtitle Placeholder";
 if(isset($_GET['title']))     $title    = $_GET['title'];
 if(isset($_GET['subtitle']))  $subtitle = $_GET['subtitle'];
 
+$shadowColor = hexColorAllocate($img, $shadowColor);
 $color = hexColorAllocate($img, $color);
-
 
 if($align == 'left'){
   $titlePosX = $subtitlePosX = $horizontalOffset;
@@ -51,7 +52,9 @@ $totalTitleHeight = getHeight($titleSize, $font, $title) + getHeight($subtitleSi
 $titlePosY = ($imgSize[1]/2)-($totalTitleHeight/2) +  getHeight($titleSize, $font, $title)/2+$verticalOffset;
 $subtitlePosY = $titlePosY + getHeight($subtitleSize, $font, $subtitle)+10;
 
+imagettftext($img, $titleSize, 0, $titlePosX+1, $titlePosY+1, $shadowColor, $font, $title);
 imagettftext($img, $titleSize, 0, $titlePosX, $titlePosY, $color, $font, $title);
+imagettftext($img, $subtitleSize, 0, $subtitlePosX+1, $subtitlePosY+1, $shadowColor, $font, $subtitle);
 imagettftext($img, $subtitleSize, 0, $subtitlePosX, $subtitlePosY, $color, $font, $subtitle);
 
 // Output the image

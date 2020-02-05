@@ -495,8 +495,12 @@
         <div id="tools" class="main-view" :class="{open: activeView === 'tools'}">
           <div class="card">
             <h3 class="card-title">Create a Banner Image</h3>
+            <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
+            Looking for some premade image banner backgrounds?<br>
+            Visit: <a href="https://siteforward.ca/tools/image-bank" target="_blank">https://siteforward.ca/tools/image-bank</a>
+            </span></span>
             <div class="form-item">
-              <input id="tool-banner-image" type="text" v-model="tools.banner.image"  required>
+              <input id="tool-banner-image" type="text" v-model="tools.banner.image" required>
               <label for="tool-banner-image">Banner Image URL</label>
             </div>
             <div class="form-item split even">
@@ -520,9 +524,15 @@
                 <label for="tool-banner-horizontalOffset">Horizontal Offset</label>
               </div>
             </div>
-            <div class="form-item">
-              <input id="tool-banner-color" type="color" v-model="tools.banner.color"  :class="{light: isLight(colors.button)}">
-              <label for="tool-banner-color">Banner Text Colour</label>
+            <div class="form-item split even">
+              <div>
+                <input id="tool-banner-color" type="color" v-model="tools.banner.color"  :class="{light: isLight(tools.banner.color)}">
+                <label for="tool-banner-color">Banner Text Colour</label>
+              </div>
+              <div>
+                <input id="tool-banner-shadowColor" type="color" v-model="tools.banner.shadowColor"  :class="{light: isLight(tools.banner.shadowColor)}">
+                <label for="tool-banner-shadowColor">Banner Shadow Colour</label>
+              </div>
             </div>
             <div class="form-item split even">
               <div>

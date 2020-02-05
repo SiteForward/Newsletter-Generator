@@ -172,6 +172,7 @@ let app = new Vue({
         title: null,
         subtitle: null,
         color: "#000000",
+        shadowColor: "#333333",
         align: 'center center',
         textAlign: 'center',
         image: null,
@@ -227,6 +228,9 @@ let app = new Vue({
     'tools.banner.color': function(){
       this.updateCreatedBanner();
     },
+    'tools.banner.shadowColor': function(){
+      this.updateCreatedBanner();
+    },
     'tools.banner.verticalOffset': function(){
       this.updateCreatedBanner();
     },
@@ -270,7 +274,7 @@ let app = new Vue({
       if(this.tools.banner.image){
         let url = "https://bimmr.com/newsletter/tools/createbanner.php?createNew=true";
         for(let [key, value] of Object.entries(this.tools.banner)){
-          if(key == "color")
+          if(key == "color" || key == "shadowColor")
             value = value.substring(1);
           if(key == "align"){
             let aligns = value.split(' ')
