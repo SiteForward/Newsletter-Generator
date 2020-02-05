@@ -12,10 +12,14 @@ $imgurl           = $_GET['image'];
 $verticalAlign    = $_GET['verticalAlign'];
 $horizontalAlign  = $_GET['horizontalAlign'];
 $align            = $_GET['textAlign'];
-$horizontalOffset = $_GET['horizontalOffset'];
-$verticalOffset   = $_GET['verticalOffset'];
+$offsetX          = $_GET['offsetX'];
+$offsetY          = $_GET['offsetY'];
 $color            = $_GET['color'];
 $shadowColor      = $_GET['shadowColor'];
+$titleSpacing     = $_GET['titleSpacing'];
+$shadowOffsetX    = $_GET['shadowOffsetX'];
+$shadowOffsetY    = $_GET['shadowOffsetY'];
+$shadowBlur       = $_GET['shadowBlur'];
 
 $extension = strtolower(strrchr($imgurl, '.'));
 if($extension == '.jpg' || $extension == '.jpeg')
@@ -36,31 +40,49 @@ $shadowColor = hexColorAllocate($img, $shadowColor);
 $color = hexColorAllocate($img, $color);
 
 if($align == 'left'){
-  $titlePosX = $subtitlePosX = $horizontalOffset;
+  $titlePosX = $subtitlePosX = $offsetX;
 }
 else if($align == 'right'){
-  $titlePosX = $imgSize[0] - getWidth($titleSize, $font, $title) - $horizontalOffset;
-  $subtitlePosX = $imgSize[0] - getWidth($subtitleSize, $font, $subtitle) - $horizontalOffset;
+  $titlePosX = $imgSize[0] - getWidth($titleSize, $font, $title) - $offsetX;
+  $subtitlePosX = $imgSize[0] - getWidth($subtitleSize, $font, $subtitle) - $offsetX;
 }
 else{
-  $titlePosX = $imgSize[0]/2 - getWidth($titleSize, $font, $title)/2 + $horizontalOffset;
-  $subtitlePosX = $imgSize[0]/2 - getWidth($subtitleSize, $font, $subtitle)/2 + $horizontalOffset;
+  $titlePosX = $imgSize[0]/2 - getWidth($titleSize, $font, $title)/2 + $offsetX;
+  $subtitlePosX = $imgSize[0]/2 - getWidth($subtitleSize, $font, $subtitle)/2 + $offsetX;
 }
 
-$totalTitleHeight = getHeight($titleSize, $font, $title) + getHeight($subtitleSize, $font, $subtitle);
+$totalTitleHeight = getHeight($titleSize, $font, $title) + getHeight($subtitleSize, $font, $subtitle)+$titleSpacing/2;
 
-$titlePosY = ($imgSize[1]/2)-($totalTitleHeight/2) +  getHeight($titleSize, $font, $title)/2+$verticalOffset;
-$subtitlePosY = $titlePosY + getHeight($subtitleSize, $font, $subtitle)+10;
+$titlePosY = ($imgSize[1]/2)-($totalTitleHeight/2) +  getHeight($titleSize, $font, $title)/2+$offsetY;
+$subtitlePosY = $titlePosY + getHeight($subtitleSize, $font, $subtitle)+$titleSpacing;
 
-imagettftext($img, $titleSize, 0, $titlePosX+1, $titlePosY+1, $shadowColor, $font, $title);
-imagettftext($img, $titleSize, 0, $titlePosX, $titlePosY, $color, $font, $title);
-imagettftext($img, $subtitleSize, 0, $subtitlePosX+1, $subtitlePosY+1, $shadowColor, $font, $subtitle);
-imagettftext($img, $subtitleSize, 0, $subtitlePosX, $subtitlePosY, $color, $font, $subtitle);
+
+if($shadowOffsetX != 0 || $shadowOffsetY != 0)
+  imagettftextblur($img, $titleSize, 0, $titlePosX + $shadowOffsetX, $titlePosY + $shadowOffsetY, $shadowColor,$font,$title, $shadowBlur);
+imagettftextblur($img, $titleSize, 0, $titlePosX, $titlePosY, $color, $font, $title);
+
+if($shadowOffsetX != 0 || $shadowOffsetY != 0)
+  imagettftextblur($img, $subtitleSize, 0, $subtitlePosX + $shadowOffsetX, $subtitlePosY + $shadowOffsetY, $shadowColor, $font, $subtitle, $shadowBlur);
+imagettftextblur($img, $subtitleSize, 0, $subtitlePosX, $subtitlePosY, $color, $font, $subtitle);
 
 // Output the image
 if($displayImg){
   imagepng($img);
   imagedestroy($img);
+}
+else{
+  echo '<p>Image URL: '.$imgurl.'</p>';
+  echo '<p>Vertical Align: '.$verticalAlign.'</p>';
+  echo '<p>Horizontal Align: '.$horizontalAlign.'</p>';
+  echo '<p>Text Align: '.$align.'</p>';
+  echo '<p>Offset X: '.$offsetX.'</p>';
+  echo '<p>Offset Y:'.$offsetY.'</p>';
+  echo '<p>Text Color: '.$color.'</p>';
+  echo '<p>Shadow Color: '.$shadowColor.'</p>';
+  echo '<p>Title Spacing: '.$titleSpacing.'</p>';
+  echo '<p>shadowOffsetX: '.$shadowOffsetX.'</p>';
+  echo '<p>shadowOffsetY: '.$shadowOffsetY.'</p>';
+  echo '<p>shadowBlur: '.$shadowBlur.'</p>';
 }
 
 function getWidth($fontSize, $font, $text){
@@ -109,4 +131,29 @@ function calculatePixelsForAlign($imageSize, $cropSize, $align) {
         default: return [0, $imageSize];
     }
 }
+
+function imagettftextblur(&$image,$size,$angle,$x,$y,$color,$fontfile,$text,$blur_intensity = null)
+    {
+        $blur_intensity = !is_null($blur_intensity) && is_numeric($blur_intensity) ? (int)$blur_intensity : 0;
+        if ($blur_intensity > 0)
+        {
+            $text_shadow_image = imagecreatetruecolor(imagesx($image),imagesy($image));
+            imagefill($text_shadow_image,0,0,imagecolorallocate($text_shadow_image,0x00,0x00,0x00));
+            imagettftext($text_shadow_image,$size,$angle,$x,$y,imagecolorallocate($text_shadow_image,0xFF,0xFF,0xFF),$fontfile,$text);
+            for ($blur = 1;$blur <= $blur_intensity;$blur++)
+                imagefilter($text_shadow_image,IMG_FILTER_GAUSSIAN_BLUR);
+            for ($x_offset = 0;$x_offset < imagesx($text_shadow_image);$x_offset++)
+            {
+                for ($y_offset = 0;$y_offset < imagesy($text_shadow_image);$y_offset++)
+                {
+                    $visibility = (imagecolorat($text_shadow_image,$x_offset,$y_offset) & 0xFF) / 255;
+                    if ($visibility > 0)
+                        imagesetpixel($image,$x_offset,$y_offset,imagecolorallocatealpha($image,($color >> 16) & 0xFF,($color >> 8) & 0xFF,$color & 0xFF,(1 - $visibility) * 127));
+                }
+            }
+            imagedestroy($text_shadow_image);
+        }
+        else
+            return imagettftext($image,$size,$angle,$x,$y,$color,$fontfile,$text);
+    }
 ?>
