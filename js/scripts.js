@@ -1,3 +1,4 @@
+let issuedUpdateNotice = false;
 Vue.config.errorHandler = function (err, vm, info) {
   if(!issuedUpdateNotice && err.toString().match(/TypeError: \w* is not a function/g)){
     alert("The Newsletter Generator is currently updating, please come back later.");
@@ -7,6 +8,79 @@ Vue.config.errorHandler = function (err, vm, info) {
     console.log(info);
   }
 }
+Vue.component('searchbar', {
+  template: '<div><input :id="id" type="search" @input="search" required><label :for="id"><slot></slot></label></div>',
+  props: ['element'],
+  data: function() {
+      return {
+        id: null,
+        defaultHTML: null,
+        filter: true,
+        highlight: true
+    }
+  },
+  mounted(){
+    this.defaultHTML = this.container.innerHTML;
+    this.id = this._uid
+  },
+  computed: {
+    container: function(){
+      return document.querySelector("#"+this.element);
+    }
+  },
+  methods: {
+    search(e){
+      let search = e.target.value;
+      let regex = new RegExp('('+search+')', 'ig');
+      this.container.innerHTML = this.defaultHTML;
+
+      if(this.highlight){
+        if(search && search.length > 2){
+          let childNodes = [];
+          allDescendants(this.container);
+          function allDescendants (node) {
+            for (var i = 0; i < node.childNodes.length; i++) {
+              var child = node.childNodes[i];
+              allDescendants(child);
+              if(child.childNodes.length == 0 && child.nodeName == "#text" && child.textContent.match(regex))
+                childNodes.push(child);
+            }
+          }
+          for(let i = 0; i < childNodes.length; i++){
+            let child = childNodes[i];
+            let span = document.createElement('span');
+            span.innerHTML = child.data.replace(regex, '<span class="highlighedText">$1</span>');
+
+            child.parentNode.insertBefore(span, child);
+            child.parentNode.removeChild(child);
+
+          };
+
+        }
+      }
+
+      if(this.filter){
+        if(search && search.length > 2){
+          for(let i = 0; i < this.container.children.length; i++){
+            let child = this.container.children[i];
+            if(child.textContent.match(regex))
+               child.style.display = "block";
+             else{
+               child.style.display = "none";
+             }
+          }
+        }
+        else{
+          for(let i = 0; i < this.container.children.length; i++){
+            let child = this.container.children[i];
+            child.style.display = "block";
+          }
+        }
+      }
+
+    }
+  }
+});
 Vue.component('editabletext', {
   template: '<p contentEditable="true" class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
   props: ['value'],
@@ -680,4 +754,9 @@ function sendSuccess(msg){
 function sendInfo(msg){
   app.$snotify.info(msg);
   console.log("Info: "+msg);
+}
+if (!String.prototype.splice) {
+    String.prototype.splice = function(start, delCount, newSubStr) {
+        return this.slice(0, start) + newSubStr + this.slice(start + Math.abs(delCount));
+    };
 }

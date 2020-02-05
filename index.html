@@ -303,7 +303,7 @@
               <div>
                 <input id="buttonColor" type="color" v-model="colors.button" :class="{light: isLight(colors.button)}">
                 <label for="buttonColor">Button Colour</label>
-            </div>
+              </div>
               <div>
                 <input id="linkColor" type="color" v-model="colors.links" :class="{light: isLight(colors.links)}">
                 <label for="linkColor">Footer Link Colour</label>
@@ -497,7 +497,7 @@
             <h3 class="card-title">Create a Banner Image</h3>
             <div class="form-item">
               <input id="tool-banner-image" type="text" v-model="tools.banner.image"  required>
-              <label for="tool-banner-image">Banner Image</label>
+              <label for="tool-banner-image">Banner Image URL</label>
             </div>
             <div class="form-item split even">
               <div>
@@ -594,125 +594,135 @@
 
         <div id="help" class="main-view" :class="{open: activeView === 'help'}">
           <div class="card">
-            <h3 class="card-title">How to <strong>Setup</strong> the Newsletter</h3>
-            <ol>
-              <li>Go to the <strong>Setup</strong> tab</li>
-              <li>Add your blog posts <small>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> for tips)</small></li>
-              <ul style="list-style-type: square">
-                <li><strong>Load Multiple Posts</strong> will load blogs from your blog page - You can even choose how many to load in using the number beside the field</li>
-                <li><strong>Load Individual Posts</strong> lets you Load a single post - Use your blog post's URL link in this field</li>
-              </ul>
-              <li>Choose your header option</li>
-              <ul style="list-style-type: square">
-                <li><strong>No Header</strong> will make it so no header appears</li>
-                <li><strong>Use Image</strong> allows you to use a banner image</li>
-                <li><strong>Use Titles</strong> allows you to enter your own title & subtitle</li>
-                <li><strong>Custom HTML</strong> allows you to enter your own HTML code to design your own header</li>
-              </ul>
-              <li>Choose your footer option</li>
-              <ul style="list-style-type: square">
-                <li><strong>No Footer</strong> will make it so no footer appears</li>
-                <li><strong>Use Template</strong> allows you to use a premade footer template - This will include the required disclaimers</li>
-                <li><strong>Custom HTML</strong> allows you to enter your own HTML code to design your own footer</li>
-              </ul>
-              <li>Optional: Customize each post's colours by clicking on the coloured box</li>
-            </ol>
-          </div>
-          <div class="card">
-            <h3 class="card-title">How to <strong>Edit</strong> the Newsletter</h3>
-            <div class="row middle">
-              <div class="col">
-                <ol>
-                  <li>Go to the <strong>Edit Items</strong> tab</li>
-                  <li>If you have loaded posts during setup you'll see a list of them here</li>
-                  <li>Clicking the <strong><i class="far fa-plus-square" style="color: #aeaeae;"></i></strong> in the top right will create a new post</li>
-                  <li>Clicking the <strong><i class="fas fa-trash-alt" style="color: #aeaeae;"></i></strong> to the right of each post will remove that post</li>
-                  <li>Edit the contents of each post by clicking on the field and typing</li>
-                  <ul style="list-style-type: square">
-                    <li><strong>Title</strong> will change the title of the post <small>(Supports HTML)</small></li>
-                    <li><strong>Description</strong> will change the description of the post <small>(Supports HTML)</small></li>
-                    <li><strong>Date</strong> will change the subtext under the post's title <small>(Supports HTML)</small></li>
-                    <li><strong>Link</strong> will change where the "Read More" button directs to</li>
-                    <li><strong>Image URL</strong> will change the image to the left of the post</li>
-                  </ul>
-                  <li>Re-order your posts using the arrow head icons to the left of each post</li>
-                  <ul style="list-style-type: square">
-                    <li><strong><i class="fas fa-chevron-up" style="color: #aeaeae;"></i> <i class="fas fa-chevron-down" style="color: #aeaeae;"></i></strong> will move the post to the top/bottom</li>
-                    <li><strong><i class="fas fa-sort-up" style="color: #aeaeae;"></i> <i class="fas fa-sort-down" style="color: #aeaeae;vertical-align: super;"></i></strong> will move the post up/down</li>
-                  </ul>
-                  <li>Optional: Change your colours by clicking on the coloured box <small>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> for tips)</small></li>
-                </ol>
+            <div class="form-item split even" style="margin-top:15px">
+              <div>
+                <searchbar element="helpCards">Search for help</searchbar>
               </div>
-              <div class="col">
-                <h4 style="margin-bottom: 5px;">Formatting Keyboard Shortcut Options</h4>
-                <div class="row middle">
-                  <div class="col">
+              <div></div>
+            </div>
+          </div>
+          <div id="helpCards">
+            <div class="card">
+              <h3 class="card-title">How to <strong>Setup</strong> the Newsletter</h3>
+              <ol>
+                <li>Go to the <strong>Setup</strong> tab</li>
+                <li>Add your blog posts <small>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> for tips)</small></li>
+                <ul style="list-style-type: square">
+                  <li><strong>Load Multiple Posts</strong> will load blogs from your blog page - You can even choose how many to load in using the number beside the field</li>
+                  <li><strong>Load Individual Posts</strong> lets you Load a single post - Use your blog post's URL link in this field</li>
+                </ul>
+                <li>Choose your header option</li>
+                <ul style="list-style-type: square">
+                  <li><strong>No Header</strong> will make it so no header appears</li>
+                  <li><strong>Use Image</strong> allows you to use a banner image</li>
+                  <li><strong>Use Titles</strong> allows you to enter your own title & subtitle</li>
+                  <li><strong>Custom HTML</strong> allows you to enter your own HTML code to design your own header</li>
+                </ul>
+                <li>Choose your footer option</li>
+                <ul style="list-style-type: square">
+                  <li><strong>No Footer</strong> will make it so no footer appears</li>
+                  <li><strong>Use Template</strong> allows you to use a premade footer template - This will include the required disclaimers</li>
+                  <li><strong>Custom HTML</strong> allows you to enter your own HTML code to design your own footer</li>
+                </ul>
+                <li>Optional: Customize each post's colours by clicking on the coloured box</li>
+              </ol>
+            </div>
+            <div class="card">
+              <h3 class="card-title">How to <strong>Edit</strong> the Newsletter</h3>
+              <div class="row middle">
+                <div class="col">
+                  <ol>
+                    <li>Go to the <strong>Edit Items</strong> tab</li>
+                    <li>If you have loaded posts during setup you'll see a list of them here</li>
+                    <li>Clicking the <strong><i class="far fa-plus-square" style="color: #aeaeae;"></i></strong> in the top right will create a new post</li>
+                    <li>Clicking the <strong><i class="fas fa-trash-alt" style="color: #aeaeae;"></i></strong> to the right of each post will remove that post</li>
+                    <li>Edit the contents of each post by clicking on the field and typing</li>
                     <ul style="list-style-type: square">
-                      <li><strong>CTRL + L</strong>: &nbsp; Left Align</li>
-                      <li><strong>CTRL + C</strong>: &nbsp; Center Align</li>
-                      <li><strong>CTRL + R</strong>: &nbsp; Right Align</li>
-                      <li><strong>CTRL + J</strong>: &nbsp; Justify Align</li>
+                      <li><strong>Title</strong> will change the title of the post <small>(Supports HTML)</small></li>
+                      <li><strong>Description</strong> will change the description of the post <small>(Supports HTML)</small></li>
+                      <li><strong>Date</strong> will change the subtext under the post's title <small>(Supports HTML)</small></li>
+                      <li><strong>Link</strong> will change where the "Read More" button directs to</li>
+                      <li><strong>Image URL</strong> will change the image to the left of the post</li>
                     </ul>
-                  </div>
-                  <div class="col">
+                    <li>Re-order your posts using the arrow head icons to the left of each post</li>
                     <ul style="list-style-type: square">
-                      <li><strong>CTRL + B</strong>: &nbsp; Bold</li>
-                      <li><strong>CTRL + I</strong>: &nbsp;&nbsp; Italic</li>
-                      <li><strong>CTRL + U</strong>: &nbsp; Underline</li>
+                      <li><strong><i class="fas fa-chevron-up" style="color: #aeaeae;"></i> <i class="fas fa-chevron-down" style="color: #aeaeae;"></i></strong> will move the post to the top/bottom</li>
+                      <li><strong><i class="fas fa-sort-up" style="color: #aeaeae;"></i> <i class="fas fa-sort-down" style="color: #aeaeae;vertical-align: super;"></i></strong> will move the post up/down</li>
                     </ul>
+                    <li>Optional: Change your colours by clicking on the coloured box <small>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> for tips)</small></li>
+                  </ol>
+                </div>
+                <div class="col">
+                  <h4 style="margin-bottom: 5px;">Formatting Keyboard Shortcut Options</h4>
+                  <div class="row middle">
+                    <div class="col">
+                      <ul style="list-style-type: square">
+                        <li><strong>CTRL + L</strong>: &nbsp; Left Align</li>
+                        <li><strong>CTRL + C</strong>: &nbsp; Center Align</li>
+                        <li><strong>CTRL + R</strong>: &nbsp; Right Align</li>
+                        <li><strong>CTRL + J</strong>: &nbsp; Justify Align</li>
+                      </ul>
+                    </div>
+                    <div class="col">
+                      <ul style="list-style-type: square">
+                        <li><strong>CTRL + B</strong>: &nbsp; Bold</li>
+                        <li><strong>CTRL + I</strong>: &nbsp;&nbsp; Italic</li>
+                        <li><strong>CTRL + U</strong>: &nbsp; Underline</li>
+                      </ul>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="card">
-            <h3 class="card-title">How to use <strong>Analytics</strong> with the Newsletter</h3>
-            <p><strong><small>View the Analytics tab for more information on how to view the analytics</small></strong></p>
-            <ol>
-              <li>Go to the <strong>Analytics</strong> tab</li>
-              <li>Find your Google Analytics Code by entering your website's URL and clicking <strong>Find Code</strong></li>
-              <li>Enter your Newsletter's name <small>(This can be something simliar to: Winter 2019)</small></li>
-            </ol>
-          </div>
-          <div class="card">
-            <h3 class="card-title">How to <strong>Use</strong> the Newsletter</h3>
-            <p><strong><small>If you're planning to use the newsletter in MS Word make sure to enable MS Word Support in the Settings tab in the newsletter generator</small></strong></p>
-            <ol>
-              <li>Go to the <strong>Use Newsletter</strong> tab</li>
-              <li><strong>Copy Code</strong> will copy the code to your clipboard</li>
+            <div class="card">
+              <h3 class="card-title">How to use <strong>Analytics</strong> with the Newsletter</h3>
+              <p><strong><small>View the Analytics tab for more information on how to view the analytics</small></strong></p>
+              <ol>
+                <li>Go to the <strong>Analytics</strong> tab</li>
+                <li>Find your Google Analytics Code by entering your website's URL and clicking <strong>Find Code</strong></li>
+                <li>Enter your Newsletter's name <small>(This can be something simliar to: Winter 2019)</small></li>
+              </ol>
+            </div>
+            <div class="card">
+              <h3 class="card-title">How to <strong>Use</strong> the Newsletter</h3>
+              <p><strong><small>If you're planning to use the newsletter in MS Word make sure to enable MS Word Support in the Settings tab in the newsletter generator</small></strong></p>
+              <ol>
+                <li>Go to the <strong>Use Newsletter</strong> tab</li>
+                <li><strong>Copy Code</strong> will copy the code to your clipboard</li>
 
-              <ul style="list-style-type: square">
-                <li>Use this if you're using a CRM and require HTML code</li>
-              </ul>
-              <li><strong>Copy Newsleter</strong> will copy the whole newsletter to your clipboard</li>
+                <ul style="list-style-type: square">
+                  <li>Use this if you're using a CRM and require HTML code</li>
+                </ul>
+                <li><strong>Copy Newsleter</strong> will copy the whole newsletter to your clipboard</li>
 
-              <ul style="list-style-type: square">
-                <li>Use this if you're using Outlook/Gmail or posting as a blog on your website</li>
-              </ul>
-              <li>Paste the newsletter/code to where you need it</li>
-            </ol>
-          </div><div class="card">
-            <h3 class="card-title">How to <strong>Load / Save</strong> the Newsletter Options & Posts</h3>
-            <p><strong><small>If options/posts have been saved locally you'll recieve a popup in the bottom right to quickly load them when you open the newsletter generator
-              <br>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> or each button for tips)</small></strong></p>
-              <p><strong><small>For most situations you should only use the load/save locally buttons</small></strong></p>
-            <ol>
-              <li>Go to the <strong>Load / Save</strong> tab</li>
-              <li><strong>Option Management</strong> will manage your header, footer and colours</li>
-              <ul style="list-style-type: square">
-                <li><strong>Load Options Locally</strong> will load your options you've saved locally in your browser</li>
-                <li><strong>Save Options Locally</strong> will save your options into your browser</li>
-                <li><small><strong>Import Options</strong> will load a .json file containing your options</small></li>
-                <li><small><strong>Export Options</strong> will save a .json file containing your options</small></li>
-              </ul>
-              <li><strong>Post Management</strong> will manage your loaded posts, and custom posts</li>
-              <ul style="list-style-type: square">
-                <li><strong>Load Posts Locally</strong> will load your posts you've saved locally in your browser</li>
-                <li><strong>Save Posts Locally</strong> will save your posts into your browser</li>
-                <li><small><strong>Import Posts</strong> will load a .json file containing your posts</small></li>
-                <li><small><strong>Export Posts</strong> will save a .json file containing your posts</small></li>
-              </ul>
-            </ol>
+                <ul style="list-style-type: square">
+                  <li>Use this if you're using Outlook/Gmail or posting as a blog on your website</li>
+                </ul>
+                <li>Paste the newsletter/code to where you need it</li>
+              </ol>
+            </div><div class="card">
+              <h3 class="card-title">How to <strong>Load / Save</strong> the Newsletter Options & Posts</h3>
+              <p><strong><small>If options/posts have been saved locally you'll recieve a popup in the bottom right to quickly load them when you open the newsletter generator
+                <br>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> or each button for tips)</small></strong></p>
+                <p><strong><small>For most situations you should only use the load/save locally buttons</small></strong></p>
+              <ol>
+                <li>Go to the <strong>Load / Save</strong> tab</li>
+                <li><strong>Option Management</strong> will manage your header, footer and colours</li>
+                <ul style="list-style-type: square">
+                  <li><strong>Load Options Locally</strong> will load your options you've saved locally in your browser</li>
+                  <li><strong>Save Options Locally</strong> will save your options into your browser</li>
+                  <li><small><strong>Import Options</strong> will load a .json file containing your options</small></li>
+                  <li><small><strong>Export Options</strong> will save a .json file containing your options</small></li>
+                </ul>
+                <li><strong>Post Management</strong> will manage your loaded posts, and custom posts</li>
+                <ul style="list-style-type: square">
+                  <li><strong>Load Posts Locally</strong> will load your posts you've saved locally in your browser</li>
+                  <li><strong>Save Posts Locally</strong> will save your posts into your browser</li>
+                  <li><small><strong>Import Posts</strong> will load a .json file containing your posts</small></li>
+                  <li><small><strong>Export Posts</strong> will save a .json file containing your posts</small></li>
+                </ul>
+              </ol>
+            </div>
           </div>
         </div>
       </main>

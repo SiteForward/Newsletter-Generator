@@ -286,7 +286,9 @@ body{
   color: #fff;
 }
 .form-item input[type="text"]:focus ~ label,
-.form-item input[type="text"]:valid ~ label,
+.form-item input[type="text"]:valid ~ label
+.form-item input[type="search"]:focus ~ label,
+.form-item input[type="search"]:valid ~ label,
 .form-item textarea:focus ~ label,
 .form-item textarea:valid ~ label,
 .form-item .contentEditable:focus ~ label,
@@ -295,6 +297,7 @@ body{
 	font-size:12px;
 }
 .form-item input[type="text"]:focus,
+.form-item input[type="search"]:focus,
 .form-item input[type="number"]:focus,
 .form-item textarea:focus,
 .form-item .contentEditable:focus{
@@ -326,6 +329,7 @@ input::-webkit-inner-spin-button {
   margin-left: 20px;
 }
 .form-item input[type="text"],
+.form-item input[type="search"],
 .form-item input[type="number"],
 .form-item textarea,
 .form-item .contentEditable,
@@ -631,4 +635,7 @@ input[type="color"].postColorSelector:focus{
 .accordion.open .accordion-content{
   max-height:1000px;
   padding: 15px 10px;
+}
+.highlighedText{
+  background-color: yellow;
 }
