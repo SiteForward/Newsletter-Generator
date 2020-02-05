@@ -1,13 +1,3 @@
-let issuedUpdateNotice = false;
-Vue.config.errorHandler = function (err, vm, info) {
-  if(!issuedUpdateNotice && err.toString().match(/TypeError: \w* is not a function/g)){
-    alert("The Newsletter Generator is currently updating, please come back later.");
-    issuedUpdateNotice = true;
-  }else {
-    console.log(err);
-    console.log(info);
-  }
-}
 Vue.component('searchbar', {
   template: '<div><input :id="id" type="search" @input="search" required><label :for="id"><slot></slot></label></div>',
   props: ['element'],
@@ -30,7 +20,7 @@ Vue.component('searchbar', {
   },
   methods: {
     search(e){
-      let search = e.target.value;
+      let search = e.target.value.trim();
       let regex = new RegExp('('+search+')', 'ig');
       this.container.innerHTML = this.defaultHTML;
 
@@ -53,9 +43,7 @@ Vue.component('searchbar', {
 
             child.parentNode.insertBefore(span, child);
             child.parentNode.removeChild(child);
-
           };
-
         }
       }
 
