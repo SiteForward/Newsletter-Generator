@@ -209,7 +209,7 @@ let app = new Vue({
           preview = this.$refs.preview;
 
       setTimeout(function(){
-        if(activeView == "help")
+        if(activeView == "help" || activeView == "tools" || activeView == "settings" || activeView == "load")
           preview.classList.add("closed");
         else
           preview.classList.remove("closed");
@@ -280,12 +280,35 @@ let app = new Vue({
         });
   },
   methods: {
-    useCustomBanner(){
-      this.header.style= 1;
-      this.header.image = this.$refs.bannerCreatedImage.src;
-    },
-    copyBannerURL(){
-      copyTextToClipboard(this.$refs.bannerCreatedImage.src);
+    downloadCustomBanner(){
+      let canvas = document.createElement("canvas");
+      let ctx = canvas.getContext("2d");
+      let img = new Image();
+      img.onload = function(){
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        let url = canvas.toDataURL();
+
+
+        var div = document.createElement("div"),
+    	     anch = document.createElement("a");
+        document.body.appendChild(div);
+      	div.appendChild(anch);
+
+      	anch.innerHTML = "&nbsp;";
+      	div.style.width = "0";
+      	div.style.height = "0";
+      	anch.href = url;
+      	anch.download = "Custom-Banner.png";
+
+      	var ev = new MouseEvent("click",{});
+      	anch.dispatchEvent(ev);
+      	document.body.removeChild(div);
+      }
+      img.setAttribute('crossOrigin', 'anonymous');
+      img.src =  app.$refs.bannerCreatedImage.src;
+
     },
     updateCreatedBanner(){
       if(this.tools.banner.image){

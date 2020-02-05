@@ -498,8 +498,6 @@
             <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
             Looking for some premade image banner backgrounds?<br>
             Visit: <a href="https://siteforward.ca/tools/image-bank" target="_blank">https://siteforward.ca/tools/image-bank</a>
-            <hr>
-            Making multiple changes at once could cause the image to take longer to load
             </span></span>
             <div class="form-item">
               <input id="tool-banner-image" type="text" v-model="tools.banner.image" required>
@@ -587,11 +585,10 @@
               <div class="bannerCreatedImageLoadingWrapper">
                 <i class="fas fa-circle-notch fa-2x"></i>
               </div>
-            </div>
 
-            <div class="form-item" style="margin-top: 5px;text-align: center;">
-              <input type="button" value="Copy Banner URL" @click="copyBannerURL">
-              <input type="button" value="Use Custom Banner" @click="useCustomBanner">
+              <div class="form-item" style="margin-top: 5px;text-align: center;">
+                <input type="button" value="Download Custom Banner" @click="downloadCustomBanner">
+              </div>
             </div>
           </div>
         </div>

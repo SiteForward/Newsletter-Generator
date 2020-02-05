@@ -1,5 +1,8 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+
 $displayImg = true;
+
 
 if($displayImg)
   header('Content-type: image/png');

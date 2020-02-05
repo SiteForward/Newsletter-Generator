@@ -217,6 +217,10 @@ body{
 #preview.closed ~ #main{
   width: calc(calc(100% - 80px));
 }
+#preview.closed ~ #main .card {
+  width: calc(100% - 450px);
+  margin: 5px auto;
+}
 #sidebar.stuck ~ #preview.closed ~ #main{
   width: calc(calc(100% - 260px));
 }
@@ -647,10 +651,10 @@ input[type="color"].postColorSelector:focus{
 .bannerValidWrapper.loading .bannerCreatedImageLoadingWrapper{
   position: absolute;
   width: 800px;
-  top: calc(50% + 5px);
+  top: calc(50% -15px);
   left: 50%;
   transform: translate(-50%, -50%);
-  height: calc(100% - 10px);
+  height: calc(100% - 50px);
   background-color: rgba(0,0,0,.5);
 }
 .bannerValidWrapper.loading .bannerCreatedImageLoadingWrapper i{
