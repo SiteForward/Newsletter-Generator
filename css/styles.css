@@ -633,6 +633,37 @@ input[type="color"].postColorSelector:focus{
   overflow: hidden;
 }
 .accordion.open .accordion-content{
-  max-height:1000px;
+  max-height: 1000px;
   padding: 15px 10px;
+}
+.bannerValidWrapper{
+  display: none;
+  text-align:center;
+  position: relative;
+}
+.bannerValidWrapper.loading img{
+  filter: blur(1px);
+}
+.bannerValidWrapper.loading .bannerCreatedImageLoadingWrapper{
+  position: absolute;
+  width: 800px;
+  top: calc(50% + 5px);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: calc(100% - 10px);
+  background-color: rgba(0,0,0,.5);
+}
+.bannerValidWrapper.loading .bannerCreatedImageLoadingWrapper i{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  color: #fff;
+  animation: loading-spinning 1s infinite;
+}
+.bannerValidWrapper:not(.loading) .bannerCreatedImageLoadingWrapper{
+  display: none;
+}
+@keyframes loading-spinning {
+    0%{transform: rotate(0deg);}
+    100%{transform: rotate(360deg);}
 }

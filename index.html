@@ -498,6 +498,8 @@
             <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
             Looking for some premade image banner backgrounds?<br>
             Visit: <a href="https://siteforward.ca/tools/image-bank" target="_blank">https://siteforward.ca/tools/image-bank</a>
+            <hr>
+            Making multiple changes at once could cause the image to take longer to load
             </span></span>
             <div class="form-item">
               <input id="tool-banner-image" type="text" v-model="tools.banner.image" required>
@@ -513,15 +515,32 @@
                 <label for="tool-banner-subtitle">Banner Subtitle</label>
               </div>
             </div>
-
             <div class="form-item split even">
               <div>
-                <input type="number" v-model="tools.banner.verticalOffset" id="tool-banner-verticalOffset"  required step="5">
-                <label for="tool-banner-verticalOffset">Vertical Offset</label>
+                <input type="number" v-model="tools.banner.offsetY" id="tool-banner-offsetY"  required step="5">
+                <label for="tool-banner-offsetY">Vertical Offset</label>
               </div>
               <div>
-                <input type="number" v-model="tools.banner.horizontalOffset" id="tool-banner-horizontalOffset"required step="5">
-                <label for="tool-banner-horizontalOffset">Horizontal Offset</label>
+                <input type="number" v-model="tools.banner.offsetX" id="tool-banner-offsetX"required step="5">
+                <label for="tool-banner-offsetX">Horizontal Offset</label>
+              </div>
+              <div>
+                <input type="number" v-model="tools.banner.titleSpacing" id="tool-banner-titleSpacing"required step="5">
+                <label for="tool-banner-titleSpacing">Title Spacing</label>
+              </div>
+            </div>
+            <div class="form-item split even">
+              <div>
+                <input type="number" v-model="tools.banner.shadowOffsetY" id="tool-banner-shadowOffsetY"  required >
+                <label for="tool-banner-shadowOffsetY">Vertical Shadow Offset</label>
+              </div>
+              <div>
+                <input type="number" v-model="tools.banner.shadowOffsetX" id="tool-banner-shadowOffsetX"required>
+                <label for="tool-banner-shadowOffsetX">Horizontal Shadow Offset</label>
+              </div>
+              <div>
+                <input type="number" v-model="tools.banner.shadowBlur" id="tool-banner-shadowBlur"required >
+                <label for="tool-banner-shadowBlur">Shadow Blur</label>
               </div>
             </div>
             <div class="form-item split even">
@@ -560,14 +579,19 @@
                 <label for="tool-banner-textAlign">Text Alignment:</label>
               </div>
             </div>
-            <div ref="bannerValidWrapper" style="display: none; text-align:center">
+
+            <div class="bannerValidWrapper" ref="bannerValidWrapper">
               <hr>
               <img width="100%" style="max-width: 800px;border: 1px solid #eee;" ref="bannerCreatedImage">
 
-              <div class="form-item" style="margin-top: 5px;">
-                <input type="button" value="Copy Banner URL" @click="copyBannerURL">
-                <input type="button" value="Use Custom Banner" @click="useCustomBanner">
+              <div class="bannerCreatedImageLoadingWrapper">
+                <i class="fas fa-circle-notch fa-2x"></i>
               </div>
+            </div>
+
+            <div class="form-item" style="margin-top: 5px;text-align: center;">
+              <input type="button" value="Copy Banner URL" @click="copyBannerURL">
+              <input type="button" value="Use Custom Banner" @click="useCustomBanner">
             </div>
           </div>
         </div>

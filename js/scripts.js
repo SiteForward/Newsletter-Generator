@@ -168,6 +168,7 @@ let app = new Vue({
     posts: [],
     newsletterHTML: "",
     tools:{
+      bannerCreationTimer: null,
       banner:{
         title: null,
         subtitle: null,
@@ -176,8 +177,12 @@ let app = new Vue({
         align: 'center center',
         textAlign: 'center',
         image: null,
-        verticalOffset: 0,
-        horizontalOffset: 0
+        offsetY: 0,
+        offsetX: 0,
+        shadowOffsetX: 1,
+        shadowOffsetY: 1,
+        shadowBlur: 5,
+        titleSpacing: 20
       }
     }
   },
@@ -210,13 +215,13 @@ let app = new Vue({
           preview.classList.remove("closed");
       }, 1);
     },
+    'tools.banner.image': function(){
+      this.updateCreatedBanner();
+    },
     'tools.banner.title': function(){
       this.updateCreatedBanner();
     },
     'tools.banner.subtitle': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.image': function(){
       this.updateCreatedBanner();
     },
     'tools.banner.align': function(){
@@ -231,10 +236,22 @@ let app = new Vue({
     'tools.banner.shadowColor': function(){
       this.updateCreatedBanner();
     },
-    'tools.banner.verticalOffset': function(){
+    'tools.banner.offsetY': function(){
       this.updateCreatedBanner();
     },
-    'tools.banner.horizontalOffset': function(){
+    'tools.banner.offsetX': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.shadowOffsetY': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.shadowOffsetX': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.shadowBlur': function(){
+      this.updateCreatedBanner();
+    },
+    'tools.banner.titleSpacing': function(){
       this.updateCreatedBanner();
     }
   },
@@ -272,19 +289,30 @@ let app = new Vue({
     },
     updateCreatedBanner(){
       if(this.tools.banner.image){
-        let url = "https://bimmr.com/newsletter/tools/createbanner.php?createNew=true";
-        for(let [key, value] of Object.entries(this.tools.banner)){
-          if(key == "color" || key == "shadowColor")
-            value = value.substring(1);
-          if(key == "align"){
-            let aligns = value.split(' ')
-            url+= "&horizontalAlign="+aligns[1] + "&verticalAlign="+aligns[0];
+        if(this.tools.bannerCreationTimer)
+          clearTimeout(this.tools.bannerCreationTimer)
+        this.tools.bannerCreationTimer = setTimeout(()=>{
+          if(this.$refs.bannerCreatedImage.src)
+            sendInfo("Loading custom banner image");
+          let url = "https://bimmr.com/newsletter/tools/createbanner.php?createNew=true";
+          for(let [key, value] of Object.entries(app.tools.banner)){
+            if(key == "color" || key == "shadowColor")
+              value = value.substring(1);
+            if(key == "align"){
+              let aligns = value.split(' ')
+              url+= "&horizontalAlign="+aligns[1] + "&verticalAlign="+aligns[0];
+            }
+            else if(value != null)
+              url+= "&"+key+"="+value;
           }
-          else if(value != null)
-            url+= "&"+key+"="+value;
-        }
-        this.$refs.bannerCreatedImage.src = url;
-        this.$refs.bannerValidWrapper.style.display = "block";
+          app.$refs.bannerValidWrapper.classList.add("loading");
+          app.$refs.bannerCreatedImage.src = url;
+          app.$refs.bannerCreatedImage.onload = function(){
+            sendSuccess("Custom banner image loaded");
+            app.$refs.bannerValidWrapper.style.display = "block";
+            app.$refs.bannerValidWrapper.classList.remove("loading");
+          }
+        }, 500);
       }
     },
     postColor(pos, key){
@@ -740,6 +768,14 @@ function sendError(msg,er){
 function sendSuccess(msg){
   app.$snotify.success(msg);
   console.log("Success: "+msg);
+}
+//Delay function
+function delay(fn, ms) {
+  let timer = 0
+  return function(...args) {
+    clearTimeout(timer)
+    timer = setTimeout(fn.bind(this, ...args), ms || 0)
+  }
 }
 
 //Send Info Popup
