@@ -8,8 +8,6 @@ if($displayImg)
   header('Content-type: image/png');
 
 $font         = realpath('./muli.ttf');
-$titleSize    = 30;
-$subtitleSize = 17;
 
 //Will always be included
 $imgurl           = $_GET['image'];
@@ -21,6 +19,8 @@ $titleSpacing     = $_GET['titleSpacing'];
 $title        = '';
 $subtitle     = '';
 $displayGrid  = false;
+$titleSize    = 30;
+$subtitleSize = 17;
 
 $logo         = null;
 $logoX        = 0;
@@ -32,6 +32,7 @@ $textAlign    = 'center';
 $offsetX      = 0;
 $offsetY      = 0;
 
+$shadowEnabled  = false;
 $shadowColor  = '333333';
 $shadowOffsetX = 1;
 $shadowOffsetY = 1;
@@ -41,6 +42,8 @@ $shadowBlur    = 5;
 if(isset($_GET['displayGrid']))   $displayGrid = $_GET['displayGrid'];
 if(isset($_GET['title']))         $title    = $_GET['title'];
 if(isset($_GET['subtitle']))      $subtitle = $_GET['subtitle'];
+if(isset($_GET['titleSize']))     $titleSize    = $_GET['titleSize'];
+if(isset($_GET['subtitleSize']))  $subtitleSize = $_GET['subtitleSize'];
 
 if(isset($_GET['logo']))          $logo = $_GET['logo'];
 if(isset($_GET['logoX']))         $logoX = $_GET['logoX'];
@@ -52,6 +55,7 @@ if(isset($_GET['textAlign']))     $textAlign = $_GET['textAlign'];
 if(isset($_GET['offsetX']))       $offsetX = $_GET['offsetX'];
 if(isset($_GET['offsetY']))       $offsetY = $_GET['offsetY'];
 
+if(isset($_GET['shadowEnabled'])) $shadowEnabled = $_GET['shadowEnabled'];
 if(isset($_GET['shadowColor']))   $shadowColor = $_GET['shadowColor'];
 if(isset($_GET['shadowOffsetX'])) $shadowOffsetX = $_GET['shadowOffsetX'];
 if(isset($_GET['shadowOffsetY'])) $shadowOffsetY = $_GET['shadowOffsetY'];
@@ -90,15 +94,15 @@ $titlePosY = ($imgSize[1]/2)-($totalTitleHeight/2) +  getHeight($titleSize, $fon
 $subtitlePosY = $titlePosY + getHeight($subtitleSize, $font, $subtitle)+$titleSpacing;
 
 
-if($shadowOffsetX != 0 || $shadowOffsetY != 0)
+if($shadowEnabled)
   imagettftextblur($img, $titleSize, 0, $titlePosX + $shadowOffsetX, $titlePosY + $shadowOffsetY, $shadowColor,$font,$title, $shadowBlur);
 imagettftextblur($img, $titleSize, 0, $titlePosX, $titlePosY, $color, $font, $title);
 
-if($shadowOffsetX != 0 || $shadowOffsetY != 0)
+if($shadowEnabled)
   imagettftextblur($img, $subtitleSize, 0, $subtitlePosX + $shadowOffsetX, $subtitlePosY + $shadowOffsetY, $shadowColor, $font, $subtitle, $shadowBlur);
 imagettftextblur($img, $subtitleSize, 0, $subtitlePosX, $subtitlePosY, $color, $font, $subtitle);
 
-if($displayGrid == "true"){
+if($displayGrid == true){
   $gray = imagecolorallocate($img, 170, 170, 170);
   //                  X1                  Y1                X2              Y2
   imageline($img,   0,                $imgSize[1]/2,    $imgSize[0],      $imgSize[1]/2,    $gray); //Horizontal

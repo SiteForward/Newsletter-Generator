@@ -173,7 +173,9 @@ let app = new Vue({
         align: 'center center',
         image: null,
         title: null,
+        titleSize: 30,
         subtitle: null,
+        subtitleSize: 17,
         titleSpacing: 20,
         textAlign: 'center',
         color: "#000000",
@@ -184,6 +186,7 @@ let app = new Vue({
         logoY: 0,
         logoWidth: 300,
         shadowColor: "#333333",
+        shadowEnabled: false,
         shadowOffsetX: 1,
         shadowOffsetY: 1,
         shadowBlur: 5,
@@ -287,8 +290,7 @@ let app = new Vue({
         if(this.tools.bannerCreationTimer)
           clearTimeout(this.tools.bannerCreationTimer)
         this.tools.bannerCreationTimer = setTimeout(()=>{
-          if(this.$refs.bannerCreatedImage.src)
-            sendInfo("Loading custom banner image");
+          sendInfo("Loading custom banner image");
           let url = "https://bimmr.com/newsletter/tools/createbanner.php?createNew=true";
           for(let [key, value] of Object.entries(app.tools.banner)){
             if(key == "color" || key == "shadowColor")
@@ -297,7 +299,7 @@ let app = new Vue({
               let aligns = value.split(' ')
               url+= "&horizontalAlign="+aligns[1] + "&verticalAlign="+aligns[0];
             }
-            else if(value != null && value != 0)
+            else if(value != null && value != 0 && value != false)
               url+= "&"+key+"="+value;
           }
           app.$refs.bannerValidWrapper.classList.add("loading");
