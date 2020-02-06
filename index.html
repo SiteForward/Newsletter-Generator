@@ -347,7 +347,7 @@
             <h3 class="card-title">Edit Newsletter</h3>
             <span class="card-title-icon" title="Add Custom Post" @click="addPost"  style="right: 50px"><i class="far fa-plus-square tool-icon"></i></span>
 
-            <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:230px">
+            <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:235px">
               These fields support shortcut key formatting.<hr>
               <div class="row">
                 <div class="col">
@@ -506,76 +506,6 @@
                 <input id="tool-banner-image" type="text" v-model="tools.banner.image" required>
                 <label for="tool-banner-image">Banner Image URL</label>
               </div>
-              <div >
-                <input id="tool-banner-logo" type="text" v-model="tools.banner.logo" required>
-                <label for="tool-banner-logo">Banner logo URL</label>
-              </div>
-            </div>
-            <div class="form-item split even">
-              <div>
-                <input type="text" v-model="tools.banner.title" id="tool-banner-title"  required>
-                <label for="tool-banner-title">Banner Title</label>
-              </div>
-              <div>
-                <input type="text" v-model="tools.banner.subtitle" id="tool-banner-subtitle"required>
-                <label for="tool-banner-subtitle">Banner Subtitle</label>
-              </div>
-            </div>
-            <br>
-            <div class="form-item split even">
-              <div>
-                <input type="number" v-model="tools.banner.offsetY" id="tool-banner-offsetY"  required step="5">
-                <label for="tool-banner-offsetY">Text Vertical Offset</label>
-              </div>
-              <div>
-                <input type="number" v-model="tools.banner.shadowOffsetY" id="tool-banner-shadowOffsetY"  required >
-                <label for="tool-banner-shadowOffsetY">Shadow Vertical Offset</label>
-              </div>
-              <div>
-                <input type="number" v-model="tools.banner.logoY" id="tool-banner-logoY"  required step="5">
-                <label for="tool-banner-logoX">Logo Y Offset</label>
-              </div>
-            </div>
-            <div class="form-item split even">
-              <div>
-                <input type="number" v-model="tools.banner.offsetX" id="tool-banner-offsetX"required step="5">
-                <label for="tool-banner-offsetX">Text Horizontal Offset</label>
-              </div>
-              <div>
-                <input type="number" v-model="tools.banner.shadowOffsetX" id="tool-banner-shadowOffsetX"required>
-                <label for="tool-banner-shadowOffsetX">Shadow Horizontal Offset</label>
-              </div>
-              <div>
-                <input type="number" v-model="tools.banner.logoX" id="tool-banner-logoX"  required step="5">
-                <label for="tool-banner-logoX">Logo X Offset</label>
-              </div>
-            </div>
-            <div class="form-item split even">
-              <div>
-                <input type="number" v-model="tools.banner.titleSpacing" id="tool-banner-titleSpacing"required step="5">
-                <label for="tool-banner-titleSpacing">Title Spacing</label>
-              </div>
-              <div>
-                <input type="number" v-model="tools.banner.shadowBlur" id="tool-banner-shadowBlur"required >
-                <label for="tool-banner-shadowBlur">Shadow Blur</label>
-              </div>
-              <div>
-                <input type="number" v-model="tools.banner.logoWidth" id="tool-banner-logoWidth"required step="5">
-                <label for="tool-banner-logoWidth">Logo Width</label>
-              </div>
-            </div>
-            <br>
-            <div class="form-item split even">
-              <div>
-                <input id="tool-banner-color" type="color" v-model="tools.banner.color"  :class="{light: isLight(tools.banner.color)}">
-                <label for="tool-banner-color">Banner Text Colour</label>
-              </div>
-              <div>
-                <input id="tool-banner-shadowColor" type="color" v-model="tools.banner.shadowColor"  :class="{light: isLight(tools.banner.shadowColor)}">
-                <label for="tool-banner-shadowColor">Banner Shadow Colour</label>
-              </div>
-            </div>
-            <div class="form-item split even">
               <div>
                 <select v-model="tools.banner.align" id="tool-banner-align"  required>
                   <option value="top left">Top Left</option>
@@ -592,26 +522,108 @@
                 </select>
                 <label for="tool-banner-align">Image Alignment:</label>
               </div>
-              <div>
-                <select v-model="tools.banner.textAlign" id="tool-banner-textAlign"  required>
-                  <option value="center">Center</option>
-                  <option value="left">Left</option>
-                  <option value="right">Right</option>
-                </select>
-                <label for="tool-banner-textAlign">Text Alignment:</label>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col">
+                <p class="col-title">Text Controls</p>
+                <div class="form-item">
+                  <input type="text" v-model="tools.banner.title" id="tool-banner-title"  required>
+                  <label for="tool-banner-title">Banner Title</label>
+                </div>
+                <div class="form-item">
+                  <input type="text" v-model="tools.banner.subtitle" id="tool-banner-subtitle"required>
+                  <label for="tool-banner-subtitle">Banner Subtitle</label>
+                </div>
+                <div class="form-item">
+                  <input type="number" v-model="tools.banner.titleSpacing" id="tool-banner-titleSpacing"required step="5">
+                  <label for="tool-banner-titleSpacing">Title Spacing</label>
+                </div>
+                <div class="form-item">
+                  <input type="number" v-model="tools.banner.titleSize" id="tool-banner-titleSize"required step="5">
+                  <label for="tool-banner-titleSize">Title Size</label>
+                </div>
+                <div class="form-item">
+                  <input type="number" v-model="tools.banner.subtitleSize" id="tool-banner-subtitleSize"required step="5">
+                  <label for="tool-banner-subtitleSize">Subtitle Size</label>
+                </div>
+                <div class="form-item">
+                  <input type="number" v-model="tools.banner.offsetY" id="tool-banner-offsetY"  required step="5">
+                  <label for="tool-banner-offsetY">Text Vertical Offset</label>
+                </div>
+                <div class="form-item">
+                  <input type="number" v-model="tools.banner.offsetX" id="tool-banner-offsetX"required step="5">
+                  <label for="tool-banner-offsetX">Text Horizontal Offset</label>
+                </div>
+                <div class="form-item">
+                  <select v-model="tools.banner.textAlign" id="tool-banner-textAlign"  required>
+                    <option value="center">Center</option>
+                    <option value="left">Left</option>
+                    <option value="right">Right</option>
+                  </select>
+                  <label for="tool-banner-textAlign">Text Alignment:</label>
+                </div>
+                <div class="form-item">
+                  <input id="tool-banner-color" type="color" v-model="tools.banner.color"  :class="{light: isLight(tools.banner.color)}">
+                  <label for="tool-banner-color">Banner Text Colour</label>
+                </div>
+              </div>
+              <div class="col col-left col-right">
+                <p class="col-title">Shadow Controls</p>
+                <div class="form-item border">
+                  <input id="tool-banner-shadowEnabled" type="checkbox" v-model="tools.banner.shadowEnabled" class="checkbox-right">
+                  <label for="tool-banner-shadowEnabled">Banner Shadow Enabled</label>
+                </div>
+                <div class="form-item">
+                  <input type="number" v-model="tools.banner.shadowOffsetY" id="tool-banner-shadowOffsetY"  required >
+                  <label for="tool-banner-shadowOffsetY">Shadow Vertical Offset</label>
+                </div>
+                  <div class="form-item">
+                  <input type="number" v-model="tools.banner.shadowOffsetX" id="tool-banner-shadowOffsetX"required>
+                  <label for="tool-banner-shadowOffsetX">Shadow Horizontal Offset</label>
+                </div>
+                <div class="form-item">
+                  <input type="number" v-model="tools.banner.shadowBlur" id="tool-banner-shadowBlur"required >
+                  <label for="tool-banner-shadowBlur">Shadow Blur</label>
+                </div>
+                <div class="form-item">
+                  <input id="tool-banner-shadowColor" type="color" v-model="tools.banner.shadowColor"  :class="{light: isLight(tools.banner.shadowColor)}">
+                  <label for="tool-banner-shadowColor">Banner Shadow Colour</label>
+                </div>
+              </div>
+              <div class="col">
+                <p class="col-title">Logo Controls</p>
+
+                <div class="form-item">
+                  <input id="tool-banner-logo" type="text" v-model="tools.banner.logo" required>
+                  <label for="tool-banner-logo">Banner logo URL</label>
+                </div>
+                <div class="form-item">
+                  <input type="number" v-model="tools.banner.logoY" id="tool-banner-logoY"  required step="5">
+                  <label for="tool-banner-logoX">Logo Y Offset</label>
+                </div>
+                <div class="form-item">
+                  <input type="number" v-model="tools.banner.logoX" id="tool-banner-logoX"  required step="5">
+                  <label for="tool-banner-logoX">Logo X Offset</label>
+                </div>
+                <div class="form-item">
+                  <input type="number" v-model="tools.banner.logoWidth" id="tool-banner-logoWidth"required step="5">
+                  <label for="tool-banner-logoWidth">Logo Width</label>
+                </div>
               </div>
             </div>
+
 
             <div class="bannerValidWrapper" ref="bannerValidWrapper">
               <hr>
               <div class="row middle">
-                <div class="col grow" style="text-align:center;position:relative">
+                <div class="col col-3" style="text-align:center;position:relative">
                   <img width="100%" style="max-width: 800px;border: 1px solid #eee;" ref="bannerCreatedImage">
                   <div class="bannerCreatedImageLoadingWrapper">
                     <i class="fas fa-circle-notch fa-2x"></i>
                   </div>
                 </div>
-                <div class="col left">
+                <div class="col col-left">
                   <div class="form-item" style="margin: 15px 8px;">
                     <input type="checkbox" v-model="tools.banner.displayGrid" id="tool-banner-displayGrid">
                     <label for="tool-banner-displayGrid">Display Grid</label>
