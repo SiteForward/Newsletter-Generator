@@ -11,41 +11,69 @@ $font         = realpath('./muli.ttf');
 $titleSize    = 30;
 $subtitleSize = 17;
 
+//Will always be included
 $imgurl           = $_GET['image'];
 $verticalAlign    = $_GET['verticalAlign'];
 $horizontalAlign  = $_GET['horizontalAlign'];
-$align            = $_GET['textAlign'];
-$offsetX          = $_GET['offsetX'];
-$offsetY          = $_GET['offsetY'];
-$color            = $_GET['color'];
-$shadowColor      = $_GET['shadowColor'];
 $titleSpacing     = $_GET['titleSpacing'];
-$shadowOffsetX    = $_GET['shadowOffsetX'];
-$shadowOffsetY    = $_GET['shadowOffsetY'];
-$shadowBlur       = $_GET['shadowBlur'];
 
-$extension = strtolower(strrchr($imgurl, '.'));
-if($extension == '.jpg' || $extension == '.jpeg')
-  $img = imagecreatefromjpeg($imgurl);
-else
-  $img = imagecreatefrompng($imgurl);
+//Default Values
+$title        = '';
+$subtitle     = '';
+
+$logo         = null;
+$logoX        = 0;
+$logoY        = 0;
+$logoWidth    = 300;
+
+$color        = '000000';
+$textAlign    = 'center';
+$offsetX      = 0;
+$offsetY      = 0;
+
+$shadowColor  = '333333';
+$shadowOffsetX = 1;
+$shadowOffsetY = 1;
+$shadowBlur    = 5;
+
+//Get Values
+if(isset($_GET['title']))         $title    = $_GET['title'];
+if(isset($_GET['subtitle']))      $subtitle = $_GET['subtitle'];
+
+if(isset($_GET['logo']))          $logo = $_GET['logo'];
+if(isset($_GET['logoX']))         $logoX = $_GET['logoX'];
+if(isset($_GET['logoY']))         $logoY = $_GET['logoY'];
+if(isset($_GET['logoWidth']))     $logoWidth = $_GET['logoWidth'];
+
+if(isset($_GET['color']))         $color = $_GET['color'];
+if(isset($_GET['textAlign']))     $textAlign = $_GET['textAlign'];
+if(isset($_GET['offsetX']))       $offsetX = $_GET['offsetX'];
+if(isset($_GET['offsetY']))       $offsetY = $_GET['offsetY'];
+
+if(isset($_GET['shadowColor']))   $shadowColor = $_GET['shadowColor'];
+if(isset($_GET['shadowOffsetX'])) $shadowOffsetX = $_GET['shadowOffsetX'];
+if(isset($_GET['shadowOffsetY'])) $shadowOffsetY = $_GET['shadowOffsetY'];
+if(isset($_GET['shadowBlur']))    $shadowBlur = $_GET['shadowBlur'];
+
+$img          = getImage($imgurl);
 $img          = imagescale($img, 800);
 $img          = cropAlign($img, 800, min(imagesy($img), 225), $horizontalAlign, $verticalAlign);
 $imgSize      = array(imagesx($img), imagesy($img));
 
-$title        = "Title Placeholder";
-$subtitle     = "Subtitle Placeholder";
-
-if(isset($_GET['title']))     $title    = $_GET['title'];
-if(isset($_GET['subtitle']))  $subtitle = $_GET['subtitle'];
+if($logo != null){
+  $logo = getImage($logo);
+  $logo = imagescale($logo, $logoWidth);
+  imagecopyresampled($img, $logo, $logoX, $logoY, 0, 0, $logoWidth, imagesy($logo), imagesx($logo), imagesy($logo));
+}
 
 $shadowColor = hexColorAllocate($img, $shadowColor);
 $color = hexColorAllocate($img, $color);
 
-if($align == 'left'){
+
+if($textAlign == 'left'){
   $titlePosX = $subtitlePosX = $offsetX;
 }
-else if($align == 'right'){
+else if($textAlign == 'right'){
   $titlePosX = $imgSize[0] - getWidth($titleSize, $font, $title) - $offsetX;
   $subtitlePosX = $imgSize[0] - getWidth($subtitleSize, $font, $subtitle) - $offsetX;
 }
@@ -77,7 +105,7 @@ else{
   echo '<p>Image URL: '.$imgurl.'</p>';
   echo '<p>Vertical Align: '.$verticalAlign.'</p>';
   echo '<p>Horizontal Align: '.$horizontalAlign.'</p>';
-  echo '<p>Text Align: '.$align.'</p>';
+  echo '<p>Text Align: '.$textAlign.'</p>';
   echo '<p>Offset X: '.$offsetX.'</p>';
   echo '<p>Offset Y:'.$offsetY.'</p>';
   echo '<p>Text Color: '.$color.'</p>';
@@ -133,6 +161,14 @@ function calculatePixelsForAlign($imageSize, $cropSize, $align) {
             ];
         default: return [0, $imageSize];
     }
+}
+function getImage($imgurl){
+  $extension = strtolower(strrchr($imgurl, '.'));
+  if($extension == '.jpg' || $extension == '.jpeg')
+    $img = imagecreatefromjpeg($imgurl);
+  else
+    $img = imagecreatefrompng($imgurl);
+  return $img;
 }
 
 function imagettftextblur(&$image,$size,$angle,$x,$y,$color,$fontfile,$text,$blur_intensity = null)
