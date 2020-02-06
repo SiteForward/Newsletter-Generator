@@ -217,10 +217,6 @@ body{
 #preview.closed ~ #main{
   width: calc(calc(100% - 80px));
 }
-#preview.closed ~ #main .card {
-  width: calc(100% - 450px);
-  margin: 5px auto;
-}
 #sidebar.stuck ~ #preview.closed ~ #main{
   width: calc(calc(100% - 260px));
 }
