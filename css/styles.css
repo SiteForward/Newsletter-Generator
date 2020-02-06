@@ -260,6 +260,26 @@ body{
   .col{
     flex-basis: 50%;
   }
+  .col.grow{
+    flex: 1;
+  }
+  .col.grow ~ .col{
+    flex: 0;
+  }
+  .col.left{
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-left: 10px;
+  }
+  .col.right{
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-right: 10px;
+  }
 }
 #preview{
   display: flex;
@@ -638,26 +658,24 @@ input[type="color"].postColorSelector:focus{
 }
 .bannerValidWrapper{
   display: none;
-  text-align:center;
   position: relative;
 }
 .bannerValidWrapper.loading img{
-  filter: blur(1px);
+  filter: blur(.5px);
 }
 .bannerValidWrapper.loading .bannerCreatedImageLoadingWrapper{
   position: absolute;
-  width: 800px;
-  top: calc(50% -15px);
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: calc(100% - 50px);
-  background-color: rgba(0,0,0,.5);
+  width: 101%;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background-color: rgba(255,255,255,.5);
 }
 .bannerValidWrapper.loading .bannerCreatedImageLoadingWrapper i{
   position: absolute;
   top: 50%;
   left: 50%;
-  color: #fff;
+  color: #333333;
   animation: loading-spinning 1s infinite;
 }
 .bannerValidWrapper:not(.loading) .bannerCreatedImageLoadingWrapper{

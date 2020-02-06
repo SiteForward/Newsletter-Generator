@@ -20,6 +20,7 @@ $titleSpacing     = $_GET['titleSpacing'];
 //Default Values
 $title        = '';
 $subtitle     = '';
+$displayGrid  = false;
 
 $logo         = null;
 $logoX        = 0;
@@ -37,6 +38,7 @@ $shadowOffsetY = 1;
 $shadowBlur    = 5;
 
 //Get Values
+if(isset($_GET['displayGrid']))   $displayGrid = $_GET['displayGrid'];
 if(isset($_GET['title']))         $title    = $_GET['title'];
 if(isset($_GET['subtitle']))      $subtitle = $_GET['subtitle'];
 
@@ -96,6 +98,16 @@ if($shadowOffsetX != 0 || $shadowOffsetY != 0)
   imagettftextblur($img, $subtitleSize, 0, $subtitlePosX + $shadowOffsetX, $subtitlePosY + $shadowOffsetY, $shadowColor, $font, $subtitle, $shadowBlur);
 imagettftextblur($img, $subtitleSize, 0, $subtitlePosX, $subtitlePosY, $color, $font, $subtitle);
 
+if($displayGrid == "true"){
+  $gray = imagecolorallocate($img, 170, 170, 170);
+  //                  X1                  Y1                X2              Y2
+  imageline($img,   0,                $imgSize[1]/2,    $imgSize[0],      $imgSize[1]/2,    $gray); //Horizontal
+  imageline($img,   0,                $imgSize[1]/4,    $imgSize[0],      $imgSize[1]/4,    $gray); //Horizontal
+  imageline($img,   0,                $imgSize[1]/4*3,  $imgSize[0],      $imgSize[1]/4*3,  $gray); //Horizontal
+  imageline($img,   $imgSize[0]/2,    0,                $imgSize[0]/2,    $imgSize[1],    $gray); //Vertical
+  imageline($img,   $imgSize[0]/4,    0,                $imgSize[0]/4,    $imgSize[1],    $gray); //Vertical
+  imageline($img,   $imgSize[0]/4*3,  0,                $imgSize[0]/4*3,  $imgSize[1],    $gray); //Vertical
+}
 // Output the image
 if($displayImg){
   imagepng($img);

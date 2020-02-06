@@ -170,19 +170,24 @@ let app = new Vue({
     tools:{
       bannerCreationTimer: null,
       banner:{
+        align: 'center center',
+        image: null,
         title: null,
         subtitle: null,
-        color: "#000000",
-        shadowColor: "#333333",
-        align: 'center center',
+        titleSpacing: 20,
         textAlign: 'center',
-        image: null,
+        color: "#000000",
         offsetY: 0,
         offsetX: 0,
+        logo: null,
+        logoX: 0,
+        logoY: 0,
+        logoWidth: 300,
+        shadowColor: "#333333",
         shadowOffsetX: 1,
         shadowOffsetY: 1,
         shadowBlur: 5,
-        titleSpacing: 20
+        displayGrid: false
       }
     }
   },
@@ -215,44 +220,11 @@ let app = new Vue({
           preview.classList.remove("closed");
       }, 1);
     },
-    'tools.banner.image': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.title': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.subtitle': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.align': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.textAlign': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.color': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.shadowColor': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.offsetY': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.offsetX': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.shadowOffsetY': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.shadowOffsetX': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.shadowBlur': function(){
-      this.updateCreatedBanner();
-    },
-    'tools.banner.titleSpacing': function(){
-      this.updateCreatedBanner();
+    'tools.banner': {
+      handler(val){
+         this.updateCreatedBanner();
+     },
+     deep: true
     }
   },
   mounted(){
@@ -307,7 +279,7 @@ let app = new Vue({
       	document.body.removeChild(div);
       }
       img.setAttribute('crossOrigin', 'anonymous');
-      img.src =  app.$refs.bannerCreatedImage.src;
+      img.src =  app.$refs.bannerCreatedImage.src.replace('&displayGrid=true', '');
 
     },
     updateCreatedBanner(){
@@ -325,7 +297,7 @@ let app = new Vue({
               let aligns = value.split(' ')
               url+= "&horizontalAlign="+aligns[1] + "&verticalAlign="+aligns[0];
             }
-            else if(value != null)
+            else if(value != null && value != 0)
               url+= "&"+key+"="+value;
           }
           app.$refs.bannerValidWrapper.classList.add("loading");

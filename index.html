@@ -498,10 +498,18 @@
             <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
             Looking for some premade image banner backgrounds?<br>
             Visit: <a href="https://siteforward.ca/tools/image-bank" target="_blank">https://siteforward.ca/tools/image-bank</a>
+            <hr>
+            Set both Shadow Offsets to 0 to disable the shadow
             </span></span>
-            <div class="form-item">
-              <input id="tool-banner-image" type="text" v-model="tools.banner.image" required>
-              <label for="tool-banner-image">Banner Image URL</label>
+            <div class="form-item split even">
+              <div>
+                <input id="tool-banner-image" type="text" v-model="tools.banner.image" required>
+                <label for="tool-banner-image">Banner Image URL</label>
+              </div>
+              <div >
+                <input id="tool-banner-logo" type="text" v-model="tools.banner.logo" required>
+                <label for="tool-banner-logo">Banner logo URL</label>
+              </div>
             </div>
             <div class="form-item split even">
               <div>
@@ -513,34 +521,50 @@
                 <label for="tool-banner-subtitle">Banner Subtitle</label>
               </div>
             </div>
+            <br>
             <div class="form-item split even">
               <div>
                 <input type="number" v-model="tools.banner.offsetY" id="tool-banner-offsetY"  required step="5">
-                <label for="tool-banner-offsetY">Vertical Offset</label>
+                <label for="tool-banner-offsetY">Text Vertical Offset</label>
               </div>
               <div>
-                <input type="number" v-model="tools.banner.offsetX" id="tool-banner-offsetX"required step="5">
-                <label for="tool-banner-offsetX">Horizontal Offset</label>
+                <input type="number" v-model="tools.banner.shadowOffsetY" id="tool-banner-shadowOffsetY"  required >
+                <label for="tool-banner-shadowOffsetY">Shadow Vertical Offset</label>
               </div>
               <div>
-                <input type="number" v-model="tools.banner.titleSpacing" id="tool-banner-titleSpacing"required step="5">
-                <label for="tool-banner-titleSpacing">Title Spacing</label>
+                <input type="number" v-model="tools.banner.logoY" id="tool-banner-logoY"  required step="5">
+                <label for="tool-banner-logoX">Logo Y Offset</label>
               </div>
             </div>
             <div class="form-item split even">
               <div>
-                <input type="number" v-model="tools.banner.shadowOffsetY" id="tool-banner-shadowOffsetY"  required >
-                <label for="tool-banner-shadowOffsetY">Vertical Shadow Offset</label>
+                <input type="number" v-model="tools.banner.offsetX" id="tool-banner-offsetX"required step="5">
+                <label for="tool-banner-offsetX">Text Horizontal Offset</label>
               </div>
               <div>
                 <input type="number" v-model="tools.banner.shadowOffsetX" id="tool-banner-shadowOffsetX"required>
-                <label for="tool-banner-shadowOffsetX">Horizontal Shadow Offset</label>
+                <label for="tool-banner-shadowOffsetX">Shadow Horizontal Offset</label>
+              </div>
+              <div>
+                <input type="number" v-model="tools.banner.logoX" id="tool-banner-logoX"  required step="5">
+                <label for="tool-banner-logoX">Logo X Offset</label>
+              </div>
+            </div>
+            <div class="form-item split even">
+              <div>
+                <input type="number" v-model="tools.banner.titleSpacing" id="tool-banner-titleSpacing"required step="5">
+                <label for="tool-banner-titleSpacing">Title Spacing</label>
               </div>
               <div>
                 <input type="number" v-model="tools.banner.shadowBlur" id="tool-banner-shadowBlur"required >
                 <label for="tool-banner-shadowBlur">Shadow Blur</label>
               </div>
+              <div>
+                <input type="number" v-model="tools.banner.logoWidth" id="tool-banner-logoWidth"required step="5">
+                <label for="tool-banner-logoWidth">Logo Width</label>
+              </div>
             </div>
+            <br>
             <div class="form-item split even">
               <div>
                 <input id="tool-banner-color" type="color" v-model="tools.banner.color"  :class="{light: isLight(tools.banner.color)}">
@@ -580,14 +604,22 @@
 
             <div class="bannerValidWrapper" ref="bannerValidWrapper">
               <hr>
-              <img width="100%" style="max-width: 800px;border: 1px solid #eee;" ref="bannerCreatedImage">
-
-              <div class="bannerCreatedImageLoadingWrapper">
-                <i class="fas fa-circle-notch fa-2x"></i>
-              </div>
-
-              <div class="form-item" style="margin-top: 5px;text-align: center;">
-                <input type="button" value="Download Custom Banner" @click="downloadCustomBanner">
+              <div class="row middle">
+                <div class="col grow" style="text-align:center;position:relative">
+                  <img width="100%" style="max-width: 800px;border: 1px solid #eee;" ref="bannerCreatedImage">
+                  <div class="bannerCreatedImageLoadingWrapper">
+                    <i class="fas fa-circle-notch fa-2x"></i>
+                  </div>
+                </div>
+                <div class="col left">
+                  <div class="form-item" style="margin: 15px 8px;">
+                    <input type="checkbox" v-model="tools.banner.displayGrid" id="tool-banner-displayGrid">
+                    <label for="tool-banner-displayGrid">Display Grid</label>
+                  </div>
+                  <div class="form-item" style="margin-top: 5px;">
+                    <input type="button" value="Download Custom Banner" @click="downloadCustomBanner">
+                  </div>
+                </div>
               </div>
             </div>
           </div>
