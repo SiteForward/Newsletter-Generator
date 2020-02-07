@@ -134,6 +134,7 @@
       </aside>
       <main id="main" ref="main">
       <vue-snotify></vue-snotify>
+
         <div id="setup" class="main-view" :class="{open: activeView === 'setup'}">
           <div class="card">
             <h3 class="card-title">Load Posts For the Newsletter</h3>
@@ -298,8 +299,8 @@
             <span class="card-title-icon" ><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help">
               <div class="row">
                 <div class="col">If you can't change the color, try changing the vertical slider first</div>
-              <div class="col"><img src="imgs\colourSlider.png" width="128px"></div>
-            </div>
+                <div class="col"><img src="imgs\colourSlider.png" width="128px"></div>
+              </div>
             </span></span>
             <div class="form-item split even">
               <div>
@@ -343,12 +344,11 @@
             </div>
           </div>
         </div>
-        <div id="edit" class="main-view" :class="{open: activeView === 'edit'}">
 
+        <div id="edit" class="main-view" :class="{open: activeView === 'edit'}">
           <div class="card">
             <h3 class="card-title">Edit Newsletter</h3>
             <span class="card-title-icon" title="Add Custom Post" @click="addPost"  style="right: 50px"><i class="far fa-plus-square tool-icon"></i></span>
-
             <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:235px">
               These fields support shortcut key formatting.<hr>
               <div class="row">
@@ -364,7 +364,6 @@
               <ul class="newsletter-list">
                 <p v-if="posts.length == 0">No Posts Loaded Yet</p>
                 <li v-for="(post, pos) in posts" class="card" style="margin-bottom:10px;" :key="pos">
-
                   <div class="tool-list vertical space-even">
                     <div class="tool-list vertical space-even">
                       <i v-if="pos > 0" class="fas fa-chevron-up tool-icon" @click="movePost(0, pos)" title="Top"></i>
@@ -412,6 +411,7 @@
             </div>
           </div>
         </div>
+
         <div id="analytics" class="main-view" :class="{open: activeView === 'analytics'}">
           <div class="card">
             <h3 class="card-title">Find Google Analytics Code</h3>
@@ -488,7 +488,6 @@
             </div>
             <div class="form-item even">
               <input type="button" value="Copy Code" @click="copyNewsletterCode">
-
               <input type="button" value="Copy Newsletter" @click="copyNewsletter">
             </div>
           </div>
@@ -503,8 +502,8 @@
             <hr>
             <div class="row">
               <div class="col">If you can't change the color, try changing the vertical slider first</div>
-            <div class="col"><img src="imgs\colourSlider.png" width="128px"></div>
-          </div>
+              <div class="col"><img src="imgs\colourSlider.png" width="128px"></div>
+            </div>
             </span></span>
             <div class="form-item split even">
               <div>
@@ -589,8 +588,8 @@
                   <!-- <input type="number" v-model="tools.banner.shadowOffsetY" id="tool-banner-shadowOffsetY"  required >
                   <label for="tool-banner-shadowOffsetY">Shadow Vertical Offset</label> -->
                 </div>
-                  <div class="form-item border">
-                    <slider min="-20" max="20" v-model="tools.banner.shadowOffsetX" :value="tools.banner.shadowOffsetY">Shadow Horizontal Offset</slider>
+                <div class="form-item border">
+                  <slider min="-20" max="20" v-model="tools.banner.shadowOffsetX" :value="tools.banner.shadowOffsetY">Shadow Horizontal Offset</slider>
                   <!-- <input type="number" v-model="tools.banner.shadowOffsetX" id="tool-banner-shadowOffsetX"required>
                   <label for="tool-banner-shadowOffsetX">Shadow Horizontal Offset</label> -->
                 </div>
@@ -605,7 +604,6 @@
               </div>
               <div class="col">
                 <p class="col-title">Logo Controls</p>
-
                 <div class="form-item">
                   <input id="tool-banner-logo" type="text" v-model="tools.banner.logo" required>
                   <label for="tool-banner-logo">Banner logo URL</label>
@@ -627,8 +625,6 @@
                 </div>
               </div>
             </div>
-
-
             <div class="bannerValidWrapper" ref="bannerValidWrapper">
               <hr>
               <div class="row middle">
