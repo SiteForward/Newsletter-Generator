@@ -302,6 +302,10 @@ let app = new Vue({
       	var ev = new MouseEvent("click",{});
       	anch.dispatchEvent(ev);
       	document.body.removeChild(div);
+        gtag('event', 'Tools', {
+          'event_category': 'Custom Banner',
+          'event_label': url,
+        });
       }
       img.setAttribute('crossOrigin', 'anonymous');
       img.src =  app.$refs.bannerCreatedImage.src.replace('&displayGrid=true', '');
