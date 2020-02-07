@@ -11,11 +11,11 @@ Vue.component('slider', {
     this.adjust(null, this.value);
   },
   methods:{
-      adjust(e, value){
-        this.val = value != null ? value : e.target.value;
-        this.$el.children[1].children[0].value = this.val;
-        this.$emit('input', this.val);
-      }
+    adjust(e, value){
+      this.val = value != null ? value : e.target.value;
+      this.$el.children[1].children[0].value = this.val;
+      this.$emit('input', this.val);
+    }
   }
 });
 
@@ -660,7 +660,7 @@ function loadJSONFile(cb){
 
 //Export JSON File
 function exportJSONToFile(obj, fileName){
-  var json = JSON.stringify(obj);    
+  var json = JSON.stringify(obj);
   var file = new File([json], fileName, {type: "text/txt"});
   var blobUrl = (URL || webkitURL).createObjectURL(file);
 	var div = document.createElement("div"),
