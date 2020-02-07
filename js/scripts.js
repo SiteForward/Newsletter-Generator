@@ -1,3 +1,25 @@
+Vue.component('slider', {
+  template: '<div class="slider-wrapper"><label><slot></slot>:<input type="number" :max="max" :min="min" class="compact hideSpin hideBorder" :value="val" @input="adjust"></label><div><input :id="id" :value="val" :max="max" :min="min" type="range" @input="adjust" required></div></div>',
+  props: ['max', 'min', 'value'],
+  data: function() {
+      return {
+        id: null,
+        val: 0
+    }
+  },
+  mounted(){
+    console.log(this.value);
+    this.adjust(null, this.value);
+  },
+  methods:{
+      adjust(e, value){
+        this.val = value != null ? value : e.target.value;
+        this.$el.children[1].children[0].value = this.val;
+        this.$emit('input', this.val);
+      }
+  }
+});
+
 Vue.component('searchbar', {
   template: '<div><input :id="id" type="search" @input="search" required><label :for="id"><slot></slot></label></div>',
   props: ['element'],

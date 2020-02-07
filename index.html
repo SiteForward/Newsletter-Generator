@@ -146,7 +146,7 @@
                 <input type="text" id="loadPosts" required ref="loadPosts">
                 <label for="loadPosts">Post Page's URL</label>
               </div>
-              <input type="number" id="loadPostsCount" required ref="loadPostsCount" value="6">
+              <input type="number" id="loadPostsCount" required ref="loadPostsCount" value="6" class="compact">
               <input type="button" value="Load Posts" @click="loadPostsFromURL">
             </div>
             <p>Load Individual Posts</p>
@@ -295,9 +295,11 @@
           </div>
           <div class="card">
             <h3 class="card-title">Colour Settings</h3>
-            <span class="card-title-icon" ><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:150px">
-              If you can't change the color, try changing the vertical slider first<br>
-              <img src="imgs\colourSlider.png" width="128px">
+            <span class="card-title-icon" ><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help">
+              <div class="row">
+                <div class="col">If you can't change the color, try changing the vertical slider first</div>
+              <div class="col"><img src="imgs\colourSlider.png" width="128px"></div>
+            </div>
             </span></span>
             <div class="form-item split even">
               <div>
@@ -377,7 +379,7 @@
                     <img v-if="post.img" :src="post.img">
                     <div class="data">
                       <div class="form-item">
-                        <editabletext v-if="!editHTML" :id="'post-title-'+pos" v-model="post.title" :value="post.desc">{{post.title}}</editabletext>
+                        <editabletext v-if="!editHTML" :id="'post-title-'+pos" v-model="post.title" :value="post.title">{{post.title}}</editabletext>
                         <input v-else :id="'post-title-'+pos" type="text" v-model="post.title" required>
                         <label :for="'post-title-'+pos">Title</label>
                       </div>
@@ -499,7 +501,10 @@
             Looking for some premade image banner backgrounds?<br>
             Visit: <a href="https://siteforward.ca/tools/image-bank" target="_blank">https://siteforward.ca/tools/image-bank</a>
             <hr>
-            Set both Shadow Offsets to 0 to disable the shadow
+            <div class="row">
+              <div class="col">If you can't change the color, try changing the vertical slider first</div>
+            <div class="col"><img src="imgs\colourSlider.png" width="128px"></div>
+          </div>
             </span></span>
             <div class="form-item split even">
               <div>
@@ -536,24 +541,29 @@
                   <label for="tool-banner-subtitle">Banner Subtitle</label>
                 </div>
                 <div class="form-item">
-                  <input type="number" v-model="tools.banner.titleSpacing" id="tool-banner-titleSpacing"required step="5">
-                  <label for="tool-banner-titleSpacing">Title Spacing</label>
-                </div>
-                <div class="form-item">
-                  <input type="number" v-model="tools.banner.titleSize" id="tool-banner-titleSize"required step="5">
+                  <!-- <slider min="-800" max="800" v-model="tools.banner.offsetX" :value="tools.banner.offsetX">Text Horizontal Offset</slider> -->
+                  <input type="number" v-model="tools.banner.titleSize" id="tool-banner-titleSize"required step="2">
                   <label for="tool-banner-titleSize">Title Size</label>
                 </div>
                 <div class="form-item">
-                  <input type="number" v-model="tools.banner.subtitleSize" id="tool-banner-subtitleSize"required step="5">
+                  <!-- <slider min="1" max="50" v-model="tools.banner.subtitleSize" :value="tools.banner.subtitleSize">Subtitle Size</slider> -->
+                  <input type="number" v-model="tools.banner.subtitleSize" id="tool-banner-subtitleSize"required step="2">
                   <label for="tool-banner-subtitleSize">Subtitle Size</label>
                 </div>
                 <div class="form-item">
-                  <input type="number" v-model="tools.banner.offsetY" id="tool-banner-offsetY"  required step="5">
-                  <label for="tool-banner-offsetY">Text Vertical Offset</label>
+                  <!-- <slider min="-100" max="100"  :value="tools.banner.titleSpacing" v-model="tools.banner.titleSpacing">Title Spacing</slider> -->
+                  <input type="number" v-model="tools.banner.titleSpacing" id="tool-banner-titleSpacing"required step="5">
+                  <label for="tool-banner-titleSpacing">Title Spacing</label>
                 </div>
-                <div class="form-item">
-                  <input type="number" v-model="tools.banner.offsetX" id="tool-banner-offsetX"required step="5">
-                  <label for="tool-banner-offsetX">Text Horizontal Offset</label>
+                <div class="form-item border">
+                  <slider min="-225" max="225" v-model="tools.banner.offsetY" :value="tools.banner.offsetY">Text Vertical Offset</slider>
+                  <!-- <input type="number" v-model="tools.banner.offsetY" id="tool-banner-offsetY"  required step="5">
+                  <label for="tool-banner-offsetY">Text Vertical Offset</label> -->
+                </div>
+                <div class="form-item border">
+                  <slider min="-800" max="800" v-model="tools.banner.offsetX" :value="tools.banner.offsetX">Text Horizontal Offset</slider>
+                  <!-- <input type="number" v-model="tools.banner.offsetX" id="tool-banner-offsetX"required step="5">
+                  <label for="tool-banner-offsetX">Text Horizontal Offset</label> -->
                 </div>
                 <div class="form-item">
                   <select v-model="tools.banner.textAlign" id="tool-banner-textAlign"  required>
@@ -574,13 +584,15 @@
                   <input id="tool-banner-shadowEnabled" type="checkbox" v-model="tools.banner.shadowEnabled" class="checkbox-right">
                   <label for="tool-banner-shadowEnabled">Banner Shadow Enabled</label>
                 </div>
-                <div class="form-item">
-                  <input type="number" v-model="tools.banner.shadowOffsetY" id="tool-banner-shadowOffsetY"  required >
-                  <label for="tool-banner-shadowOffsetY">Shadow Vertical Offset</label>
+                <div class="form-item border">
+                  <slider min="-20" max="20" v-model="tools.banner.shadowOffsetY" :value="tools.banner.shadowOffsetY">Shadow Vertical Offset</slider>
+                  <!-- <input type="number" v-model="tools.banner.shadowOffsetY" id="tool-banner-shadowOffsetY"  required >
+                  <label for="tool-banner-shadowOffsetY">Shadow Vertical Offset</label> -->
                 </div>
-                  <div class="form-item">
-                  <input type="number" v-model="tools.banner.shadowOffsetX" id="tool-banner-shadowOffsetX"required>
-                  <label for="tool-banner-shadowOffsetX">Shadow Horizontal Offset</label>
+                  <div class="form-item border">
+                    <slider min="-20" max="20" v-model="tools.banner.shadowOffsetX" :value="tools.banner.shadowOffsetY">Shadow Horizontal Offset</slider>
+                  <!-- <input type="number" v-model="tools.banner.shadowOffsetX" id="tool-banner-shadowOffsetX"required>
+                  <label for="tool-banner-shadowOffsetX">Shadow Horizontal Offset</label> -->
                 </div>
                 <div class="form-item">
                   <input type="number" v-model="tools.banner.shadowBlur" id="tool-banner-shadowBlur"required >
@@ -598,17 +610,20 @@
                   <input id="tool-banner-logo" type="text" v-model="tools.banner.logo" required>
                   <label for="tool-banner-logo">Banner logo URL</label>
                 </div>
-                <div class="form-item">
-                  <input type="number" v-model="tools.banner.logoY" id="tool-banner-logoY"  required step="5">
-                  <label for="tool-banner-logoX">Logo Y Offset</label>
+                <div class="form-item border">
+                  <slider min="-225" max="225"  :value="tools.banner.logoY" v-model="tools.banner.logoY">Logo Vertical Offset</slider>
+                  <!-- <input type="number"  v-model="tools.banner.logoY" id="tool-banner-logoY"  required>
+                  <label for="tool-banner-logoX">Logo Vertical Offset</label> -->
                 </div>
-                <div class="form-item">
-                  <input type="number" v-model="tools.banner.logoX" id="tool-banner-logoX"  required step="5">
-                  <label for="tool-banner-logoX">Logo X Offset</label>
+                <div class="form-item border">
+                  <slider min="-225" max="225"  :value="tools.banner.logoX" v-model="tools.banner.logoX">Logo Horizontal Offset</slider>
+                  <!-- <input type="number" v-model="tools.banner.logoX" id="tool-banner-logoX"  required step="5">
+                  <label for="tool-banner-logoX">Logo Horizontal Offset</label> -->
                 </div>
-                <div class="form-item">
-                  <input type="number" v-model="tools.banner.logoWidth" id="tool-banner-logoWidth"required step="5">
-                  <label for="tool-banner-logoWidth">Logo Width</label>
+                <div class="form-item border">
+                  <slider min="0" max="800"  :value="tools.banner.logoWidth" v-model="tools.banner.logoWidth">Logo Width</slider>
+                  <!-- <input type="number" v-model="tools.banner.logoWidth" id="tool-banner-logoWidth"required step="5">
+                  <label for="tool-banner-logoWidth">Logo Width</label> -->
                 </div>
               </div>
             </div>

@@ -262,20 +262,20 @@ body{
 .col.col-3{
   flex-grow: 3;
 }
-.col.col-left{
-  border-left: 1px solid #ccc;
-  padding-left: 10px;
-}
-.col.col-right{
-  border-right: 1px solid #ccc;
-  padding-right: 10px;
-}
 @media(min-width: 820px){
   .col:not(:first-of-type){
     margin-left: 5px;
   }
   .col:not(:last-of-type){
     margin-right: 5px;
+  }
+  .col.col-left{
+    border-left: 1px solid #ccc;
+    padding-left: 10px;
+  }
+  .col.col-right{
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
   }
 }
 @media(max-width: 820px){
@@ -389,10 +389,16 @@ input::-webkit-inner-spin-button {
 .form-item .contentEditable{
   margin: 0;
 }
-.form-item > div ~ input[type="number"]::-webkit-inner-spin-button{
+.form-item input[type="number"].compact::-webkit-inner-spin-button{
   margin-left: 0;
 }
-.form-item > div ~ input[type="number"]{
+.form-item input.hideSpin::-webkit-inner-spin-button{
+  display: none !important;
+}
+.form-item input.hideBorder{
+  border: none !important;
+}
+.form-item input[type="number"].compact{
   text-align: center;
   top: -6px;
   border: 0;
@@ -511,6 +517,59 @@ input[type="color"].postColorSelector:focus{
 
 .form-item input[type="color"].light ~ label{
   color: #111;
+}
+.form-item .slider-wrapper{
+  display: flex;
+  flex-flow: row nowrap;
+}
+.form-item .slider-wrapper > label {
+  position: relative;
+  padding-right: 10px;
+}
+.form-item .slider-wrapper > label > input[type="number"]{
+  color:#aaa;
+  text-align:left;
+  position: absolute;
+  left: calc(100% - 15px);
+  top: -7px;
+  z-index:1;
+  cursor: text;
+}
+
+.form-item .slider-wrapper > div{
+  position: relative;
+  flex-grow: 1;
+}
+
+
+.form-item input[type="range"]{
+  display: block;
+  -webkit-appearance: none;
+  background-color: #bdc3c7;
+  width: 90%;
+  height: 5px;
+  border-radius: 5px;
+  margin-left: auto;
+  outline: 0;
+  top: 4px;
+  position: relative;
+}
+
+.form-item input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  background-color: #777;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  cursor: pointer;
+  transition: background-color .35s;
+}​
+
+.form-item input[type="range"]:focus::-webkit-slider-thumb,
+.form-item input[type="range"]:active::-webkit-slider-thumb,
+.form-item input[type="range"]::-webkit-slider-thumb:hover{
+  background-color: #00a72a;
 }
 
 .form-item input[type="button"]:focus,
