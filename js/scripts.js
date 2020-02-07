@@ -8,7 +8,6 @@ Vue.component('slider', {
     }
   },
   mounted(){
-    console.log(this.value);
     this.adjust(null, this.value);
   },
   methods:{
