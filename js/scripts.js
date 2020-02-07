@@ -90,6 +90,7 @@ Vue.component('searchbar', {
     }
   }
 });
+
 Vue.component('editabletext', {
   template: '<p contentEditable="true" class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
   props: ['value'],
@@ -659,7 +660,7 @@ function loadJSONFile(cb){
 
 //Export JSON File
 function exportJSONToFile(obj, fileName){
-  var json = JSON.stringify(obj);    // test -> localStorage
+  var json = JSON.stringify(obj);    
   var file = new File([json], fileName, {type: "text/txt"});
   var blobUrl = (URL || webkitURL).createObjectURL(file);
 	var div = document.createElement("div"),
@@ -769,12 +770,10 @@ function selectElementContents(el) {
 
 //Move items in array
 function moveItem(array, from, to) {
-	   // remove `from` item and store it
-	   let f = array.splice(from, 1)[0];
-	   // insert stored item into position `to`
-	   array.splice(to, 0, f);
-	   return array;
-	}
+   let f = array.splice(from, 1)[0];
+   array.splice(to, 0, f);
+   return array;
+}
 
 //Send Error Popup
 function sendError(msg,er){
@@ -787,6 +786,7 @@ function sendSuccess(msg){
   app.$snotify.success(msg);
   console.log("Success: "+msg);
 }
+
 //Delay function
 function delay(fn, ms) {
   let timer = 0
@@ -801,6 +801,8 @@ function sendInfo(msg){
   app.$snotify.info(msg);
   console.log("Info: "+msg);
 }
+
+//Add Splice to strings
 if (!String.prototype.splice) {
     String.prototype.splice = function(start, delCount, newSubStr) {
         return this.slice(0, start) + newSubStr + this.slice(start + Math.abs(delCount));
