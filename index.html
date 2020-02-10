@@ -53,11 +53,11 @@
           <li class="sidebar-item" :class="{active: activeView === 'load'}" @click="activeView = 'load'; scrollToTop()">
             <i class="fas fa-clone fa-2x"></i> <p class="collapsed">Load / Save</p>
           </li>
-          <li class="sidebar-item" :class="{active: activeView === 'tools'}" @click="activeView = 'tools'; scrollToTop()">
-            <i class="fa fa-briefcase fa-2x"></i> <p class="collapsed">Tools</p>
-          </li>
           <li class="sidebar-item" :class="{active: activeView === 'settings'}" @click="activeView = 'settings'; scrollToTop()">
             <i class="fa fa-cog fa-2x"></i> <p class="collapsed">Settings</p>
+          </li>
+          <li class="sidebar-item" :class="{active: activeView === 'tools'}" @click="activeView = 'tools'; scrollToTop()">
+            <i class="fa fa-briefcase fa-2x"></i> <p class="collapsed">Tools</p>
           </li>
           <li class="sidebar-item" :class="{active: activeView === 'help'}" @click="activeView = 'help'; scrollToTop()">
             <i class="far fa-question-circle fa-2x"></i> <p class="collapsed">Help</p>
@@ -609,7 +609,7 @@
                   <label for="tool-banner-logo">Banner logo URL</label>
                 </div>
                 <div class="form-item border">
-                  <slider min="-225" max="225"  :value="tools.banner.logoY" v-model="tools.banner.logoY">Logo Vertical Offset</slider>
+                  <slider min="0" max="225"  :value="tools.banner.logoY" v-model="tools.banner.logoY">Logo Vertical Offset</slider>
                   <!-- <input type="number"  v-model="tools.banner.logoY" id="tool-banner-logoY"  required>
                   <label for="tool-banner-logoX">Logo Vertical Offset</label> -->
                 </div>
