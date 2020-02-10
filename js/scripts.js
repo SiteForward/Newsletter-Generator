@@ -1,3 +1,4 @@
+// Create Slider component
 Vue.component('slider', {
   template: '<div class="slider-wrapper"><label><slot></slot>:<input type="number" :max="max" :min="min" class="compact hideSpin hideBorder" :value="val" @input="adjust"></label><div><input :id="id" :value="val" :max="max" :min="min" type="range" @input="adjust" required></div></div>',
   props: ['max', 'min', 'value'],
@@ -12,13 +13,18 @@ Vue.component('slider', {
   },
   methods:{
     adjust(e, value){
+
+      //Update the value label based on the input slider
       this.val = value != null ? value : e.target.value;
       this.$el.children[1].children[0].value = this.val;
+
+      //Emit input event to trigger v-model
       this.$emit('input', this.val);
     }
   }
 });
 
+// Create searchbar component
 Vue.component('searchbar', {
   template: '<div><input :id="id" type="search" @input="search" required><label :for="id"><slot></slot></label></div>',
   props: ['element'],
@@ -45,8 +51,11 @@ Vue.component('searchbar', {
       let regex = new RegExp('('+search+')', 'ig');
       this.container.innerHTML = this.defaultHTML;
 
+      //Hightlight
       if(this.highlight){
         if(search && search.length > 2){
+
+          //Get all final child nodes that match search
           let childNodes = [];
           allDescendants(this.container);
           function allDescendants (node) {
@@ -57,6 +66,7 @@ Vue.component('searchbar', {
                 childNodes.push(child);
             }
           }
+          //Surround child node in hightlight node
           for(let i = 0; i < childNodes.length; i++){
             let child = childNodes[i];
             let span = document.createElement('span');
@@ -68,8 +78,11 @@ Vue.component('searchbar', {
         }
       }
 
+      //Filter
       if(this.filter){
         if(search && search.length > 2){
+
+          //Show only the child nodes that match the search
           for(let i = 0; i < this.container.children.length; i++){
             let child = this.container.children[i];
             if(child.textContent.match(regex))
@@ -79,6 +92,8 @@ Vue.component('searchbar', {
              }
           }
         }
+
+        //Display all child nodes if not enough search provided
         else{
           for(let i = 0; i < this.container.children.length; i++){
             let child = this.container.children[i];
@@ -86,7 +101,6 @@ Vue.component('searchbar', {
           }
         }
       }
-
     }
   }
 });
@@ -96,10 +110,13 @@ Vue.component('editabletext', {
   props: ['value'],
   methods: {
     updateInput(e){
+
+      //Emit input event trigger v-model
       this.$emit('input', this.$el.innerHTML);
     },
     customShortcuts(e){
-      console.log(e.keyCode);
+
+      //Key shortcuts
       if(e.ctrlKey)
         if(e.keyCode == 76){
           e.preventDefault();
@@ -217,6 +234,8 @@ let app = new Vue({
     }
   },
   computed: {
+
+    //If analytics code and name are valid
     analyticsEnabled: function(){
       return this.analytics.code && this.analytics.name;
     }
@@ -234,11 +253,14 @@ let app = new Vue({
       if(!this.silentToggle.includes('footer.preset.useDisclaimer'))
         sendInfo("Manulife Securities Disclaimer turned "+(this.footer.preset.useDisclaimer ? "on" : "off"));
     },
+
+    //On view change
     activeView: function(){
       let activeView = this.activeView,
           preview = this.$refs.preview;
 
       setTimeout(function(){
+        //If changed to any of the following close the preview window
         if(activeView == "help" || activeView == "tools" || activeView == "settings" || activeView == "load")
           preview.classList.add("closed");
         else
@@ -253,6 +275,8 @@ let app = new Vue({
     }
   },
   mounted(){
+
+    //Prompt to load local options if exists
     if(localStorage.options)
       this.$snotify.info('Did you want to load local options', {
         timeout: 5000,
@@ -264,6 +288,8 @@ let app = new Vue({
           {text: 'No'},
         ]
       });
+
+      //Prompt to load local posts if exists
       if(localStorage.posts)
         this.$snotify.info('Did you want to load local posts', {
           timeout: 5000,
@@ -277,17 +303,23 @@ let app = new Vue({
         });
   },
   methods: {
+
+    //Download custom tool banner
     downloadCustomBanner(){
+
+      //Create canvas
       let canvas = document.createElement("canvas");
       let ctx = canvas.getContext("2d");
       let img = new Image();
+
+      //When image load - draw image, get URL
       img.onload = function(){
         canvas.width = img.width;
         canvas.height = img.height;
         ctx.drawImage(img, 0, 0);
         let url = canvas.toDataURL();
 
-
+        //Create link to download image
         var div = document.createElement("div"),
     	     anch = document.createElement("a");
         document.body.appendChild(div);
@@ -299,24 +331,37 @@ let app = new Vue({
       	anch.href = url;
       	anch.download = "Custom-Banner.png";
 
+        //Trigger click event on link
       	var ev = new MouseEvent("click",{});
       	anch.dispatchEvent(ev);
       	document.body.removeChild(div);
+
+        //Send analytics call
         gtag('event', 'Tools', {
           'event_category': 'Custom Banner',
           'event_label': url,
         });
       }
+
+      //Enable crossOrigin - set image src
       img.setAttribute('crossOrigin', 'anonymous');
       img.src =  app.$refs.bannerCreatedImage.src.replace('&displayGrid=true', '');
 
     },
+
+    //Update the tool banner
     updateCreatedBanner(){
+
+      //If an image is provided
       if(this.tools.banner.image){
+
+        //If currently on cooldown - reset cooldown
         if(this.tools.bannerCreationTimer)
           clearTimeout(this.tools.bannerCreationTimer)
         this.tools.bannerCreationTimer = setTimeout(()=>{
           sendInfo("Loading custom banner image");
+
+          //Create Banner URL with settings
           let url = "https://bimmr.com/newsletter/tools/createbanner.php?createNew=true";
           for(let [key, value] of Object.entries(app.tools.banner)){
             if(key == "color" || key == "shadowColor")
@@ -328,6 +373,8 @@ let app = new Vue({
             else if(value != null && value != 0 && value != false)
               url+= "&"+key+"="+value;
           }
+
+          //Load the image from the url
           app.$refs.bannerValidWrapper.classList.add("loading");
           app.$refs.bannerCreatedImage.src = url;
           app.$refs.bannerCreatedImage.onload = function(){
@@ -338,9 +385,13 @@ let app = new Vue({
         }, 500);
       }
     },
+
+    //Get the default post color if no per post color exists
     postColor(pos, key){
       return typeof this.posts[pos][key] == 'undefined' ? this.colors.posts[key] : this.posts[pos][key];
     },
+
+    //Update settings to ensure no error on load
     updateData(){
       //Update useDisclaimer
       if(typeof this.footer.preset.useDisclaimer == 'undefined')
@@ -366,6 +417,8 @@ let app = new Vue({
         delete this.header.subtitle;
       }
     },
+
+    //Load posts
     loadPosts(posts){
       if((!posts || posts.target) && localStorage.posts)
         posts = JSON.parse(localStorage.posts);
@@ -377,6 +430,8 @@ let app = new Vue({
         this.posts = posts;
       }
     },
+
+    //Load options
     loadOptions(options){
       if((!options || options.target) && localStorage.options)
         options = JSON.parse(localStorage.options);
@@ -403,6 +458,8 @@ let app = new Vue({
         sendSuccess("Options Loaded");
       }
     },
+
+    //Save posts
     savePosts(){
       if(localStorage.getItem("posts"))
         if(!confirm("Do you want to overwrite your currently saved posts?")){
@@ -412,6 +469,8 @@ let app = new Vue({
       localStorage.setItem("posts", JSON.stringify(this.posts));
       sendSuccess("Posts Saved");
     },
+
+    //Save options
     saveOptions(){
       if(localStorage.getItem("options"))
         if(!confirm("Do you want to overwrite your currently saved options?")){
@@ -430,9 +489,13 @@ let app = new Vue({
       }));
       sendSuccess("Options Saved");
     },
+
+    //Export posts as file
     exportPosts(){
       exportJSONToFile(this.posts, "Newsleter - Posts.json");
     },
+
+    //Export options as file
     exportOptions(){
         exportJSONToFile({
           loadPosts: this.$refs.loadPosts.value,
@@ -444,12 +507,18 @@ let app = new Vue({
           editHTML: this.editHTML
         }, "Newsleter - Options.json");
     },
+
+    //Import posts from file
     importPosts(){
       loadJSONFile(d => this.loadPosts(d));
     },
+
+    //Import options from file
     importOptions(){
       loadJSONFile(d => this.loadOptions(d));
     },
+
+    //Load posts from blog page url
     loadPostsFromURL(){
       var url = this.$refs.loadPosts.value;
       if(!url || url.length < 0)
@@ -502,11 +571,14 @@ let app = new Vue({
        	     this.posts.push(post);
            }
      	   });
+
+         //Inform user if posts were found
          if(items.length > 0)
           sendSuccess("Loaded Posts");
          else
           sendError("No posts were found");
 
+         //Send call to Google Analytics
          gtag('event', 'Page', {
            'event_category': 'Loading Posts',
            'event_label': url,
@@ -516,6 +588,8 @@ let app = new Vue({
         .catch(error => sendError("Unable to load URL", error));
       }
     },
+
+    // Load single blog post
     loadPostFromURL(){
       var url = this.$refs.loadPost.value;
       if(!url || url.length < 0)
@@ -559,6 +633,8 @@ let app = new Vue({
           this.posts.push(post);
 
           sendSuccess("Loaded Posts");
+
+          //Send google analytics call
           gtag('event', 'Post', {
             'event_category': 'Loading Posts',
             'event_label': url
@@ -567,6 +643,8 @@ let app = new Vue({
          .catch(error => sendError("Unable to load URL", error));
       }
     },
+
+    //Search a url for analytics code
     findAnalyticsCode(){
       sendInfo("Searching for Google Analytics Code");
       let websiteURL = this.$refs.analyticsWebURL.value;
@@ -575,6 +653,8 @@ let app = new Vue({
       fetch(websiteURL)
       .then(res => res.text())
       .then(data =>{
+
+        //Look for analytics code
         let analyticsCode = data.match(/UA-\w*-1/g);
         this.analytics.code = analyticsCode;
 
@@ -585,6 +665,8 @@ let app = new Vue({
       })
       .catch(error => sendError("Unable to find Google Analytics Code", error));;
     },
+
+    //Silently toggle HTML Edit - forces editabletext to re-render
     toggleEditHTMLSilently(){
       this.silentToggle.push('editHTML');
       this.editHTML = true;
@@ -595,20 +677,28 @@ let app = new Vue({
         },1);
       },1);
     },
+
+    // Delete post
     deletePost(pos){
       sendSuccess("Deleted Post");
       this.posts.splice(pos, 1);
       this.toggleEditHTMLSilently();
     },
+
+    //Move post
     movePost(dir, pos){
       sendSuccess("Moved Post");
       moveItem(this.posts, pos, dir);
       this.toggleEditHTMLSilently();
     },
+
+    //Edit post
     editPost(pos, key, value){
       this.posts[pos][key] = value;
       this.toggleEditHTMLSilently();
     },
+
+    //Add a new post
     addPost(){
       sendSuccess("Added New Post");
       this.posts.push({
@@ -616,20 +706,28 @@ let app = new Vue({
         desc: 'New Desc'
       });
     },
+
+    //Copy newsletter from preview
     copyNewsletter(){
       selectElementContents(this.$refs.newsletter);
       document.execCommand('copy');
       if (window.getSelection) window.getSelection().removeAllRanges();
       sendSuccess("Copied Newsletter");
     },
+
+    //Copy newsletter code from preview
     copyNewsletterCode(){
       if(copyTextToClipboard(this.$refs.newsletter.outerHTML))
         sendSuccess("Copied HTML Code");
     },
+
+    //Check if color is a light colour
     isLight(color){
       let res = isLightColor(color);
       return res;
     },
+
+    //Scroll to top of view
     scrollToTop () {
       this.$refs.main.scrollTop = 0
     }

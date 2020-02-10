@@ -61,21 +61,24 @@ if(isset($_GET['shadowOffsetX'])) $shadowOffsetX = $_GET['shadowOffsetX'];
 if(isset($_GET['shadowOffsetY'])) $shadowOffsetY = $_GET['shadowOffsetY'];
 if(isset($_GET['shadowBlur']))    $shadowBlur = $_GET['shadowBlur'];
 
+//Resize the banner image to 800px width
 $img          = getImage($imgurl);
 $img          = imagescale($img, 800);
 $img          = cropAlign($img, 800, min(imagesy($img), 225), $horizontalAlign, $verticalAlign);
 $imgSize      = array(imagesx($img), imagesy($img));
 
+//Get the colors
+$shadowColor = hexColorAllocate($img, $shadowColor);
+$color = hexColorAllocate($img, $color);
+
+//If logo was provided - add the logo
 if($logo != null){
   $logo = getImage($logo);
   $logo = imagescale($logo, $logoWidth);
   imagecopyresampled($img, $logo, $logoX, $logoY, 0, 0, $logoWidth, imagesy($logo), imagesx($logo), imagesy($logo));
 }
 
-$shadowColor = hexColorAllocate($img, $shadowColor);
-$color = hexColorAllocate($img, $color);
-
-
+//Get text horizontal position
 if($textAlign == 'left'){
   $titlePosX = $subtitlePosX = $offsetX;
 }
@@ -88,20 +91,23 @@ else{
   $subtitlePosX = $imgSize[0]/2 - getWidth($subtitleSize, $font, $subtitle)/2 + $offsetX;
 }
 
+//Get text vertical position
 $totalTitleHeight = getHeight($titleSize, $font, $title) + getHeight($subtitleSize, $font, $subtitle)+$titleSpacing/2;
 
 $titlePosY = ($imgSize[1]/2)-($totalTitleHeight/2) +  getHeight($titleSize, $font, $title)/2+$offsetY;
 $subtitlePosY = $titlePosY + getHeight($subtitleSize, $font, $subtitle)+$titleSpacing;
 
-
+//Write the title - include shadow if enabled
 if($shadowEnabled)
   imagettftextblur($img, $titleSize, 0, $titlePosX + $shadowOffsetX, $titlePosY + $shadowOffsetY, $shadowColor,$font,$title, $shadowBlur);
 imagettftextblur($img, $titleSize, 0, $titlePosX, $titlePosY, $color, $font, $title);
 
+//Write the subtitle - include shadow if enabled
 if($shadowEnabled)
   imagettftextblur($img, $subtitleSize, 0, $subtitlePosX + $shadowOffsetX, $subtitlePosY + $shadowOffsetY, $shadowColor, $font, $subtitle, $shadowBlur);
 imagettftextblur($img, $subtitleSize, 0, $subtitlePosX, $subtitlePosY, $color, $font, $subtitle);
 
+//Show a grid on the image if enabled
 if($displayGrid == true){
   $gray = imagecolorallocate($img, 170, 170, 170);
   //                  X1                  Y1                X2              Y2
@@ -112,11 +118,14 @@ if($displayGrid == true){
   imageline($img,   $imgSize[0]/4,    0,                $imgSize[0]/4,    $imgSize[1],    $gray); //Vertical
   imageline($img,   $imgSize[0]/4*3,  0,                $imgSize[0]/4*3,  $imgSize[1],    $gray); //Vertical
 }
+
 // Output the image
 if($displayImg){
   imagepng($img);
   imagedestroy($img);
 }
+
+//Debug
 else{
   echo '<p>Image URL: '.$imgurl.'</p>';
   echo '<p>Vertical Align: '.$verticalAlign.'</p>';
@@ -132,22 +141,26 @@ else{
   echo '<p>shadowBlur: '.$shadowBlur.'</p>';
 }
 
+// Get the width of text
 function getWidth($fontSize, $font, $text){
     $box = imageftbbox($fontSize, 0, $font, $text);
     $width = $box[2]-$box[0];
     return $width;
 }
+//Get the height of text
 function getHeight($fontSize, $font, $text){
     $box = imageftbbox($fontSize, 0, $font, $text);
     $height = $box[1]-$box[7];
     return $height;
 }
+//Change Hex color to RGB
 function hexColorAllocate($im,$hex){
     $a = hexdec(substr($hex,0,2));
     $b = hexdec(substr($hex,2,2));
     $c = hexdec(substr($hex,4,2));
     return imagecolorallocate($im, $a, $b, $c);
 }
+//Align an image and crop if needed
 function cropAlign($image, $cropWidth, $cropHeight, $horizontalAlign = 'center', $verticalAlign = 'middle') {
     $width = imagesx($image);
     $height = imagesy($image);
@@ -160,7 +173,7 @@ function cropAlign($image, $cropWidth, $cropHeight, $horizontalAlign = 'center',
         'height' => $verticalAlignPixels[1]
     ]);
 }
-
+//Calculate pixels needed for cropAlign
 function calculatePixelsForAlign($imageSize, $cropSize, $align) {
     switch ($align) {
         case 'left':
@@ -178,6 +191,7 @@ function calculatePixelsForAlign($imageSize, $cropSize, $align) {
         default: return [0, $imageSize];
     }
 }
+//Get the image depending on the extension
 function getImage($imgurl){
   $extension = strtolower(strrchr($imgurl, '.'));
   if($extension == '.jpg' || $extension == '.jpeg')
@@ -187,6 +201,7 @@ function getImage($imgurl){
   return $img;
 }
 
+//Add some blur to the shadow text
 function imagettftextblur(&$image,$size,$angle,$x,$y,$color,$fontfile,$text,$blur_intensity = null)
     {
         $blur_intensity = !is_null($blur_intensity) && is_numeric($blur_intensity) ? (int)$blur_intensity : 0;
