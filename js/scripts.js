@@ -201,7 +201,14 @@ let app = new Vue({
           province: null,
           postal: null
         },
-        useDisclaimer: true
+        disclaimer:{
+          enable: true,
+          insuranceOBA: null,
+          licenses: {
+            iiroc: false,
+            mfda: false
+          }
+        }
       }
     },
     posts: [],
@@ -304,6 +311,51 @@ let app = new Vue({
   },
   methods: {
 
+    //Update settings to ensure no error on load
+    updateData(){
+      //Update useDisclaimer
+      if(typeof this.footer.preset.useDisclaimer == 'undefined')
+        this.$set(this.footer.preset, "useDisclaimer", true);
+
+      //Update Post Colours
+      if(typeof this.colors.posts == 'undefined')
+          this.$set(this.colors, "posts", {});
+      if(typeof this.colors.posts.background == 'undefined')
+          this.$set(this.colors.posts, "background", "#f3f3f3");
+      if(typeof this.colors.posts.text == 'undefined')
+          this.$set(this.colors.posts, "text", "#000000");
+
+      //Update Header
+      if(typeof this.header.titles == 'undefined')
+          this.$set(this.header, "titles", {});
+      if(typeof this.header.title != 'undefined'){
+        this.$set(this.header.titles, "title", this.header.title);
+        delete this.header.title;
+      }
+      if(typeof this.header.subtitle != 'undefined'){
+        this.$set(this.header.titles, "subtitle", this.header.subtitle);
+        delete this.header.subtitle;
+      }
+
+      //Update Disclaimer
+      if(typeof this.footer.preset.useDisclaimer != 'undefined')
+        this.$set(this.footer.preset, "disclaimer", {});
+      if(typeof this.footer.preset.disclaimer.enable == 'undefined')
+        this.$set(this.footer.preset.disclaimer, "enable", true);
+      delete this.footer.preset.useDisclaimer;
+
+      if(typeof this.footer.preset.disclaimer.insuranceOBA == 'undefined')
+        this.$set(this.footer.preset.disclaimer, "insuranceOBA", null);
+
+      if(typeof this.footer.preset.disclaimer.licenses == 'undefined')
+        this.$set(this.footer.preset.disclaimer, "licenses", {});
+
+      if(typeof this.footer.preset.disclaimer.licenses.mfda == 'undefined')
+        this.$set(this.footer.preset.disclaimer.licenses, "mfda", false);
+      if(typeof this.footer.preset.disclaimer.licenses.iiroc == 'undefined')
+        this.$set(this.footer.preset.disclaimer.licenses, "iiroc", false);
+    },
+
     //Download custom tool banner
     downloadCustomBanner(){
 
@@ -389,33 +441,6 @@ let app = new Vue({
     //Get the default post color if no per post color exists
     postColor(pos, key){
       return typeof this.posts[pos][key] == 'undefined' ? this.colors.posts[key] : this.posts[pos][key];
-    },
-
-    //Update settings to ensure no error on load
-    updateData(){
-      //Update useDisclaimer
-      if(typeof this.footer.preset.useDisclaimer == 'undefined')
-        this.$set(this.footer.preset, "useDisclaimer", true);
-
-      //Update Post Colours
-      if(typeof this.colors.posts == 'undefined')
-          this.$set(this.colors, "posts", {});
-      if(typeof this.colors.posts.background == 'undefined')
-          this.$set(this.colors.posts, "background", "#f3f3f3");
-      if(typeof this.colors.posts.text == 'undefined')
-          this.$set(this.colors.posts, "text", "#000000");
-
-      //Update Header
-      if(typeof this.header.titles == 'undefined')
-          this.$set(this.header, "titles", {});
-      if(typeof this.header.title != 'undefined'){
-        this.$set(this.header.titles, "title", this.header.title);
-        delete this.header.title;
-      }
-      if(typeof this.header.subtitle != 'undefined'){
-        this.$set(this.header.titles, "subtitle", this.header.subtitle);
-        delete this.header.subtitle;
-      }
     },
 
     //Load posts

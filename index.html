@@ -115,8 +115,14 @@
                   <span v-if="footer.preset.location.postal" :style="{color: colors.footer.text}"><span v-if="footer.preset.location.address || footer.preset.location.city"> | </span>{{footer.preset.location.postal}}</span>
                 </p>
                 <p v-if="footer.preset.phone" style="margin:0;margin-bottom: 10px;text-align:center;":style="{color: colors.footer.text}">{{footer.preset.phone}}</p>
-                <p v-if="footer.preset.useDisclaimer" style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;":style="{color: colors.footer.text}"><br>Copyright &copy; {{(new Date().getFullYear())}}  All rights reserved.<br>
-	         The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife, Manulife & Stylized M Design, Stylized M Design and Manulife Securities are trademarks of The Manufacturers Life Insurance Company and are used by it, and by its affiliates under license. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website <a href="http://www.manulifesecurities.ca"  target="_blank" :style="{color: colors.links}">www.manulifesecurities.ca</a>. Please confirm with your advisor which company you are dealing with for each of your products and services.<br><br>
+                <p v-if="footer.preset.disclaimer.enable" style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;":style="{color: colors.footer.text}"><br>Copyright &copy; {{(new Date().getFullYear())}}  All rights reserved.<br>
+	         The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife, Manulife & Stylized M Design, Stylized M Design and Manulife Securities are trademarks of The Manufacturers Life Insurance Company and are used by it, and by its affiliates under license. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company.
+           Details regarding all affiliated companies of MLI can be found on the Manulife Securities website <a href="http://www.manulifesecurities.ca"  target="_blank" :style="{color: colors.links}">www.manulifesecurities.ca</a>.
+           <span v-if="footer.preset.disclaimer.licenses.iiroc">Mutual funds are offered through Manulife Securities Investment Services Inc. </span>
+           <span v-if="footer.preset.disclaimer.licenses.mfda">Stocks, Bonds, and Mutual funds are offered through Manulife Securities Incorporated. </span>
+           <span v-if="footer.preset.disclaimer.insuranceOBA != null">Insurance products and services are offerered through {{footer.preset.disclaimer.insuranceOBA}}. </span>
+           Banking products and services are offered by referral arrangements through are related company Manulife Bank of Canada. Please confirm with your advisor which company you are dealing with for each of your products and services.
+           <br><br>
 	         <em><a href="http://co.manulife.ca/securities/ms_corporatedisclaimers" target="_blank" :style="{color: colors.links}">Manulife Securities Disclaimers</a> | <a href="https://www.manulife.ca/corporate/privacy-policy.html" target="_blank" :style="{color: colors.links}">Privacy Policy</a> | <a href="https://www.manulife.com/en/legal.html" target="_blank" :style="{color: colors.links}">Legal</a></em></p>
             <p v-if="footer.preset.email" style="margin: 0;font-size:12px; text-align: center;"><a :href="'mailto:' + footer.preset.email + '?subject=Unsubscribe from newsletters'":style="{color: colors.links}">Unsubscribe from newsletters</a></p
               </td>
@@ -277,6 +283,20 @@
                   <div>
                     <input type="text" id="footer-preset-location-postal" v-model="footer.preset.location.postal" required>
                     <label for="footer-preset-location-postal">Postal</label>
+                  </div>
+                </div>
+                <div class="form-item split even">
+                  <div>
+                    <input type="checkbox" id="footer-preset-disclaimer-licenses-mfda" v-model="footer.preset.disclaimer.licenses.mfda" required>
+                    <label for="footer-preset-disclaimer-license-mfda">MFDA</label>
+                  </div>
+                  <div>
+                    <input type="checkbox" id="footer-preset-disclaimer-licenses-iiroc" v-model="footer.preset.disclaimer.licenses.iiroc" required>
+                    <label for="footer-preset-disclaimer-license-iiroc">IIROC</label>
+                  </div>
+                  <div>
+                    <input type="text" id="footer-preset-disclaimer-insuranceOBA" v-model="footer.preset.disclaimer.insuranceOBA" required>
+                    <label for="footer-preset-disclaimer-insuranceOBA">Insurance OBA</label>
                   </div>
                 </div>
               </div>
@@ -660,15 +680,16 @@
           </div>
           <div class="card">
             <h3 class="card-title">Use Manulife Securities Disclaimer in Footer Preset</h3>
-            <p><small>Copyright &copy; 2020 All rights reserved.
-              The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website www.manulifesecurities.ca. Please confirm with your advisor which company you are dealing with for each of your products and services.
-              <br><br>
-              Manulife Securities Disclaimers | Privacy Policy | Legal</small></p>
+            <p><small>Copyright © 2020 All rights reserved.
+                      The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website www.manulifesecurities.ca. Please confirm with your advisor which company you are dealing with for each of your products and services.
+                      <br><br>
+                      Manulife Securities Disclaimers | Privacy Policy | Legal</small></p>
             <div class="form-item">
-              <input type="checkbox" v-model="footer.preset.useDisclaimer" id="useManulifeDisclaimer">
-              <label for="useManulifeDisclaimer">Use Disclaimer</label>
+                <input type="checkbox" id="useManulifeDisclaimer" v-model="footer.preset.disclaimer.enable">
+                <label for="useManulifeDisclaimer">Use Disclaimer</label>
             </div>
-          </div><div class="card">
+          </div>
+          <div class="card">
             <h3 class="card-title">Turn on Editing in HTML</h3>
             <p><small>This allows the use of custom HTML when editing posts</small></p>
             <div class="form-item">
