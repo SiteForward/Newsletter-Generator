@@ -754,11 +754,13 @@ let app = new Vue({
       if(!this.wordSupport)
       {
         this.wordSupport = true;
-        this.copyNewsletter();
         setTimeout(function(){
-          app.wordSupport = false;
+          this.copyNewsletter();
           setTimeout(function(){
-            app.silentToggle.splice(app.silentToggle.indexOf('wordSupport'), 1);
+            app.wordSupport = false;
+            setTimeout(function(){
+              app.silentToggle.splice(app.silentToggle.indexOf('wordSupport'), 1);
+            },1);
           },1);
         },1);
       }
