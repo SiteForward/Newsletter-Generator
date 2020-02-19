@@ -707,20 +707,23 @@ let app = new Vue({
     deletePost(pos){
       sendSuccess("Deleted Post");
       this.posts.splice(pos, 1);
-      this.toggleEditHTMLSilently();
+      if(!this.editHTML)
+        this.toggleEditHTMLSilently();
     },
 
     //Move post
     movePost(dir, pos){
       sendSuccess("Moved Post");
       moveItem(this.posts, pos, dir);
-      this.toggleEditHTMLSilently();
+      if(!this.editHTML)
+        this.toggleEditHTMLSilently();
     },
 
     //Edit post
     editPost(pos, key, value){
       this.posts[pos][key] = value;
-      this.toggleEditHTMLSilently();
+      if(!this.editHTML)
+        this.toggleEditHTMLSilently();
     },
 
     //Add a new post
@@ -744,6 +747,18 @@ let app = new Vue({
     copyNewsletterCode(){
       if(copyTextToClipboard(this.$refs.newsletter.outerHTML))
         sendSuccess("Copied HTML Code");
+    },
+
+    copyNewsletterWord(){
+      this.silentToggle.push('wordSupport');
+      this.wordSupport = true;
+      this.copyNewsletter();
+      setTimeout(function(){
+        app.wordSupport = false;
+        setTimeout(function(){
+          app.silentToggle.splice(app.silentToggle.indexOf('wordSupport'), 1);
+        },1);
+      },1);
     },
 
     //Check if color is a light colour

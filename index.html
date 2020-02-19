@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css\snotify-material.css">
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
     <script src="js\snotify.min.js"></script>
 
     <link rel="stylesheet" href="css\styles.css">
@@ -93,10 +94,10 @@
             </tr>
             <tr v-for="(post, pos) in posts" style="position:relative;width: 100%; background: #f3f3f3; border-radius: 15px; padding: 10px; align-items: left; border-color: #f3f3f3" :style="{'background-color': postColor(pos, 'background')}">
               <td v-if="post.img" :width="[wordSupport ? '200' : '']" style="width:200px; padding-right:25px;" valign="top"><img :src="post.img" :width="[wordSupport ? '220' : '100%']" :height="[wordSupport ? '157' : 'auto']" style="width: 100%;min-width:200px; height: auto;padding: 10px;"></td>
-              <td v-if="post.img" style="width:100%;padding:10px; padding-bottom: 20px;">
+              <td v-if="post.img" :width="[wordSupport ? '600' : '']" style="width:600px;padding:10px; padding-bottom: 20px;">
                  <h2 style="margin-bottom:0;" v-html="post.title" :style="{'color': postColor(pos, 'text')}"></h2><p style="font-size: .75em;opacity: .75;" :style="{'color': postColor(pos, 'text')}" v-html="post.date"></p><p :style="{'color': postColor(pos, 'text')}" v-html="post.desc" ></p>
                  <table class="no-borders" v-if="post.link" width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table class="no-borders" border="0" cellspacing="0" cellpadding="0" style="margin-right: calc(70%); width:30%"> <tr> <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center"><a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">Read More</strong></a></td> </tr> </table> </td> </tr> </table></td>
-              <td v-else colspan="2" style="width:100%;padding:10px; padding-bottom: 20px;">
+              <td v-else colspan="2" style="width:600px;padding:10px; padding-bottom: 20px;">
                 <h2 style="margin-bottom:0;" :style="{'color': postColor(pos, 'text')}" v-html="post.title"></h2><p style="font-size: .75em; opacity:.75;" :style="{'color': postColor(pos, 'text')}" v-html="post.date"></p><p :style="{'color': postColor(pos, 'text')}" v-html="post.desc"></p>
                 <table class="no-borders" v-if="post.link"  width="100%" border="0" cellspacing="0" cellpadding="0"> <tr> <td> <table class="no-borders" border="0" cellspacing="0" cellpadding="0" style="margin-right: calc(70%); width:30%"> <tr> <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center"><a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">Read More</strong></a></td> </tr> </table> </td> </tr> </table></td>
             </tr>
@@ -509,6 +510,7 @@
             <div class="form-item even">
               <input type="button" value="Copy Code" @click="copyNewsletterCode">
               <input type="button" value="Copy Newsletter" @click="copyNewsletter">
+              <input type="button" value="Copy For MS Word" @click="copyNewsletterWord">
             </div>
           </div>
         </div>
