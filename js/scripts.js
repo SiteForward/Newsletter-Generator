@@ -1,3 +1,17 @@
+//Setup Quill
+var toolbarOptions = [
+  [{ 'header': [1, 2, 3, 4, false] }, {'align': []}],
+  [{ 'color': ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color']}, 'bold', 'italic', 'underline'],
+  [{ 'list': 'ordered'}, { 'list': 'bullet' }, 'link']
+];
+var quillOptions = {
+  modules: {
+    toolbar: toolbarOptions
+  },
+  bounds: '.newsletter-list',
+  theme: 'bubble'
+};
+
 // Create Slider component
 Vue.component('slider', {
   template: '<div class="slider-wrapper"><label><slot></slot>:<input type="number" :max="max" :min="min" class="compact hideSpin hideBorder" :value="val" @input="adjust"></label><div><input :id="id" :value="val" :max="max" :min="min" type="range" @input="adjust" required></div></div>',
@@ -106,13 +120,18 @@ Vue.component('searchbar', {
 });
 
 Vue.component('editabletext', {
-  template: '<p contentEditable="true" class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
+  // template: '<p contentEditable="true" class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
+  template: '<p class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
   props: ['value'],
+  data: function(){
+    return {
+      quill: null
+    }
+  },
   methods: {
     updateInput(e){
-
       //Emit input event trigger v-model
-      this.$emit('input', this.$el.innerHTML);
+      this.$emit('input', this.quill.getText());
     },
     customShortcuts(e){
 
@@ -139,6 +158,19 @@ Vue.component('editabletext', {
   mounted(){
     if(typeof this.value != 'undefined')
       this.$el.innerHTML = this.value;
+
+    if(!this.quill){
+      this.quill = new Quill(this.$el, quillOptions);
+      this.quill.getModule('toolbar').addHandler('color', (value) => {
+
+          // if the user clicked the custom-color option, show a prompt window to get the color
+          if (value == 'custom-color') {
+              value = prompt('Enter Hex/RGB/RGBA');
+          }
+
+          this.quill.format('color', value);
+      });
+    }
   }
 });
 

@@ -1,3 +1,22 @@
+.ql-editor{
+  padding: 0;
+}
+.ql-tooltip{
+  z-index:10;
+}
+.ql-color .ql-picker-options [data-value=custom-color] {
+  background: none !important;
+  width: 100% !important;
+  height: 20px !important;
+  text-align: center;
+}
+.ql-color .ql-picker-options [data-value=custom-color]:before {
+  content: 'Custom Color';
+}
+.ql-color .ql-picker-options [data-value=custom-color]:hover {
+  border-color: transparent !important;
+}
+
 /* Base styles */
 body{
   margin: 0;
