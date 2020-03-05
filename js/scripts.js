@@ -148,7 +148,7 @@ Vue.component('editabletext', {
           e.preventDefault();
           document.execCommand("justifyRight");
         }
-        else if(e.keyCode == 69 || e.keyCode == 67){
+        else if(e.keyCode == 69){
           e.preventDefault();
           document.execCommand("justifyCenter");
         }
