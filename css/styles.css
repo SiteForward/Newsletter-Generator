@@ -2,7 +2,7 @@
   padding: 0;
 }
 .ql-tooltip{
-  z-index:10;
+  z-index: 10;
 }
 .ql-color .ql-picker-options [data-value=custom-color] {
   background: none !important;
@@ -15,6 +15,10 @@
 }
 .ql-color .ql-picker-options [data-value=custom-color]:hover {
   border-color: transparent !important;
+}
+.ql-toolbar.ql-snow {
+  border: none;
+  border-bottom: 1px solid #ccc;
 }
 
 /* Base styles */
@@ -803,6 +807,7 @@ input[type="color"].postColorSelector:focus{
 .accordion.open .accordion-content{
   max-height: 1000px;
   padding: 15px 10px;
+  overflow: visible;
 }
 /* Tool Styles */
 /* Banner creation */

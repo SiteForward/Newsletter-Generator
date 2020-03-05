@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed&display=swap">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
     <link href="https://cdn.quilljs.com/1.3.7/quill.bubble.css" rel="stylesheet">
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="css\snotify-material.css">
 
     <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
@@ -209,13 +210,14 @@
             </div>
             <div class="accordion" :class="{open: header.style == 3}"  @click="header.style = 3">
               <div class="accordion-title">
-                <p>Custom HTML</p>
+                <p>Custom Header</p>
                 <div></div>
               </div>
               <div class="accordion-content">
                 <div class="form-item">
-                  <textarea id="header-html" v-model="header.html" required></textarea>
-                  <label for="header-html">Header HTML</label>
+                  <editabletext v-if="!editHTML" id="header-html" v-model="header.html" quilltype="text" :value="header.html">{{header.html}}</editabletext>
+                  <textarea v-else id="header-html" v-model="header.html" required></textarea>
+                  <label for="header-html">Header Content</label>
                 </div>
               </div>
             </div>
@@ -309,13 +311,14 @@
             </div>
             <div class="accordion" :class="{open: footer.style == 2}"  @click="footer.style = 2">
               <div class="accordion-title">
-                <p>Custom HTML</p>
+                <p>Custom Footer</p>
                 <div></div>
               </div>
               <div class="accordion-content">
                 <div class="form-item">
-                  <textarea id="footer-html" v-model="footer.html" required></textarea>
-                  <label for="footer-html">Footer HTML</label>
+                  <editabletext v-if="!editHTML" id="footer-html" v-model="footer.html" quilltype="text" :value="footer.html">{{footer.html}}</editabletext>
+                  <textarea v-else id="footer-html" v-model="footer.html" required></textarea>
+                  <label for="footer-html">Footer Content</label>
                 </div>
               </div>
             </div>
@@ -736,13 +739,13 @@
                   <li><strong>No Header</strong> will make it so no header appears</li>
                   <li><strong>Use Image</strong> allows you to use a banner image</li>
                   <li><strong>Use Titles</strong> allows you to enter your own title & subtitle</li>
-                  <li><strong>Custom HTML</strong> allows you to enter your own HTML code to design your own header</li>
+                  <li><strong>Custom Header</strong> allows you to design your own header</li>
                 </ul>
                 <li>Choose your footer option</li>
                 <ul style="list-style-type: square">
                   <li><strong>No Footer</strong> will make it so no footer appears</li>
                   <li><strong>Use Template</strong> allows you to use a premade footer template - This will include the required disclaimers</li>
-                  <li><strong>Custom HTML</strong> allows you to enter your own HTML code to design your own footer</li>
+                  <li><strong>Custom Footer</strong> allows you to design your own footer</li>
                 </ul>
                 <li>Optional: Customize each post's colours by clicking on the coloured box</li>
               </ol>
@@ -762,6 +765,7 @@
                       <li><strong>Description</strong> will change the description of the post <small>(Supports HTML)</small></li>
                       <li><strong>Date</strong> will change the subtext under the post's title <small>(Supports HTML)</small></li>
                       <li><strong>Link</strong> will change where the "Read More" button directs to</li>
+                      <li><strong>Read More</strong> will change where the "Read More" button text</li>
                       <li><strong>Image URL</strong> will change the image to the left of the post</li>
                     </ul>
                     <li>Re-order your posts using the arrow head icons to the left of each post</li>

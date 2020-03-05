@@ -2,16 +2,36 @@ let AlignStyle = Quill.import('attributors/style/align');
 Quill.register(AlignStyle, true);
 
 //Setup Quill
-var toolbarOptions = [
-  [{ 'header': [1, 2, 3, 4, false] }, {'align': []}],
-  [{ 'color': ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color']}, 'bold', 'italic', 'underline'],
-  [{ 'list': 'ordered'}, { 'list': 'bullet' }, 'link']
-];
-var quillOptions = {
+var quillSettingsText = {
   modules: {
-    toolbar: toolbarOptions
+    toolbar: [
+      [{ 'header': [1, 2, 3, 4, false] }, {'align': []}],
+      [{ 'color': ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color']}, 'bold', 'italic', 'underline'],
+      ['link', 'image'],
+    ]
   },
-  bounds: '.newsletter-list',
+  bounds: '#main',
+  theme: 'bubble'
+};
+var quillSettingsPost = {
+  modules: {
+    toolbar: [
+      [{ 'header': [1, 2, 3, 4, false] }, {'align': []}],
+      [{ 'color': ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color']}, 'bold', 'italic', 'underline'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }, 'link']
+    ]
+  },
+  bounds: '#main',
+  theme: 'bubble'
+};
+var quillSettingsHeader = {
+  modules: {
+    toolbar:[
+      [ {'align': []}, { 'color': ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color']}],
+      ['bold', 'italic', 'underline']
+    ]
+  },
+  bounds: '#main',
   theme: 'bubble'
 };
 
@@ -125,7 +145,7 @@ Vue.component('searchbar', {
 Vue.component('editabletext', {
   // template: '<p contentEditable="true" class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
   template: '<p class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
-  props: ['value'],
+  props: ['value', 'quilltype'],
   data: function(){
     return {
       quill: null
@@ -163,16 +183,19 @@ Vue.component('editabletext', {
       this.$el.innerHTML = this.value;
 
     if(!this.quill){
-      this.quill = new Quill(this.$el, quillOptions);
+      if(this.quilltype && this.quilltype == "text")
+        this.quill = new Quill(this.$el, quillSettingsText);
+      else if(this.$el.id.indexOf("post-title") == 0 || this.quillType && this.quillType == "header")
+        this.quill = new Quill(this.$el, quillSettingsHeader);
+      else if(!this.quillType || (this.quillType && this.quillType == "post"))
+        this.quill = new Quill(this.$el, quillSettingsPost);
+
       this.quill.on('text-change', this.updateInput);
       this.quill.getModule('toolbar').addHandler('color', (value) => {
+        if (value == 'custom-color')
+            value = prompt('Enter Hex/RGB/RGBA');
 
-          // if the user clicked the custom-color option, show a prompt window to get the color
-          if (value == 'custom-color') {
-              value = prompt('Enter Hex/RGB/RGBA');
-          }
-
-          this.quill.format('color', value);
+        this.quill.format('color', value);
       });
     }
   }
