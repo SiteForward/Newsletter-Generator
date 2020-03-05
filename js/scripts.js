@@ -1,3 +1,6 @@
+let AlignStyle = Quill.import('attributors/style/align');
+Quill.register(AlignStyle, true);
+
 //Setup Quill
 var toolbarOptions = [
   [{ 'header': [1, 2, 3, 4, false] }, {'align': []}],
@@ -131,7 +134,7 @@ Vue.component('editabletext', {
   methods: {
     updateInput(e){
       //Emit input event trigger v-model
-      this.$emit('input', this.quill.getText());
+      this.$emit('input', this.quill.container.firstChild.innerHTML);
     },
     customShortcuts(e){
 
@@ -161,6 +164,7 @@ Vue.component('editabletext', {
 
     if(!this.quill){
       this.quill = new Quill(this.$el, quillOptions);
+      this.quill.on('text-change', this.updateInput);
       this.quill.getModule('toolbar').addHandler('color', (value) => {
 
           // if the user clicked the custom-color option, show a prompt window to get the color
