@@ -216,7 +216,7 @@
               <div class="accordion-content">
                 <div class="form-item">
                   <editabletext v-if="!editHTML" id="header-html" v-model="header.html" quilltype="text" :value="header.html">{{header.html}}</editabletext>
-                  <textarea v-else id="header-html" v-model="header.html" required></textarea>
+                  <textarea v-else class="editHTML" id="header-html" v-model="header.html" required></textarea>
                   <label for="header-html">Header Content</label>
                 </div>
               </div>
@@ -317,7 +317,7 @@
               <div class="accordion-content">
                 <div class="form-item">
                   <editabletext v-if="!editHTML" id="footer-html" v-model="footer.html" quilltype="text" :value="footer.html">{{footer.html}}</editabletext>
-                  <textarea v-else id="footer-html" v-model="footer.html" required></textarea>
+                  <textarea v-else class="editHTML" id="footer-html" v-model="footer.html" required></textarea>
                   <label for="footer-html">Footer Content</label>
                 </div>
               </div>
@@ -408,17 +408,17 @@
                     <div class="data">
                       <div class="form-item">
                         <editabletext v-if="!editHTML" :id="'post-title-'+pos" v-model="post.title" :value="post.title">{{post.title}}</editabletext>
-                        <input v-else :id="'post-title-'+pos" type="text" v-model="post.title" required>
+                        <input v-else  class="editHTML"  :id="'post-title-'+pos" type="text" v-model="post.title" required>
                         <label :for="'post-title-'+pos">Title</label>
                       </div>
                       <div class="form-item">
                         <editabletext v-if="!editHTML" :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc">{{post.desc}}</editabletext>
-                        <textarea v-else :id="'post-desc-'+pos" v-model="post.desc"required></textarea>
+                        <textarea v-else class="editHTML"  :id="'post-desc-'+pos" v-model="post.desc"required></textarea>
                         <label :for="'post-desc-'+pos">Description</label>
                       </div>
                       <div class="form-item">
                         <editabletext v-if="!editHTML" :id="'post-date-'+pos" v-model="post.date" :value="post.date" style="font-size: 11px">{{post.date}}</editabletext>
-                        <input v-else :id="'post-date-'+pos" type="text" v-model="post.date" style="font-size: 11px" required>
+                        <input v-else class="editHTML"  :id="'post-date-'+pos" type="text" v-model="post.date" style="font-size: 11px" required>
                         <label :for="'post-date-'+pos">Date</label>
                       </div>
                       <div class="form-item split even">

@@ -1,8 +1,10 @@
 .ql-editor{
   padding: 0;
+  overflow-y: visible;
 }
 .ql-tooltip{
   z-index: 10;
+  overflow-y: visible;
 }
 .ql-color .ql-picker-options [data-value=custom-color] {
   background: none !important;
@@ -20,7 +22,25 @@
   border: none;
   border-bottom: 1px solid #ccc;
 }
+.ql-container.ql-bubble:not(.ql-disabled) a::before {
+  content: attr(href);
+}
 
+.ql-bubble .ql-tooltip.ql-editing a.ql-action::after {
+  border-right: 0px;
+  content: 'Save';
+  padding-right: 0px;
+}
+.ql-bubble .ql-tooltip[data-mode=link]::before {
+  content: "Enter link:";
+  position: absolute;
+  top: 10px;
+  left: 6px;
+  color: #666;
+}
+.ql-bubble .ql-tooltip-editor input[type=text]{
+  padding-left: 70px;
+}
 /* Base styles */
 body{
   margin: 0;
@@ -37,7 +57,9 @@ body{
   font-family: 'Roboto Condensed', sans-serif;
 }
 #main,
-.preview-header{
+.preview-header,
+textarea,
+.ql-container{
     font-family: 'Roboto', sans-serif;
 }
 .preview-body{
@@ -411,7 +433,37 @@ body{
   color: #fff;
 }
 /* Form Styles */
-
+.editHTML{
+}
+.editHTMLClose{
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,.5);
+  opacity: 0;
+  cursor: pointer;
+  transition: .35s;
+}
+.editHTMLClose::after{
+    font-family: "Font Awesome 5 Free"; font-weight: 900; content: "\f044";
+    color: #fff;
+    position: absolute;
+    top: 4px;
+    left: 5px;
+    font-size: .7rem;
+    opacity: .5;
+}
+.editHTMLClose:hover::after{
+  opacity: 1;
+}
+.editHTML:hover ~ .editHTMLClose,
+.editHTML:focus ~ .editHTMLClose,
+.editHTMLClose:hover{
+  opacity: 1;
+}
 .form-item{
 	position:relative;
   margin-bottom:15px;
