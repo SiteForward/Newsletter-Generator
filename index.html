@@ -378,7 +378,7 @@
           <div class="card">
             <h3 class="card-title">Edit Newsletter</h3>
             <span class="card-title-icon" title="Add Custom Post" @click="addPost"  style="right: 50px"><i class="far fa-plus-square tool-icon"></i></span>
-            <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:235px">
+            <!-- <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:235px">
               These fields support shortcut key formatting.<hr>
               <div class="row">
                 <div class="col">
@@ -388,7 +388,7 @@
                   <strong>CTRL + B</strong>: Bold<br><strong>CTRL + I</strong>: Italic<br><strong>CTRL + U</strong>: Underline
                 </div>
               </div>
-            </span></span>
+            </span></span> -->
             <div class="edit-newsletter">
               <ul class="newsletter-list">
                 <p v-if="posts.length == 0">No Posts Loaded Yet</p>
@@ -418,7 +418,7 @@
                       </div>
                       <div class="form-item">
                         <editabletext v-if="!editHTML" :id="'post-date-'+pos" v-model="post.date" :value="post.date" style="font-size: 11px">{{post.date}}</editabletext>
-                        <input v-else class="editHTML"  :id="'post-date-'+pos" type="text" v-model="post.date" style="font-size: 11px" required>
+                        <input v-else class="editHTML" :id="'post-date-'+pos" type="text" v-model="post.date" style="font-size: 11px" required>
                         <label :for="'post-date-'+pos">Date</label>
                       </div>
                       <div class="form-item split even">
@@ -439,8 +439,19 @@
                   </div>
                   <span class="tool-list vertical">
                     <i class="fas fa-trash-alt tool-icon" @click="deletePost(pos)" title="Remove Post"></i>
-                    <input type="color" :value='postColor(pos, "background")' @input='e=>editPost(pos, "background", e.target.value)' class="postColorSelector" title="Customize Post Background Color">
-                    <input type="color" :value='postColor(pos, "text")' @input='e=>editPost(pos, "text", e.target.value)' class="postColorSelector" title="Customize Post Text Color">
+                    <i class="far fa-clone tool-icon" @click="duplicatePost(pos)" title="Duplicate Post"></i>
+                    <span class="popup"><i class="fas fa-paint-brush tool-icon"></i><span class="popup-wrapper">
+                      <div class="form-item">
+                        <input :id="'post-background-'+pos" type="color" :value='postColor(pos, "background")' @input='e=>editPost(pos, "background", e.target.value)'  :class="{light: isLight(postColor(pos, 'background'))}" title="Customize Post Background Color">
+                        <label :for="'post-background-'+pos">Post Background Color</label>
+                      </div>
+                      <div class="form-item">
+                        <input :id="'post-color-'+pos" type="color" :value='postColor(pos, "text")' @input='e=>editPost(pos, "text", e.target.value)' :class="{light: isLight(postColor(pos, 'text'))}" title="Customize Post Text Color">
+                        <label :for="'post-color-'+pos">Post Text Color</label>
+                      </div>
+                    </span></span>
+
+
                   </span>
                 </li>
             </div>
@@ -775,26 +786,6 @@
                     </ul>
                     <li>Optional: Change your colours by clicking on the coloured box <small>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> for tips)</small></li>
                   </ol>
-                </div>
-                <div class="col">
-                  <h4 style="margin-bottom: 5px;">Formatting Keyboard Shortcut Options</h4>
-                  <div class="row middle">
-                    <div class="col">
-                      <ul style="list-style-type: square">
-                        <li><strong>CTRL + L</strong>: &nbsp; Left Align</li>
-                        <li><strong>CTRL + E</strong>: &nbsp; Center Align</li>
-                        <li><strong>CTRL + R</strong>: &nbsp; Right Align</li>
-                        <li><strong>CTRL + J</strong>: &nbsp; Justify Align</li>
-                      </ul>
-                    </div>
-                    <div class="col">
-                      <ul style="list-style-type: square">
-                        <li><strong>CTRL + B</strong>: &nbsp; Bold</li>
-                        <li><strong>CTRL + I</strong>: &nbsp;&nbsp; Italic</li>
-                        <li><strong>CTRL + U</strong>: &nbsp; Underline</li>
-                      </ul>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

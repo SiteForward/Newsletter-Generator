@@ -41,6 +41,24 @@
 .ql-bubble .ql-tooltip-editor input[type=text]{
   padding-left: 70px;
 }
+.ql-bubble .ql-picker.ql-size .ql-picker-label::before{
+  content: 'Font Size'
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-item::before {
+  content: '100%';
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=".75em"]::before {
+  content: '75%';
+  font-size: .75em;
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value="1.25em"]::before {
+  content: '125%';
+  font-size: 1.25em;
+}
+.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value="1.5em"]::before {
+  content: '150%';
+  font-size: 1.5em;
+}
 /* Base styles */
 body{
   margin: 0;
@@ -316,7 +334,11 @@ textarea,
   top: 20px;
   right: 20px;
 }
-.card-title-help{
+.popup{
+  position: relative;
+}
+.card-title-help,
+.popup-wrapper{
   position: absolute;
   visibility: hidden;
   opacity: 0;
@@ -334,7 +356,8 @@ textarea,
   z-index: 1;
   transition: top .35s, visibility .35s, opacity .35s, max-height 1s;
 }
-.card-title-icon:hover .card-title-help {
+.card-title-icon:hover .card-title-help,
+.popup:hover .popup-wrapper {
   visibility: visible;
   top: -10%;
   width: 200px;
@@ -353,7 +376,7 @@ textarea,
 .tool-list.vertical{
   display: flex;
   flex-flow: column nowrap;
-  margin: 5px;
+  margin: 5px ;
   text-align: center;
 }
 .tool-list.vertical.space-even{
@@ -361,8 +384,7 @@ textarea,
 }
 
 .tool-list.vertical i{
-  margin-bottom: 10px;
-  margin-left: 0;
+  margin: 7px 0;
 }
 .tool-list i{
   margin-left: 5px;
