@@ -151,6 +151,52 @@ Vue.component('searchbar', {
     }
   }
 });
+var sidebarstuck = new Event("sidebarstuck");
+Vue.component('resizehandle', {
+  template: '<div class="resize-handle" @mousedown="down"></div>',
+  props: ['othercontainer'],
+
+  methods: {
+    down(e){
+      document.addEventListener("mousemove", this.move);
+      document.addEventListener("mouseup", this.up);
+    },
+    up(e){
+      document.removeEventListener("mousemove", this.move);
+      document.removeEventListener("mouseup", this.up);
+    },
+    move(e){
+      var parent = this.$el.parentNode;
+
+      var pos = e.clientX;
+      var offset = parent.offsetLeft;
+      var currentWidth = parent.offsetWidth;
+      var width = currentWidth - (pos - offset);
+      width = Math.max(800, width);
+
+      this.updateWidths(width);
+    },
+    updateWidths(width){
+      var parent = this.$el.parentNode;
+      var otherContainer = document.querySelector(this.othercontainer);
+
+      if(!Number.isInteger(width))
+          width = parent.offsetWidth;
+
+      parent.style = 'width: '+width+'; transition: none';
+      var sidebarWidth = app.sidebarStuck ? '260' : '80';
+      otherContainer.style = 'width: calc(calc(100% - '+sidebarWidth+'px) - '+width+'px); transition: none;';
+
+      setTimeout(function(){
+        parent.style = 'width: '+width;
+        otherContainer.style = 'width: calc(calc(100% - '+sidebarWidth+'px) - '+width+'px);';
+      }, 1);
+    }
+  },
+  mounted(){
+    document.addEventListener("sidebarstuck", this.updateWidths);
+  }
+});
 
 Vue.component('editabletext', {
   // template: '<p contentEditable="true" class="contentEditable" @input="updateInput" @keydown="customShortcuts"></p>',
@@ -344,6 +390,9 @@ let app = new Vue({
     }
   },
   watch:{
+    sidebarStuck: function(){
+      document.dispatchEvent(sidebarstuck);
+    },
     wordSupport: function(){
       if(!this.silentToggle.includes('wordSupport'))
         sendInfo("Word support turned "+(this.wordSupport ? "on" : "off"));

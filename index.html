@@ -71,7 +71,8 @@
           Randy Bimm<br>
           &copy; 2020
       </aside>
-      <aside id="preview" class=""  :class="{large: activeView == 'preview'}" ref="preview">
+      <aside id="preview" :class="{large: activeView == 'preview'}" ref="preview">
+        <resizehandle othercontainer="#main"></resizehandle>
         <div class="preview-header">
           <h3>Newsletter Preview</h3>
         </div>
