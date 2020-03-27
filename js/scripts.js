@@ -201,12 +201,16 @@ Vue.component('editabletext', {
         this.quill = new Quill(this.$el, quillSettingsPost);
 
       this.quill.on('text-change', this.updateInput);
-      this.quill.getModule('toolbar').addHandler('color', (value) => {
+
+      let toolbar = this.quill.getModule('toolbar');
+
+      toolbar.addHandler('color', (value) => {
         if (value == 'custom-color')
             value = prompt('Enter Hex/RGB/RGBA');
         this.quill.format('color', value);
       });
-      this.quill.getModule('toolbar').addHandler('code', (value) => {
+
+      toolbar.addHandler('code', (value) => {
         app.editHTML = true;
         setTimeout(function(){
 
@@ -223,6 +227,13 @@ Vue.component('editabletext', {
           });
         }, 1);
       });
+      toolbar.addHandler('link', formatTextToLink => {
+       if (formatTextToLink) {
+         this.quill.theme.tooltip.edit('link', 'https://SiteForward.ca');
+       } else {
+         this.quill.theme.tooltip.edit('link', this.quill.getFormat().link);
+       }
+     });
     }
   }
 });

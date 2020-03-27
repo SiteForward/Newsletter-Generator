@@ -31,11 +31,17 @@
   content: 'Save';
   padding-right: 0px;
 }
-.ql-bubble .ql-tooltip[data-mode=link]::before {
+.ql-bubble .ql-tooltip-editor input[type=text]:focus{
+  border-bottom: none;
+}
+.ql-bubble .ql-tooltip-editor input[type=text] #placeholder{
+  display: none !important;
+}
+.ql-bubble .ql-tooltip[data-mode=link] .ql-tooltip-editor::before {
   content: "Enter link:";
   position: absolute;
-  top: 10px;
-  left: 6px;
+  top: 12px;
+  left: 10px;
   color: #666;
 }
 .ql-bubble .ql-tooltip-editor input[type=text]{
