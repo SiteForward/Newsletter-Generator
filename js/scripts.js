@@ -154,7 +154,7 @@ Vue.component('searchbar', {
 var sidebarstuck = new Event("sidebarstuck");
 Vue.component('resizehandle', {
   template: '<div class="resize-handle" @mousedown="down"></div>',
-  props: ['othercontainer'],
+  props: ['othercontainer', 'mincontainer', 'minother'],
 
   methods: {
     down(e){
@@ -167,14 +167,20 @@ Vue.component('resizehandle', {
     },
     move(e){
       var parent = this.$el.parentNode;
+      var otherContainer = document.querySelector(this.othercontainer);
 
       var pos = e.clientX;
       var offset = parent.offsetLeft;
       var currentWidth = parent.offsetWidth;
       var width = currentWidth - (pos - offset);
-      width = Math.max(800, width);
 
+      var otherSize = (app.sidebarStuck ? 260 : 80) + otherContainer.offsetWidth;
+      width = Math.min(window.innerWidth - this.minother, width);
+
+      console.log(otherSize +" " + width);
+      width = Math.max(this.mincontainer, width);
       this.updateWidths(width);
+
     },
     updateWidths(width){
       var parent = this.$el.parentNode;

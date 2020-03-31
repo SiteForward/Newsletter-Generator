@@ -140,7 +140,7 @@ textarea,
 #preview.large .preview-header{
   width: 100%;
 }
-@media(max-width: 1350px){
+@media(max-width: 1500px){
   #main{
     width: calc(100% - 80px) !important;
   }
@@ -161,12 +161,12 @@ textarea,
   }
 }
 #preview.closed{
-  width: 0%;
+  width: 0% !important;
 }
 #preview.closed ~ #main{
-  width: calc(calc(100% - 80px));
+  width: calc(calc(100% - 80px))!important;
 }
-#sidebar.stuck ~ #preview.closed ~ #main{
+#sidebar.stuck ~ #preview.closed ~ #main !important{
   width: calc(calc(100% - 260px));
 }
 /* Sidebar styles */
