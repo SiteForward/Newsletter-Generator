@@ -177,7 +177,6 @@ Vue.component('resizehandle', {
       var otherSize = (app.sidebarStuck ? 260 : 80) + otherContainer.offsetWidth;
       width = Math.min(window.innerWidth - this.minother, width);
 
-      console.log(otherSize +" " + width);
       width = Math.max(this.mincontainer, width);
       this.updateWidths(width);
 
