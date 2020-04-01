@@ -7,6 +7,8 @@ Quill.register(ColorStyle, true);
 Quill.register(SizeStyle, true);
 
 
+var sidebarStuck = new Event("sidebarstuck");
+var activeViewChange = new Event("activeviewchange");
 
 //Setup Quill
 var quillSettingsText = {
@@ -151,7 +153,6 @@ Vue.component('searchbar', {
     }
   }
 });
-var sidebarstuck = new Event("sidebarstuck");
 Vue.component('resizehandle', {
   template: '<div class="resize-handle" @mousedown="down"></div>',
   props: ['othercontainer', 'mincontainer', 'minother'],
@@ -184,22 +185,30 @@ Vue.component('resizehandle', {
     updateWidths(width){
       var parent = this.$el.parentNode;
       var otherContainer = document.querySelector(this.othercontainer);
+      if(!parent.classList.contains("closed") && !parent.classList.contains("large")){
+        if(!Number.isInteger(width))
+            width = parent.offsetWidth;
 
-      if(!Number.isInteger(width))
-          width = parent.offsetWidth;
+        parent.style = 'width: '+width+'; transition: none';
+        var sidebarWidth = app.sidebarStuck ? '260' : '80';
+        otherContainer.style = 'width: calc(calc(100% - '+sidebarWidth+'px) - '+width+'px); transition: none;';
 
-      parent.style = 'width: '+width+'; transition: none';
-      var sidebarWidth = app.sidebarStuck ? '260' : '80';
-      otherContainer.style = 'width: calc(calc(100% - '+sidebarWidth+'px) - '+width+'px); transition: none;';
-
+        setTimeout(function(){
+          parent.style = 'width: '+width;
+          otherContainer.style = 'width: calc(calc(100% - '+sidebarWidth+'px) - '+width+'px);';
+        }, 1);
+      }
       setTimeout(function(){
-        parent.style = 'width: '+width;
-        otherContainer.style = 'width: calc(calc(100% - '+sidebarWidth+'px) - '+width+'px);';
-      }, 1);
+        if(parent.classList.contains("closed") || parent.classList.contains("large")){
+          parent.style = "";
+          otherContainer.style = "";
+        }
+      }, 5);
     }
   },
   mounted(){
     document.addEventListener("sidebarstuck", this.updateWidths);
+    document.addEventListener("activeviewchange", this.updateWidths);
   }
 });
 
@@ -396,7 +405,7 @@ let app = new Vue({
   },
   watch:{
     sidebarStuck: function(){
-      document.dispatchEvent(sidebarstuck);
+      document.dispatchEvent(sidebarStuck);
     },
     wordSupport: function(){
       if(!this.silentToggle.includes('wordSupport'))
@@ -782,6 +791,7 @@ let app = new Vue({
           let p = pTags[0];
           let i = 1;
           while(p.textContent == null || p.textContent.length == 0){
+            console.log("\'"+p+"\'");
             if(i + 1 > pTags.length){
               p = pTags[0];
               break;
@@ -799,7 +809,8 @@ let app = new Vue({
           //Get the rest of the values as they will be found
           post.title = doc.querySelector(".post").querySelector(".post-title").innerHTML;
           post.link = url;
-          post.date = doc.querySelector(".post").querySelector(".post-meta").querySelector("time").innerHTML;
+          if(doc.querySelector(".post").querySelector(".post-meta").querySelector("time"))
+            post.date = doc.querySelector(".post").querySelector(".post-meta").querySelector("time").innerHTML;
 
           //Check for a thumbnail
           if (doc.querySelector(".post").querySelector(".post-thumbnail"))
@@ -864,7 +875,15 @@ let app = new Vue({
     // Delete post
     duplicatePost(pos){
       sendSuccess("Duplicated Post");
-      this.posts.splice(pos, 0, this.posts[pos]);
+      let post = this.posts[pos];
+      this.posts.splice(pos, 0, {
+        title: post.title,
+        desc: post.desc,
+        date: post.date,
+        link: post.link,
+        img: post.img,
+        linkLabel: post.linkLabel
+      });
       if(!this.editHTML)
         this.toggleEditHTMLSilently();
     },
@@ -938,6 +957,7 @@ let app = new Vue({
     //Scroll to top of view
     scrollToTop () {
       this.$refs.main.scrollTop = 0
+      document.dispatchEvent(activeViewChange);
     }
   },
   updated(){
