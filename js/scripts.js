@@ -6,10 +6,6 @@ Quill.register(AlignStyle, true);
 Quill.register(ColorStyle, true);
 Quill.register(SizeStyle, true);
 
-
-var sidebarStuck = new Event("sidebarstuck");
-var activeViewChange = new Event("activeviewchange");
-
 //Setup Quill
 var quillSettingsText = {
   modules: {
@@ -154,6 +150,8 @@ Vue.component('searchbar', {
     }
   }
 });
+
+var updateResizeHandle = new Event("updateresizehandle");
 Vue.component('resizehandle', {
   template: '<div class="resize-handle" @mousedown="down"></div>',
   props: ['othercontainer', 'mincontainer', 'minother'],
@@ -162,30 +160,27 @@ Vue.component('resizehandle', {
     down(e){
       document.addEventListener("mousemove", this.move);
       document.addEventListener("mouseup", this.up);
+      document.querySelector('body').style = 'user-select: none;';
     },
     up(e){
       document.removeEventListener("mousemove", this.move);
       document.removeEventListener("mouseup", this.up);
+      document.querySelector('body').style = '';
     },
     move(e){
       var parent = this.$el.parentNode;
       var otherContainer = document.querySelector(this.othercontainer);
+      var width = parent.offsetWidth - (e.clientX - parent.offsetLeft);
 
-      var pos = e.clientX;
-      var offset = parent.offsetLeft;
-      var currentWidth = parent.offsetWidth;
-      var width = currentWidth - (pos - offset);
-
-      var otherSize = (app.sidebarStuck ? 260 : 80) + otherContainer.offsetWidth;
       width = Math.min(window.innerWidth - this.minother, width);
-
       width = Math.max(this.mincontainer, width);
-      this.updateWidths(width);
 
+      this.updateWidths(width);
     },
     updateWidths(width){
       var parent = this.$el.parentNode;
       var otherContainer = document.querySelector(this.othercontainer);
+
       if(!parent.classList.contains("closed") && !parent.classList.contains("large")){
         if(!Number.isInteger(width))
             width = parent.offsetWidth;
@@ -208,8 +203,7 @@ Vue.component('resizehandle', {
     }
   },
   mounted(){
-    document.addEventListener("sidebarstuck", this.updateWidths);
-    document.addEventListener("activeviewchange", this.updateWidths);
+    document.addEventListener("updateresizehandle", this.updateWidths);
   }
 });
 
@@ -230,23 +224,23 @@ Vue.component('editabletext', {
     customShortcuts(e){
 
       //Key shortcuts
-      if(e.ctrlKey)
-        if(e.keyCode == 76){
-          e.preventDefault();
-          document.execCommand("justifyLeft");
-        }
-        else if(e.keyCode == 82){
-          e.preventDefault();
-          document.execCommand("justifyRight");
-        }
-        else if(e.keyCode == 69){
-          e.preventDefault();
-          document.execCommand("justifyCenter");
-        }
-        else if(e.keyCode == 74){
-          e.preventDefault();
-          document.execCommand("justifyFull");
-        }
+      // if(e.ctrlKey)
+      //   if(e.keyCode == 76){
+      //     e.preventDefault();
+      //     document.execCommand("justifyLeft");
+      //   }
+      //   else if(e.keyCode == 82){
+      //     e.preventDefault();
+      //     document.execCommand("justifyRight");
+      //   }
+      //   else if(e.keyCode == 69){
+      //     e.preventDefault();
+      //     document.execCommand("justifyCenter");
+      //   }
+      //   else if(e.keyCode == 74){
+      //     e.preventDefault();
+      //     document.execCommand("justifyFull");
+      //   }
     }
   },
   mounted(){
@@ -406,7 +400,7 @@ let app = new Vue({
   },
   watch:{
     sidebarStuck: function(){
-      document.dispatchEvent(sidebarStuck);
+      document.dispatchEvent(updateResizeHandle);
     },
     wordSupport: function(){
       if(!this.silentToggle.includes('wordSupport'))
@@ -425,6 +419,8 @@ let app = new Vue({
     activeView: function(){
       let activeView = this.activeView,
           preview = this.$refs.preview;
+
+      document.dispatchEvent(updateResizeHandle);
 
       setTimeout(function(){
         //If changed to any of the following close the preview window
@@ -958,7 +954,6 @@ let app = new Vue({
     //Scroll to top of view
     scrollToTop () {
       this.$refs.main.scrollTop = 0
-      document.dispatchEvent(activeViewChange);
     }
   },
   updated(){
