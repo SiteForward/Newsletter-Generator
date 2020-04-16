@@ -113,7 +113,7 @@
                 <p v-if="footer.preset.website || footer.preset.social.facebook || footer.preset.social.linkedin || footer.preset.social.twitter" style="margin:0;margin-bottom: 10px;text-align:center;color:#fff;">
                   <a v-if="footer.preset.website" :href="footer.preset.website" target="_blank" :style="{color: colors.links}">Website</a>
                   <span v-if="footer.preset.social.facebook"><span v-if="footer.preset.website"> | </span><a :href="footer.preset.social.facebook" target="_blank" :style="{color: colors.links}">Facebook</a></span>
-                  <span v-if="footer.preset.social.linkedin"><span v-if="footer.preset.website || footer.preset.social.facebook"> | </span><a :href="footer.preset.social.linkedin" target="_blank" :style="{color: colors.links}">LlinkedIn</a></span>
+                  <span v-if="footer.preset.social.linkedin"><span v-if="footer.preset.website || footer.preset.social.facebook"> | </span><a :href="footer.preset.social.linkedin" target="_blank" :style="{color: colors.links}">LinkedIn</a></span>
                   <span v-if="footer.preset.social.twitter"><span v-if="footer.preset.website || footer.preset.social.facebook || footer.preset.social.linkedin"> | </span><a :href="footer.preset.social.twitter" target="_blank" :style="{color: colors.links}">Twitter</a></span>
                 </p>
                 <h3 v-if="footer.preset.name" style="margin:0;margin-bottom: 10px;text-align:center;" :style="{color: colors.footer.text}">{{footer.preset.name}}</h3>
