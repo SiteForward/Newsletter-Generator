@@ -1,3 +1,4 @@
+
 let AlignStyle = Quill.import('attributors/style/align');
 var ColorStyle = Quill.import('attributors/style/color');
 var SizeStyle = Quill.import('attributors/style/size');
@@ -10,7 +11,7 @@ Quill.register(SizeStyle, true);
 var quillSettingsText = {
   modules: {
     toolbar: [
-      [{ 'header': [1, 2, 3, 4, false] }, { 'size': ['.75em', false, '1.25em', '1.5em'] }, {'align': []}],
+      [{ 'header': [1, 2, 3, 4, false] }, { 'size': ['.75em', false, '1.25em', '1.5em'] }, 'lineheight', {'align': []}],
       [{ 'color': ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color']}, 'bold', 'italic', 'underline'],
       ['link', 'image', 'video'],
       ['clean', 'code']
@@ -22,7 +23,7 @@ var quillSettingsText = {
 var quillSettingsPost = {
   modules: {
     toolbar: [
-      [{ 'header': [1, 2, 3, 4, false] },  { 'size': ['.75em', false, '1.25em', '1.5em'] }, {'align': []}],
+      [{ 'header': [1, 2, 3, 4, false] },  { 'size': ['.75em', false, '1.25em', '1.5em'] }, 'lineheight', {'align': []}],
       [{ 'color': ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color']}, 'bold', 'italic', 'underline'],
       [{ 'list': 'ordered'}, { 'list': 'bullet' }],
       ['link', 'image'],
@@ -35,7 +36,8 @@ var quillSettingsPost = {
 var quillSettingsHeader = {
   modules: {
     toolbar:[
-      [ {'align': []}, { 'color': ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color']}],
+      [{ 'header': [1, 2, 3, 4, false] }, { 'size': ['.75em', false, '1.25em', '1.5em'] }, {'align': []}],
+      [{ 'color': ["#000000", "#e60000", "#ff9900", "#ffff00", "#008a00", "#0066cc", "#9933ff", "#ffffff", "#facccc", "#ffebcc", "#ffffcc", "#cce8cc", "#cce0f5", "#ebd6ff", "#bbbbbb", "#f06666", "#ffc266", "#ffff66", "#66b966", "#66a3e0", "#c285ff", "#888888", "#a10000", "#b26b00", "#b2b200", "#006100", "#0047b2", "#6b24b2", "#444444", "#5c0000", "#663d00", "#666600", "#003700", "#002966", "#3d1466", 'custom-color']}],
       ['bold', 'italic', 'underline'],
       ['clean', 'code']
     ]
@@ -55,13 +57,14 @@ Vue.component('slider', {
     }
   },
   mounted(){
-    this.adjust(null, this.value);
+    if(this.value)
+      this.adjust(null, this.value);
   },
   methods:{
     adjust(e, value){
 
       //Update the value label based on the input slider
-      this.val = value != null ? value : e.target.value;
+      this.val = value != null ? value : e.target.value ? e.target.value : 0;
       this.$el.children[1].children[0].value = this.val;
 
       //Emit input event to trigger v-model
@@ -304,7 +307,9 @@ let app = new Vue({
     editHTML: false,
     activeView: "setup",
     silentToggle: [],
+    previewText: "",
     colors:{
+      background: "#ffffff",
       button: "#06874E",
       links: "#06874E",
       header: {
@@ -318,6 +323,13 @@ let app = new Vue({
       footer: {
         background: "#333333",
         text: "#ffffff"
+      }
+    },
+    styles: {
+      posts:{
+        shadow: false,
+        borderRadius: 0,
+        spacing: 5
       }
     },
     analytics: {
@@ -438,6 +450,8 @@ let app = new Vue({
     }
   },
   mounted(){
+    var style = document.createElement("style");
+    this.$refs.newsletter.prepend(style);
 
     //Prompt to load local options if exists
     if(localStorage.options)
@@ -510,6 +524,17 @@ let app = new Vue({
         this.$set(this.footer.preset.disclaimer.licenses, "mfda", false);
       if(typeof this.footer.preset.disclaimer.licenses.iiroc == 'undefined')
         this.$set(this.footer.preset.disclaimer.licenses, "iiroc", false);
+
+
+      if(typeof this.colors.background == 'undefined')
+        this.$set(this.colors, "background", "#ffffff");
+
+      if(typeof this.styles.posts == 'undefined')
+        this.$set(this.styles, "posts", {});
+      if(typeof this.styles.posts.shadow == 'undefined')
+        this.$set(this.styles.posts, "shadow", false);
+      if(typeof this.styles.posts.borderRadius == 'undefined')
+        this.$set(this.styles.posts, "borderRadius", 0);
     },
 
     //Download custom tool banner
@@ -543,6 +568,7 @@ let app = new Vue({
       	var ev = new MouseEvent("click",{});
       	anch.dispatchEvent(ev);
       	document.body.removeChild(div);
+      	document.body.removeChild(canvas);
 
         //Send analytics call
         gtag('event', 'Tools', {
@@ -593,12 +619,6 @@ let app = new Vue({
         }, 500);
       }
     },
-
-    //Get the default post color if no per post color exists
-    postColor(pos, key){
-      return typeof this.posts[pos][key] == 'undefined' ? this.colors.posts[key] : this.posts[pos][key];
-    },
-
     //Load posts
     loadPosts(posts){
       if((!posts || posts.target) && localStorage.posts)
@@ -609,6 +629,17 @@ let app = new Vue({
       else{
         sendSuccess("Posts Loaded");
         this.posts = posts;
+      }
+
+      if(this.posts){
+        this.posts.forEach(i =>{
+          if(i.title && i.title.indexOf('<') != 0 && i.title.lastIndexOf('>') != i.title.length-1)
+            i.title = '<h2>'+i.title+'</h2>';
+          if(i.date && i.date.indexOf('<') != 0 && i.date.lastIndexOf('>') != i.date.length-1)
+            i.date = '<p>'+i.date+'</p>';
+          if(i.desc && i.desc.indexOf('<') != 0 && i.desc.lastIndexOf('>') != i.desc.length-1)
+            i.desc = '<p>'+i.desc+'</p>';
+        });
       }
     },
 
@@ -669,6 +700,17 @@ let app = new Vue({
         editHTML: this.editHTML
       }));
       sendSuccess("Options Saved");
+    },
+    downloadPDF(){
+      var tempDiv = document.createElement("div");
+      tempDiv.innerHTML = this.$refs.newsletter.outerHTML;
+      document.body.append(tempDiv);
+      tempDiv.querySelectorAll('img').forEach(e =>{
+        getDataUrl(e, url => {
+          console.log(url);
+          e.src = url;
+        });
+      });
     },
 
     //Export posts as file
@@ -744,11 +786,11 @@ let app = new Vue({
        	      }
 
        	      //Create the blog post item, and add it to the list
-       	      post.title = title;
-       	      post.date = date;
+       	      post.title = '<h2>'+title+'</h2>';
+       	      post.date = '<p>'+date+'</p>';
        	      post.link = link;
        	      post.img = img;
-       	      post.desc = desc;
+       	      post.desc = '<p>'+desc+'</p>';
        	     this.posts.push(post);
            }
      	   });
@@ -788,7 +830,6 @@ let app = new Vue({
           let p = pTags[0];
           let i = 1;
           while(p.textContent == null || p.textContent.length == 0){
-            console.log("\'"+p+"\'");
             if(i + 1 > pTags.length){
               p = pTags[0];
               break;
@@ -1133,4 +1174,20 @@ if (!String.prototype.splice) {
     String.prototype.splice = function(start, delCount, newSubStr) {
         return this.slice(0, start) + newSubStr + this.slice(start + Math.abs(delCount));
     };
+}
+
+function getDataUrl(e, cb) {
+   let canvas = document.createElement('canvas');
+   let ctx = canvas.getContext('2d');
+   let img = new Image();
+
+   img.onload = function(){
+     canvas.width = img.width;
+     canvas.height = img.height;
+     ctx.drawImage(img, 0, 0);
+     cb(canvas.toDataURL());
+   }
+
+   img.setAttribute('crossOrigin', 'Anonymous');
+   img.src =  'https://cors-anywhere.herokuapp.com/'+e.src;
 }
