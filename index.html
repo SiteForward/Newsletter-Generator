@@ -485,7 +485,7 @@
             <span class="card-title-icon" title="Add Custom Post" @click="addPost"><i class="far fa-plus-square tool-icon"></i></span>
             <div class="edit-newsletter">
               <ul class="newsletter-list">
-                <p v-if="posts.length == 0">No Posts Loaded Yet</p>
+                <p v-if="posts.length == 0">No Posts Loaded</p>
                 <li v-for="(post, pos) in posts" class="card" style="margin-bottom:10px;" :key="pos">
                   <div class="tool-list vertical space-even">
                     <div class="tool-list vertical space-even">
@@ -822,7 +822,7 @@
             </div>
           </div>
           <div class="card">
-            <h3 class="card-title">Turn on Editing in HTML</h3>
+            <h3 class="card-title">Turn On Editing in HTML</h3>
             <p><small>This allows the use of custom HTML when editing posts</small></p>
             <div class="form-item">
               <input type="checkbox" v-model="editHTML" id="editHTMLToggle">
