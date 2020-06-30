@@ -291,9 +291,8 @@
               </div>
               <div class="accordion-content">
                 <div class="form-item">
-                  <editabletext v-if="!editHTML" id="header-html" v-model="header.html" quilltype="text" :value="header.html">{{header.html}}</editabletext>
-                  <textarea v-else class="editHTML" id="header-html" v-model="header.html" required></textarea>
-                  <label for="header-html">Header Content</label>
+                  <textarea class="editHTML" id="header-html" v-model="header.html" required></textarea>
+                  <label for="header-html">Header Content (HTML)</label>
                 </div>
               </div>
             </div>
@@ -390,18 +389,17 @@
                 <p>Custom Footer</p>
                 <div class="selector"></div>
               </div>
-              <div class="accordion-content">
+              <div class="accordion-content expandable">
                 <div class="form-item">
-                  <editabletext v-if="!editHTML" id="footer-html" v-model="footer.html" quilltype="text" :value="footer.html">{{footer.html}}</editabletext>
-                  <textarea v-else class="editHTML" id="footer-html" v-model="footer.html" required></textarea>
-                  <label for="footer-html">Footer Content</label>
+                    <textarea  class="editHTML" id="footer-html" v-model="footer.html" required></textarea>
+                  <label for="footer-html">Footer Content (HTML)</label>
                 </div>
               </div>
             </div>
           </div>
           <div class="card">
             <h3 class="card-title">Colour Settings</h3>
-            <span class="card-title-icon" ><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help">
+            <span class="card-title-icon" ><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help"  style="width:200px">
               <div class="row">
                 <div class="col"><p>If you can't change the color, change the vertical slider first.</p></div>
                 <div class="col"><img src="imgs\colourSlider.png" width="128px"></div>
@@ -459,7 +457,7 @@
           </div>
           <div class="card">
             <h3 class="card-title">Style Settings</h3>
-            <span class="card-title-icon" ><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help">
+            <span class="card-title-icon" ><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help"  style="width:200px">
               <p>Border Radius will not be displayed in Outlook for Desktop or Web.</p>
             </span></span>
             <div class="form-item split even">
