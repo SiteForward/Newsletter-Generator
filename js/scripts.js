@@ -945,8 +945,8 @@ let app = new Vue({
     addPost(){
       sendSuccess("Added New Post");
       this.posts.push({
-        title: 'New Post',
-        desc: 'New Desc'
+        title: '<h2>New Post</h2>',
+        desc: '<p>New Desc</p>'
       });
     },
 
