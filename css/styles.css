@@ -896,38 +896,38 @@ input[type="color"].postColorSelector:focus{
   width: 1px;
   background-color: #fff;
 }
-.accordion-title div{
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  bottom: 0;
-  right: 30px;
-  border-radius: 50%;
-  height: 15px;
-  width: 15px;
+.accordion-title .selector{
+  width: 16px;
+  height: 16px;
   border: 1px solid #cacaca;
-  transition: all .35s;
-}
-.accordion.open .accordion-title div{
-  border: 1px solid #00a72a;
-}
-.accordion .accordion-title div::before{
-  content: ' ';
+  border-radius: 100%;
+  margin-right: 16px;
   position: absolute;
-  top: 50%;
-  right: 50%;
-  border-radius: 50%;
-  height: 1px;
-  width: 1px;
+  top: 16px;
+  right: 15px;
+  transition: .35s;
+}
+.accordion.open .selector{
+  border-color: #00a72a;
+}
+.accordion-title .selector::before{
+  background: #00a72a;
   opacity: 0;
-  background-color: #00a72a;
-  transition: transform .25s linear;
-  transform-origin: center center;
+  transition: .35s;
+   content: "";
+    display: block;
+    width: inherit;
+    height: inherit;
+    border-radius: inherit;
+    position: absolute;
+    transform: scale(0);
+    transform-origin: center center;
 }
-.accordion.open .accordion-title div::before{
+.accordion.open .selector::before{
   opacity: 1;
-  transform: scale(12);
+  transform: scale(.8);
 }
+
 .accordion-content{
   max-height: 0;
   position: relative;
