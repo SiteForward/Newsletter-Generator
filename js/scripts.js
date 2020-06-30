@@ -715,7 +715,7 @@ let app = new Vue({
 
     //Export posts as file
     exportPosts(){
-      exportJSONToFile(this.posts, "Newsleter - Posts.json");
+      exportJSONToFile(this.posts, "Newsletter - Posts.json");
     },
 
     //Export options as file
@@ -728,7 +728,7 @@ let app = new Vue({
           colors: this.colors,
           analytics: this.analytics,
           editHTML: this.editHTML
-        }, "Newsleter - Options.json");
+        }, "Newsletter - Options.json");
     },
 
     //Import posts from file
