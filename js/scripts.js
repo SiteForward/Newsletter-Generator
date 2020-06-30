@@ -842,13 +842,13 @@ let app = new Vue({
              desc = desc.substr(0, desc.length - 1);
           if (desc)
              desc += "...";
-          post.desc = desc;
+          post.desc = '<p>'+desc+'</p>';
 
           //Get the rest of the values as they will be found
-          post.title = doc.querySelector(".post").querySelector(".post-title").innerHTML;
+          post.title = '<h2>'+doc.querySelector(".post").querySelector(".post-title").innerHTML+'</h2>';
           post.link = url;
           if(doc.querySelector(".post").querySelector(".post-meta").querySelector("time"))
-            post.date = doc.querySelector(".post").querySelector(".post-meta").querySelector("time").innerHTML;
+            post.date = '<p>'+doc.querySelector(".post").querySelector(".post-meta").querySelector("time").innerHTML+'</p>';
 
           //Check for a thumbnail
           if (doc.querySelector(".post").querySelector(".post-thumbnail"))
