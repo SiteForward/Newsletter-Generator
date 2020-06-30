@@ -761,7 +761,7 @@ let app = new Vue({
      	   items.forEach((item , i) => {
             if(i < maxCount){
 
-       	      let post = {};
+              let post = {};
        	      //Remove the prefix of the node values
        	      let title = item.querySelector("title").innerHTML;
        	      let titlePrefix = '<![CDATA[';
@@ -822,6 +822,7 @@ let app = new Vue({
         fetch(url)
         .then(res => res.text())
         .then(data =>{
+
           let post = {};
           let doc = (new DOMParser()).parseFromString(data, "text/html");
 
@@ -920,6 +921,7 @@ let app = new Vue({
         date: post.date,
         link: post.link,
         img: post.img,
+        btnAlign: post.btnAlign,
         linkLabel: post.linkLabel
       });
       if(!this.editHTML)

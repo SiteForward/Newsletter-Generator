@@ -122,7 +122,7 @@
                               <table class="no-borders" v-if="post.link" width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                   <td>
-                                    <table class="no-borders" border="0" cellspacing="0" cellpadding="0" style="margin-right: calc(70%); width:30%">
+                                    <table class="no-borders" border="0" cellspacing="0" cellpadding="0" style="width:30%" :align="post.btnAlign">
                                       <tr>
                                         <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center">
                                           <a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;"><strong style="font-weight:normal">
@@ -143,7 +143,7 @@
                               <table class="no-borders" v-if="post.link" width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                   <td>
-                                    <table class="no-borders" border="0" cellspacing="0" cellpadding="0" style="margin-right: calc(70%); width:30%">
+                                    <table class="no-borders" border="0" cellspacing="0" cellpadding="0" style="width:30%" :align="post.btnAlign">
                                       <tr>
                                         <td :bgcolor="colors.button" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center">
                                           <a target="_blank" :href="post.link" style="color: #fff;text-decoration:none;display: inline-block;"><strong style="font-weight:normal">
@@ -534,7 +534,7 @@
                   <span class="tool-list vertical">
                     <i class="fas fa-trash-alt tool-icon" @click="deletePost(pos)" title="Remove Post"></i>
                     <i class="far fa-clone tool-icon" @click="duplicatePost(pos)" title="Duplicate Post"></i>
-                    <span class="popup"><i class="fas fa-paint-brush tool-icon"></i><span class="popup-wrapper">
+                    <span class="popup"><i class="fas fa-paint-brush tool-icon"></i><span class="popup-wrapper" style="width: 250px;">
                       <div class="form-item border">
                         <input :id="'post-background-'+pos" type="color" :value='post.background != null ? post.background : colors.posts.background' @input='e=>editPost(pos, "background", e.target.value)'  :class="{light: isLight(post.background != null ? post.background : colors.posts.background)}" title="Customize Post Background Color">
                         <label :for="'post-background-'+pos">Post Background Color</label>
@@ -543,11 +543,20 @@
                         <input :id="'post-color-'+pos" type="color" :value='post.text != null ? post.text : colors.posts.text' @input='e=>editPost(pos, "text", e.target.value)' :class="{light: isLight(post.text != null ? post.text : colors.posts.text)}" title="Customize Post Text Color">
                         <label :for="'post-color-'+pos">Post Text Color</label>
                       </div>
+
                       <!-- <div class="form-item border">
                         <slider min="0" max="50" v-model="post.spacing" :value="post.spacing != null ? post.spacing : styles.posts.spacing">Post Spacing</slider>
                       </div> -->
                       <div class="form-item border">
                         <slider min="0" max="50" v-model="post.borderRadius" :value="post.borderRadius != null ? post.borderRadius : styles.posts.borderRadius">Post Border Radius</slider>
+                      </div>
+                      <div class="form-item">
+                        <select :id="'post-btnAlign-'+pos"  v-model='post.btnAlign' title="Customize Post Link Button Alignment">
+                          <option value="left" selected="selected">Left</option>
+                          <option value="center">Center</option>
+                          <option value="right">Right</option>
+                        </select>
+                        <label :for="'post-btnAlign-'+pos">Link Button Alignment</label>
                       </div>
                     <!--   <div class="form-item border">
                         <input id="post-shadow" type="checkbox" v-model="post.shadow" class="checkbox-left">
