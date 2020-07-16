@@ -799,7 +799,7 @@ let app = new Vue({
          if(items.length > 0)
           sendSuccess("Loaded Posts");
          else
-          sendError("No posts were found");
+          sendError("No posts were found, make sure you're not using the RSS Feed");
 
          //Send call to Google Analytics
          gtag('event', 'Page', {
