@@ -537,6 +537,9 @@ textarea,
   cursor: text;
   color: #aaa;
 }
+.card.dark input[type="text"]{
+  color: #fff;
+}
 .form-item.border{
   border-bottom: 1px solid #d2d2d2;
   padding-bottom: 5px;
