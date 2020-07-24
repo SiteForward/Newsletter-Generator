@@ -376,6 +376,11 @@ let app = new Vue({
     },
     posts: [],
     newsletterHTML: "",
+    newsletter:{
+      data: 1,
+      editPostTimer: null,
+      version: 1
+    },
     tools:{
       bannerCreationTimer: null,
       banner:{
@@ -453,31 +458,56 @@ let app = new Vue({
     var style = document.createElement("style");
     this.$refs.newsletter.prepend(style);
 
-    //Prompt to load local options if exists
-    if(localStorage.options)
-      this.$snotify.info('Did you want to load local options', {
+    if(localStorage.newsletter){
+      this.$snotify.info('Did you want to load the local newsletter', {
         timeout: 5000,
         showProgressBar: true,
         closeOnClick: true,
         pauseOnHover: true,
         buttons: [
-          {text: 'Yes',  action: (toast) => {this.loadOptions(); this.$snotify.remove(toast.id);}},
+          {text: 'Yes',  action: (toast) => {
+            this.loadNewsletter(); this.$snotify.remove(toast.id);
+          }},
           {text: 'No'},
         ]
       });
-
-      //Prompt to load local posts if exists
-      if(localStorage.posts)
-        this.$snotify.info('Did you want to load local posts', {
+    }else{
+      //Prompt to load local options if exists
+      if(localStorage.options)
+        this.$snotify.info('Did you want to load local options', {
           timeout: 5000,
           showProgressBar: true,
           closeOnClick: true,
           pauseOnHover: true,
           buttons: [
-            {text: 'Yes', action: (toast) => {this.loadPosts(); this.$snotify.remove(toast.id);}},
+            {text: 'Yes',  action: (toast) => {
+              this.loadOptions(); this.$snotify.remove(toast.id);
+              this.saveNewsletter(true);
+              localStorage.removeItem('options');
+              sendInfo("Updating Newsletter save to newer version");
+            }},
             {text: 'No'},
           ]
         });
+
+        //Prompt to load local posts if exists
+        if(localStorage.posts)
+          this.$snotify.info('Did you want to load local posts', {
+            timeout: 5000,
+            showProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            buttons: [
+              {text: 'Yes', action: (toast) => {
+                this.loadPosts(); this.$snotify.remove(toast.id);
+                this.saveNewsletter(true);
+                localStorage.removeItem('posts');
+                sendInfo("Updating Newsletter save to newer version");
+              }},
+              {text: 'No'},
+            ]
+          });
+        }
   },
   methods: {
 
@@ -643,7 +673,31 @@ let app = new Vue({
       }
     },
 
+    loadNewsletter(file){
+      if((!file || file.target) && localStorage.newsletter)
+        file = JSON.parse(localStorage.newsletter);
+      if(!file || file.target)
+          sendError("Unable to load newsletter");
+      else{
+        if(file.options.loadPosts)
+          this.$refs.loadPosts.value = file.options.loadPosts;
+        if(file.options.loadPost)
+          this.$refs.loadPost.value = file.options.loadPost;
+        if(file.options.header)
+          this.header = file.options.header;
+        if(file.options.footer)
+          this.footer = file.options.footer;
+        if(file.options.colors)
+          this.colors = file.options.colors;
+        if(file.options.analytics)
+          this.analytics = file.options.analytics;
+        if(file.posts)
+          this.posts = file.posts;
+      }
+    },
+
     //Load options
+    // DEPRECATED
     loadOptions(options){
       if((!options || options.target) && localStorage.options)
         options = JSON.parse(localStorage.options);
@@ -665,13 +719,40 @@ let app = new Vue({
           this.analytics = options.analytics;
         if(options.editHTML)
           this.editHTML = options.editHTML;
+        if(options.previewText)
+          this.previewText = options.previewText;
 
         this.updateData();
         sendSuccess("Options Loaded");
       }
     },
 
+    //Save Posts and Options
+    // DEPRECATED
+    saveNewsletter(overwrite){
+      if(overwrite == null || overwrite == undefined)
+        overwrite = false;
+      if(!overwrite && localStorage.getItem("newsletter"))
+        if(!confirm("Do you want to overwrite your currently saved newsletter?")){
+          sendInfo("Didn't Save Newsletter");
+          return;
+        }
+      localStorage.setItem("newsletter", JSON.stringify({
+        'posts': this.posts,
+        'options': {
+          loadPosts: this.$refs.loadPosts.value,
+          loadPost: this.$refs.loadPost.value,
+          header: this.header,
+          footer: this.footer,
+          colors: this.colors,
+          analytics: this.analytics
+        }
+      }));
+      sendSuccess("Newsletter Saved");
+    },
+
     //Save posts
+    // DEPRECATED
     savePosts(){
       if(localStorage.getItem("posts"))
         if(!confirm("Do you want to overwrite your currently saved posts?")){
@@ -683,6 +764,7 @@ let app = new Vue({
     },
 
     //Save options
+    // DEPRECATED
     saveOptions(){
       if(localStorage.getItem("options"))
         if(!confirm("Do you want to overwrite your currently saved options?")){
@@ -697,7 +779,8 @@ let app = new Vue({
         footer: this.footer,
         colors: this.colors,
         analytics: this.analytics,
-        editHTML: this.editHTML
+        editHTML: this.editHTML,
+        previewText: this.previewText
       }));
       sendSuccess("Options Saved");
     },
@@ -714,11 +797,25 @@ let app = new Vue({
     },
 
     //Export posts as file
+    exportNewsletter(){
+      exportJSONToFile({'posts': this.posts, 'options': {
+        loadPosts: this.$refs.loadPosts.value,
+        loadPost: this.$refs.loadPost.value,
+        header: this.header,
+        footer: this.footer,
+        colors: this.colors,
+        analytics: this.analytics,
+        previewText: this.previewText
+      }}, "Newsletter - " + this.previewText + ".json");
+    },
+    //Export posts as file
+    // DEPRECATED
     exportPosts(){
       exportJSONToFile(this.posts, "Newsletter - Posts.json");
     },
 
     //Export options as file
+    // DEPRECATED
     exportOptions(){
         exportJSONToFile({
           loadPosts: this.$refs.loadPosts.value,
@@ -727,16 +824,24 @@ let app = new Vue({
           footer: this.footer,
           colors: this.colors,
           analytics: this.analytics,
-          editHTML: this.editHTML
+          editHTML: this.editHTML,
+          previewText: this.previewText
         }, "Newsletter - Options.json");
     },
 
     //Import posts from file
+    importNewsletter(){
+      loadJSONFile(d => this.loadNewsletter(d));
+    },
+
+    //Import posts from file
+    // DEPRECATED
     importPosts(){
       loadJSONFile(d => this.loadPosts(d));
     },
 
     //Import options from file
+    // DEPRECATED
     importOptions(){
       loadJSONFile(d => this.loadOptions(d));
     },
@@ -922,6 +1027,8 @@ let app = new Vue({
         link: post.link,
         img: post.img,
         btnAlign: post.btnAlign,
+        background: post.background,
+        text: post.text,
         linkLabel: post.linkLabel
       });
       if(!this.editHTML)
@@ -939,8 +1046,13 @@ let app = new Vue({
     //Edit post
     editPost(pos, key, value){
       this.posts[pos][key] = value;
-      if(!this.editHTML)
-        this.toggleEditHTMLSilently();
+      // //If currently on cooldown - reset cooldown
+      // if(this.newsletter.editPostTimer)
+      //   clearTimeout(this.newsletter.editPostTimer)
+      // this.newsletter.editPostTimer = setTimeout(()=>{
+      //   if(!this.editHTML)
+      //     this.toggleEditHTMLSilently();
+      // }, 500);
     },
 
     //Add a new post

@@ -1,5 +1,9 @@
 <html>
   <head>
+
+    <title>Newsletter Generator v2</title>
+    <meta http-equiv="Content-Language" content="en_US" />
+
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-121992018-3"></script>
     <script>
@@ -23,7 +27,6 @@
 
     <link rel="stylesheet" href="css\styles.css">
 
-    <title>Newsletter Generator v2</title>
     <link rel="icon" href="imgs\icons8-news-128.png">
 
   </head>
@@ -486,31 +489,31 @@
             <div class="edit-newsletter">
               <ul class="newsletter-list">
                 <p v-if="posts.length == 0">No Posts Loaded</p>
-                <li v-for="(post, pos) in posts" class="card" style="margin-bottom:10px;" :key="pos">
+                <li v-for="(post, pos) in posts" class="card" :class="{dark: !isLight(post.background != null ? post.background : colors.posts.background)}" style="margin-bottom:10px;" :style="[post.background != null ? {'background-color': post.background} : {'background-color': colors.posts.background}]" :key="pos">
                   <div class="tool-list vertical space-even">
                     <div class="tool-list vertical space-even">
                       <i v-if="pos > 0" class="fas fa-chevron-up tool-icon" @click="movePost(0, pos)" title="Top"></i>
                       <i v-if="pos > 0" class="fas fa-sort-up tool-icon" @click="movePost(pos-1, pos)" title="Up"></i>
                     </div>
                     <div class="tool-list vertical space-even">
-                      <i v-if="pos != posts.length-1" class="fas fa-sort-down tool-icon" @click="movePost(1, pos)" title="Down"></i>
+                      <i v-if="pos != posts.length-1" class="fas fa-sort-down tool-icon" @click="movePost(pos+1, pos)" title="Down"></i>
                       <i v-if="pos != posts.length-1" class="fas fa-chevron-down tool-icon" @click="movePost(posts.length, pos)" title="Bottom"></i>
                     </div>
                   </div>
                   <div class="post">
                     <img v-if="post.img" :src="post.img">
                     <div class="data">
-                      <div class="form-item">
+                      <div class="form-item" :style="[post.text != null ? {'color': post.text} : {'color': colors.posts.text}]">
                         <editabletext v-if="!editHTML" :id="'post-title-'+pos" v-model="post.title" :value="post.title">{{post.title}}</editabletext>
                         <input v-else  class="editHTML"  :id="'post-title-'+pos" type="text" v-model="post.title" required>
                         <label :for="'post-title-'+pos">Title</label>
                       </div>
-                      <div class="form-item">
+                      <div class="form-item" :style="[post.text != null ? {'color': post.text} : {'color': colors.posts.text}]">
                         <editabletext v-if="!editHTML" :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc">{{post.desc}}</editabletext>
                         <textarea v-else class="editHTML"  :id="'post-desc-'+pos" v-model="post.desc"required></textarea>
                         <label :for="'post-desc-'+pos">Description</label>
                       </div>
-                      <div class="form-item">
+                      <div class="form-item" :style="[post.text != null ? {'color': post.text} : {'color': colors.posts.text}]">
                         <editabletext v-if="!editHTML" :id="'post-date-'+pos" v-model="post.date" :value="post.date" style="font-size: 11px">{{post.date}}</editabletext>
                         <input v-else class="editHTML" :id="'post-date-'+pos" type="text" v-model="post.date" style="font-size: 11px" required>
                         <label :for="'post-date-'+pos">Date</label>
@@ -608,35 +611,74 @@
 
         <div id="load" class="main-view" :class="{open: activeView === 'load'}">
           <div class="card">
-            <h3 class="card-title">Option Management</h3>
-            <p><small><strong>Option Management</strong> will manage your header, footer and colours</small>
-              <br><strong><small>For most situations you should only use the load/save locally buttons</small></strong></p>
-            <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
-            Load/Save Locally: &nbsp;Load/Save settings to/from your browser<br>
-            Import/Export: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Load/Save a .json file with settings
-            </span></span>
-            <div class="form-item split even">
-              <input type="button" value="Load Options Locally" @click="loadOptions" title="Load Options that have been saved into your browser">
-              <input type="button" value="Import Options" @click="importOptions" title="Load Options that have been saved into a .json file">
+            <h3 class="card-title">Newsletter Management</h3>
+
+              <div class="accordion" :class="{open: newsletter.data == 0}" @click="newsletter.data = 0">
+                <div class="accordion-title">
+                  <p>Local <small>(Web browser)</small></p>
+                  <div class="selector"></div>
+                </div>
+                <div class="accordion-content">
+                  <p><strong>Local</strong> will let you load/save the newsletter in your web browser.</p>
+
+                  <div class="form-item split even">
+                    <input type="button" value="Save the Newsletter" @click="saveNewsletter" title="Save the newsletter">
+                    <input type="button" value="Load the Newsletter" @click="loadNewsletter" title="Load the Newsletter">
+                  </div>
+                </div>
+              </div>
+              <div class="accordion" :class="{open: newsletter.data == 1}" @click="newsletter.data = 1">
+                <div class="accordion-title">
+                  <p>File <small>(JSON file)</small></p>
+                  <div class="selector"></div>
+                </div>
+                <div class="accordion-content">
+                  <p><strong>File</strong> will let you load/save the newsletter in a JSON file that can be moved around.</p>
+                  <div class="form-item split even">
+                    <input type="button" value="Save the Newsletter" @click="exportNewsletter" title="Save the newsletter to a file">
+                    <input type="button" value="Load the Newsletter" @click="importNewsletter" title="Load the Newsletter from a file">
+                  </div>
+                </div>
+              </div>
+              <div class="accordion" :class="{open: newsletter.data == 2}" @click="newsletter.data = 2">
+                <div class="accordion-title">
+                  <p>Legacy <small>(Seperate files)</small></p>
+                  <div class="selector"></div>
+                </div>
+                <div class="accordion-content">
+              <p><strong>Legacy</strong> will let you load/save seperate files for options and posts.</p>
+
+                  <h4>Option Management</h4>
+                  <p><small><strong>Option Management</strong> will manage your header, footer and colours</small>
+                    <br><strong><small>For most situations you should only use the load/save locally buttons</small></strong></p>
+                  <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
+                  Load/Save Locally: &nbsp;Load/Save settings to/from your browser<br>
+                  Import/Export: &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;Load/Save a JSON file with settings
+                  </span></span>
+                  <div class="form-item split even">
+                    <input type="button" value="Load Options Locally" @click="loadOptions" title="Load Options that have been saved into your browser">
+                    <input type="button" value="Import Options" @click="importOptions" title="Load Options that have been saved into a JSON file">
+                  </div>
+                  <div class="form-item split even">
+                    <input type="button" value="Save Options Locally" @click="saveOptions" title="Save Options into your browser">
+                    <input type="button" value="Export Options" @click="exportOptions" title="Save Options into a JSON file">
+                  </div>
+                  <hr>
+                  <h4>Post Management</h4>
+                  <p><small><strong>Post Management</strong> will manage your loaded posts, and custom posts</small>
+                    <br><strong><small>For most situations you should only use the load/save locally buttons</small></strong></p>
+                  <div class="form-item split even">
+                    <input type="button" value="Load Posts Locally" @click="loadPosts" title="Load Posts that have been saved into your browser">
+                    <input type="button" value="Import Posts" @click="importPosts" title="Load Posts that have been saved into a JSON file">
+                  </div>
+                  <div class="form-item split even">
+                    <input type="button" value="Save Posts Locally" @click="savePosts" title="Save Posts into your browser">
+                    <input type="button" value="Export Posts" @click="exportPosts" title="Save Posts into a JSON file">
+                  </div>
+                </div>
+              </div>
             </div>
-            <div class="form-item split even">
-              <input type="button" value="Save Options Locally" @click="saveOptions" title="Save Options into your browser">
-              <input type="button" value="Export Options" @click="exportOptions" title="Save Options into a .json file">
-            </div>
-          </div>
-          <div class="card">
-            <h3 class="card-title">Post Management</h3>
-            <p><small><strong>Post Management</strong> will manage your loaded posts, and custom posts</small>
-              <br><strong><small>For most situations you should only use the load/save locally buttons</small></strong></p>
-            <div class="form-item split even">
-              <input type="button" value="Load Posts Locally" @click="loadPosts" title="Load Posts that have been saved into your browser">
-              <input type="button" value="Import Posts" @click="importPosts" title="Load Posts that have been saved into a .json file">
-            </div>
-            <div class="form-item split even">
-              <input type="button" value="Save Posts Locally" @click="savePosts" title="Save Posts into your browser">
-              <input type="button" value="Export Posts" @click="exportPosts" title="Save Posts into a .json file">
-            </div>
-          </div>
+
         </div>
 
         <div id="use" class="main-view" :class="{open: activeView === 'use'}">
@@ -943,24 +985,22 @@
             </div>
             <div class="card">
               <h3 class="card-title">How to <strong>Load / Save</strong> the Newsletter Options & Posts</h3>
-              <p><strong><small>If options/posts have been saved locally you'll recieve a popup in the bottom right to quickly load them when you open the newsletter generator
-                <br>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> or each button for tips)</small></strong></p>
-                <p><strong><small>For most situations you should only use the load/save locally buttons</small></strong></p>
+              <p><strong><small>If a newsletter has been saved locally you'll recieve a popup in the bottom right to quickly load it.</small></strong></p>
               <ol>
                 <li>Go to the <strong>Load / Save</strong> tab</li>
-                <li><strong>Option Management</strong> will manage your header, footer and colours</li>
-                <ul style="list-style-type: square">
-                  <li><strong>Load Options Locally</strong> will load your options you've saved locally in your browser</li>
-                  <li><strong>Save Options Locally</strong> will save your options into your browser</li>
-                  <li><small><strong>Import Options</strong> will load a .json file containing your options</small></li>
-                  <li><small><strong>Export Options</strong> will save a .json file containing your options</small></li>
-                </ul>
-                <li><strong>Post Management</strong> will manage your loaded posts, and custom posts</li>
-                <ul style="list-style-type: square">
-                  <li><strong>Load Posts Locally</strong> will load your posts you've saved locally in your browser</li>
-                  <li><strong>Save Posts Locally</strong> will save your posts into your browser</li>
-                  <li><small><strong>Import Posts</strong> will load a .json file containing your posts</small></li>
-                  <li><small><strong>Export Posts</strong> will save a .json file containing your posts</small></li>
+                <li>Choose how you want to load/save the newsletter</li>
+                <ul>
+                  <li><strong>Local</strong> will let you load/save the newsletter in your web browser.</li>
+                  <ul style="list-style-type: square">
+                    <li><strong>Save the newsletter</strong> will save the newsletter in your web browser.</li>
+                    <li><strong>Load the newsletter</strong> will load the newsletter from your web browser.</li>
+                  </ul>
+                  <li><strong>File</strong> will let you load/save the newsletter in a JSON file.</li>
+                  <ul style="list-style-type: square">
+                    <li><strong>Save the newsletter</strong> will save the newsletter in a JSON file.</li>
+                    <li><strong>Load the newsletter</strong> will load the newsletter from a JSON file.</li>
+                  </ul>
+                  <li><strong>Legacy</strong> only use this if you need to load/save with seperate JSON files<br><small>(No longer supported)</small></li>
                 </ul>
               </ol>
             </div>
