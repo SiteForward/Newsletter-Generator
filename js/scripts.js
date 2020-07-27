@@ -1046,13 +1046,14 @@ let app = new Vue({
     //Edit post
     editPost(pos, key, value){
       this.posts[pos][key] = value;
-      // //If currently on cooldown - reset cooldown
-      // if(this.newsletter.editPostTimer)
-      //   clearTimeout(this.newsletter.editPostTimer)
-      // this.newsletter.editPostTimer = setTimeout(()=>{
-      //   if(!this.editHTML)
-      //     this.toggleEditHTMLSilently();
-      // }, 500);
+
+      // If currently on cooldown - reset cooldown
+      if(this.newsletter.editPostTimer)
+        clearTimeout(this.newsletter.editPostTimer)
+      this.newsletter.editPostTimer = setTimeout(()=>{
+        if(!this.editHTML)
+          this.toggleEditHTMLSilently();
+      }, 500);
     },
 
     //Add a new post
