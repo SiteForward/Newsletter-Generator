@@ -1095,6 +1095,39 @@ let app = new Vue({
         },1);
       }
     },
+    resetStyles(){
+      this.colors = {
+        background: "#ffffff",
+        button: "#06874E",
+        links: "#06874E",
+        header: {
+          background: "#333333",
+          text: "#ffffff"
+        },
+        posts:{
+          background: "#f3f3f3",
+          text: "#000000"
+        },
+        footer: {
+          background: "#333333",
+          text: "#ffffff"
+        }
+      };
+      this.styles = {
+        posts:{
+          shadow: false,
+          borderRadius: 0,
+          spacing: 5
+        }
+      };
+
+      this.posts.forEach(i =>{
+        delete i.background;
+        delete i.text;
+      });
+
+      sendSuccess("Styling has been reset");
+    },
 
     //Check if color is a light colour
     isLight(pos, value){

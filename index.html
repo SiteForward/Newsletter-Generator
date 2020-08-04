@@ -852,15 +852,7 @@
         </div>
 
         <div id="settings" class="main-view" :class="{open: activeView === 'settings'}">
-          <div class="card">
-            <h3 class="card-title">Enable MS Word Support</h3>
-            <p><small><strong>This can cause issues if enabled and is being used in an email.</strong>
-              <br><br>After pasting the newsletter into MS Word right click on the inserted table, open table properties, go to columns, and unselect <strong>Preferred Width</strong>. Then you can drag the column width manually to fit the image</small></p>
-            <div class="form-item">
-              <input type="checkbox" v-model="wordSupport" id="enableWordSupport">
-              <label for="enableWordSupport">Word Support</label>
-            </div>
-          </div>
+
           <div class="card">
             <h3 class="card-title">Use Manulife Securities Disclaimer in Footer Preset</h3>
             <p><small>Copyright © 2020 All rights reserved.
@@ -873,13 +865,30 @@
             </div>
           </div>
           <div class="card">
+            <h3 class="card-title">Reset Global/Individual Styles</h3>
+            <p><small>This will reset the styling of the global and individual posts of the newsletter</small></p>
+            <div class="form-item">
+              <input type="button" @click="resetStyles()" value="Reset Styles" style="margin: 0">
+            </div>
+          </div>
+          <div class="card">
             <h3 class="card-title">Turn On Editing in HTML</h3>
-            <p><small>This allows the use of custom HTML when editing posts</small></p>
+            <p><small>This allows the use of custom HTML when editing posts and will remove the WYSIWYG(What You See Is What You Get) toolbar</small></p>
             <div class="form-item">
               <input type="checkbox" v-model="editHTML" id="editHTMLToggle">
               <label for="editHTMLToggle">Enable Editing in HTML</label>
             </div>
           </div>
+          <div class="card">
+              <h3 class="card-title">Enable MS Word Support</h3>
+              <p><small><strong>This can cause issues if enabled and is being used in an email.
+              <br>Microsoft Word was not the intended use of this generator so support for MS Word is <i>very</i> limited. </strong>
+                <br><br>After pasting the newsletter into MS Word right click on the inserted table, open table properties, go to columns, and unselect <strong>Preferred Width</strong>. Then you can drag the column width manually to fit the image</small></p>
+              <div class="form-item">
+                <input type="checkbox" v-model="wordSupport" id="enableWordSupport">
+                <label for="enableWordSupport">Word Support</label>
+              </div>
+            </div>
         </div>
 
         <div id="help" class="main-view" :class="{open: activeView === 'help'}">
