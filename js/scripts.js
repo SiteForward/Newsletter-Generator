@@ -785,17 +785,28 @@ let app = new Vue({
       sendSuccess("Options Saved");
     },
     downloadPDF(){
-      var tempDiv = document.createElement("div");
-      tempDiv.innerHTML = this.$refs.newsletter.outerHTML;
-      document.body.append(tempDiv);
-      tempDiv.querySelectorAll('img').forEach(e =>{
-        getDataUrl(e, url => {
-          console.log(url);
-          e.src = url;
-        });
-      });
-    },
+      // var tempDiv = document.createElement("div");
+      // tempDiv.innerHTML = this.$refs.newsletter.outerHTML;
+      // document.body.append(tempDiv);
+      // tempDiv.querySelectorAll('img').forEach(e =>{
+      //   getDataUrl(e, url => {
+      //     console.log(url);
+      //     e.src = url;
+      //   });
+      // });
+      // setTimeout(function(){
 
+        var doc = new jsPDF();
+        doc.html(document.getElementById("newsletterwrapper"), {
+         callback: function (doc) {
+           doc.save("Newsletter - " + this.previewText + ".pdf");
+         }
+       });
+      // }, 5000);
+    },
+    downloadHTML(){
+      downloadInnerHtml("Newsletter - " + this.previewText + ".html", 'newsletterwrapper','text/html');
+    },
     //Export posts as file
     exportNewsletter(){
       exportJSONToFile({'posts': this.posts, 'options': {
@@ -1338,4 +1349,14 @@ function getDataUrl(e, cb) {
 
    img.setAttribute('crossOrigin', 'Anonymous');
    img.src =  'https://cors-anywhere.herokuapp.com/'+e.src;
+}
+
+function downloadInnerHtml(filename, elId, mimeType) {
+    var elHtml = document.getElementById(elId).innerHTML;
+    var link = document.createElement('a');
+    mimeType = mimeType || 'text/plain';
+
+    link.setAttribute('download', filename);
+    link.setAttribute('href', 'data:' + mimeType  +  ';charset=utf-8,' + encodeURIComponent(elHtml));
+    link.click();
 }
