@@ -15,13 +15,15 @@
     </script>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed&display=swap">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css">
     <link href="https://cdn.quilljs.com/1.3.7/quill.bubble.css" rel="stylesheet">
     <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <link rel="stylesheet" href="css\snotify-material.css">
 
     <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
 
     <script src="js\snotify.min.js"></script>
 
@@ -236,7 +238,7 @@
                 <label for="loadPosts">Post Page's URL</label>
               </div>
               <input type="number" id="loadPostsCount" required ref="loadPostsCount" value="6" class="compact">
-              <input type="button" value="Load Posts" @click="loadPostsFromURL">
+              <button @click="loadPostsFromURL"><i class="fas fa-file-import"></i> Load Posts</button>
             </div>
             <p>Load Individual Posts</p>
             <div class="form-item split">
@@ -244,7 +246,7 @@
                 <input type="text" id="loadPost" required ref="loadPost">
                 <label for="loadPost">Post's URL</label>
               </div>
-              <input type="button" value="Load Post" @click="loadPostFromURL">
+              <button @click="loadPostFromURL"><i class="fas fa-file-import"></i> Load Post</button>
             </div>
           </div>
           <div class="card">
@@ -581,7 +583,7 @@
                 <input type="text" id="analyticsWebURL" ref="analyticsWebURL" required>
                 <label for="analytics-code">Website URL</label>
               </div>
-              <input type="button" value="Find Code" @click="findAnalyticsCode">
+              <button @click="findAnalyticsCode"><i class="fas fa-search"></i> Find Code</button>
             </div>
           </div>
           <div class="card">
@@ -622,8 +624,8 @@
                   <p><strong>Local</strong> will let you load/save the newsletter in your web browser.</p>
 
                   <div class="form-item split even">
-                    <input type="button" value="Save the Newsletter" @click="saveNewsletter" title="Save the newsletter">
-                    <input type="button" value="Load the Newsletter" @click="loadNewsletter" title="Load the Newsletter">
+                    <button @click="saveNewsletter" title="Save the newsletter"><i class="fas fa-download"></i> Save the Newsletter</button>
+                    <button @click="loadNewsletter" title="Load the Newsletter"><i class="fas fa-upload"></i> Load the Newsletter</button>
                   </div>
                 </div>
               </div>
@@ -635,8 +637,8 @@
                 <div class="accordion-content">
                   <p><strong>File</strong> will let you load/save the newsletter in a JSON file that can be moved around.</p>
                   <div class="form-item split even">
-                    <input type="button" value="Save the Newsletter" @click="exportNewsletter" title="Save the newsletter to a file">
-                    <input type="button" value="Load the Newsletter" @click="importNewsletter" title="Load the Newsletter from a file">
+                    <button @click="exportNewsletter" title="Save the newsletter to a file"><i class="fas fa-file-download"></i> Save the Newsletter</button>
+                      <button @click="importNewsletter" title="Load the Newsletter from a file"><i class="fas fa-file-upload"></i> Load the Newsletter</button>
                   </div>
                 </div>
               </div>
@@ -687,10 +689,11 @@
             <div class="form-item">
               <textarea disabled v-model="newsletterHTML" style="min-height: 250px;" ></textarea>
             </div>
-            <div class="form-item even">
-              <input type="button" value="Copy Code" @click="copyNewsletterCode">
-              <input type="button" value="Copy Newsletter" @click="copyNewsletter">
-              <!-- <input type="button" value="Download PDF" @click="downloadPDF"> -->
+            <div class="form-item split even">
+              <button  @click="copyNewsletterCode"><i class="fas fa-code"></i> Copy Code</button>
+              <button  @click="copyNewsletter"><i class="fas fa-paste"></i> Copy Newsletter</button>
+              <button  @click="downloadHTML"><i class="fas fa-paste"></i> Download HTML</button>
+              <!-- <button  @click="downloadPDF"><i class="fas fa-paste"></i> Download PDF</button> -->
             </div>
           </div>
         </div>
@@ -868,7 +871,7 @@
             <h3 class="card-title">Reset Global/Individual Styles</h3>
             <p><small>This will reset the styling of the global and individual posts of the newsletter</small></p>
             <div class="form-item">
-              <input type="button" @click="resetStyles()" value="Reset Styles" style="margin: 0">
+              <button @click="resetStyles()" style="margin: 0"><i class="fas fa-remove-format"></i> Reset Styles</button>
             </div>
           </div>
           <div class="card">

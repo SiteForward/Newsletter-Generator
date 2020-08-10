@@ -553,7 +553,7 @@ textarea,
   .form-item.split{
     flex-flow: row wrap;
   }
-  .form-item > div:not(:last-of-type){
+  .form-item > *:not(:last-of-type){
     margin-bottom: 15px;
   }
 }
@@ -665,7 +665,8 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 /* Button Style */
-.form-item input[type="button"]{
+.form-item input[type="button"],
+.form-item button{
   color:#fff;
 	background-color:#00a72a;
 	outline: none;
@@ -681,7 +682,9 @@ input::-webkit-inner-spin-button {
 }
 
 .form-item input[type="button"]:focus,
-.form-item input[type="button"]:hover{
+.form-item input[type="button"]:hover,
+.form-item button:focus,
+.form-item button:hover{
 	background-color: #04711f;
 }
 /* Color Styles */
