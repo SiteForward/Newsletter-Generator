@@ -297,7 +297,7 @@ textarea,
 }
 #sidebar .footer{
   position: absolute;
-  bottom: 0;
+  bottom: 3px;
   color: #aaa;
   font-size: 10px;
   text-align: center;
