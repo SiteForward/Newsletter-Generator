@@ -1,8 +1,8 @@
-.ql-editor{
+.ql-bubble .ql-editor{
   padding: 0;
   overflow-y: visible;
 }
-.ql-tooltip{
+.ql-bubble .ql-tooltip{
   z-index: 10;
   overflow-y: visible;
 }
@@ -17,10 +17,6 @@
 }
 .ql-color .ql-picker-options [data-value=custom-color]:hover {
   border-color: transparent !important;
-}
-.ql-toolbar.ql-snow {
-  border: none;
-  border-bottom: 1px solid #ccc;
 }
 .ql-container.ql-bubble:not(.ql-disabled) a::before {
   content: attr(href);
@@ -44,24 +40,28 @@
   left: 10px;
   color: #666;
 }
+.ql-bubble.ql-toolbar button,
+.ql-bubble .ql-toolbar button{
+  margin: 0;
+}
 .ql-bubble .ql-tooltip-editor input[type=text]{
   padding-left: 70px;
 }
-.ql-bubble .ql-picker.ql-size .ql-picker-label::before{
+.ql-picker.ql-size .ql-picker-label::before{
   content: 'Font Size'
 }
-.ql-bubble .ql-picker.ql-size .ql-picker-item::before {
+.ql-picker.ql-size .ql-picker-item::before {
   content: '100%';
 }
-.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value=".75em"]::before {
+.ql-picker.ql-size .ql-picker-item[data-value=".75em"]::before {
   content: '75%';
   font-size: .75em;
 }
-.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value="1.25em"]::before {
+.ql-picker.ql-size .ql-picker-item[data-value="1.25em"]::before {
   content: '125%';
   font-size: 1.25em;
 }
-.ql-bubble .ql-picker.ql-size .ql-picker-item[data-value="1.5em"]::before {
+.ql-picker.ql-size .ql-picker-item[data-value="1.5em"]::before {
   content: '150%';
   font-size: 1.5em;
 }
@@ -159,9 +159,9 @@ textarea,
   #sidebar.stuck ~ #preview.large{
     width: calc(100% - 260px);
   }
-  #sidebar.stuck ~ #preview.large .preview-header{
+  /* #sidebar.stuck ~ #preview.large .preview-header{
     width: calc(100% - 260px);
-  }
+  } */
 }
 #preview.closed{
   width: 0%;

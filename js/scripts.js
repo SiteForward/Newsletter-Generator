@@ -7,6 +7,7 @@ Quill.register(AlignStyle, true);
 Quill.register(ColorStyle, true);
 Quill.register(SizeStyle, true);
 
+
 //Setup Quill
 var quillSettingsText = {
   modules: {
@@ -292,7 +293,15 @@ Vue.component('editabletext', {
          this.quill.theme.tooltip.edit('link', this.quill.getFormat().link);
        }
      });
-    }
+
+   }
+   // var q = this.quill;
+   // document.querySelector(".contentEditable").addEventListener('rightclick', function(e){
+   //   e.preventDefault();
+   //  	q.theme.tooltip.edit();
+   //  	q.theme.tooltip.show();
+   //  	return false;
+   //   });
   }
 });
 
