@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 
-$displayImg = true;
+$displayImg = !$_GET['debug'];
 
 
 if($displayImg)
