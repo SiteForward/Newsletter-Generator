@@ -635,7 +635,7 @@ let app = new Vue({
           sendInfo("Loading custom banner image");
 
           //Create Banner URL with settings
-          let url = "http://banner.newsletter.siteforward.ca/?createNew=true";
+          let url = "https://banner.newsletter.siteforward.ca/?createNew=true";
           for(let [key, value] of Object.entries(app.tools.banner)){
             if(key == "color" || key == "shadowColor")
               value = value.substring(1);
