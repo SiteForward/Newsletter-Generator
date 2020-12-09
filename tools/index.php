@@ -1,3 +1,5 @@
+<!-- HOW TO UPDATE -->
+<!-- When updating, you will need to manually zip and upload to AWS's BeanStalk -->
 <?php
 header("Access-Control-Allow-Origin: *");
 
