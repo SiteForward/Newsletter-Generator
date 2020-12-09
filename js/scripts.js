@@ -952,17 +952,17 @@ let app = new Vue({
           let doc = (new DOMParser()).parseFromString(data, "text/html");
 
           //See if the description can be found
-          let pTags = doc.querySelector(".post-content").querySelectorAll("p");
-          let p = pTags[0];
-          let i = 1;
-          while(p.textContent == null || p.textContent.length == 0){
-            if(i + 1 > pTags.length){
-              p = pTags[0];
-              break;
+          let tags = doc.querySelector(".post-content").querySelectorAll("*");
+          let p = "";
+          for(let i = 0; i < tags.length; i++){
+            if(tags[i].nodeName == "IMG" && tags[i].alt!="image" && tags[i].alt!= null && tags[i].alt.length != 0){
+              p += tags[i].alt.trim() + " ";
             }
-            p = pTags[i++];
+            else if(tags[i].textContent != null && tags[i].textContent.length != 0)
+              p += tags[i].outerText.trim() + " ";
           }
-          let desc = p.textContent.split(" ");
+
+          let desc = p.split(" ");
           desc = desc.slice(0, Math.min(desc.length, 30)).join(" ");
           if (desc && desc[desc.length - 1].match(/\W/g))
              desc = desc.substr(0, desc.length - 1);
@@ -973,10 +973,12 @@ let app = new Vue({
           //Get the rest of the values as they will be found
           post.title = '<h2>'+doc.querySelector(".post").querySelector(".post-title").innerHTML+'</h2>';
           post.link = url;
-          if(doc.querySelector(".post").querySelector(".post-meta").querySelector("time"))
+          if(doc.querySelector(".post").querySelector(".post-meta") && doc.querySelector(".post").querySelector(".post-meta").querySelector("time"))
             post.date = '<p>'+doc.querySelector(".post").querySelector(".post-meta").querySelector("time").innerHTML+'</p>';
 
           //Check for a thumbnail
+          if(doc.querySelector(".post").querySelector(".bg"))
+            post.img = doc.querySelector(".post").querySelector(".bg").style.backgroundImage.replace("url(\"", "").replace("\")", "");
           if (doc.querySelector(".post").querySelector(".post-thumbnail"))
              post.img = doc.querySelector(".post").querySelector(".post-thumbnail").querySelector("img").src;
 
