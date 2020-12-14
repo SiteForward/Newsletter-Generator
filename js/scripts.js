@@ -702,6 +702,7 @@ let app = new Vue({
           this.analytics = file.options.analytics;
         if(file.posts)
           this.posts = file.posts;
+        sendSuccess("Newsletter Loaded");
       }
     },
 
