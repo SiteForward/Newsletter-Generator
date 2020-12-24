@@ -46,6 +46,34 @@ var quillSettingsHeader = {
   bounds: '#main',
   theme: 'bubble'
 };
+//Create Popup component
+Vue.component('popup', {
+  // template: '<div class="popup"><i class="fas fa-cog tool-icon"></i><div class="popup-outerWrapper"><div class="popup-wrapper"><div class="popup-inner"><div class="popup-title"><a title="Close popup" href="#" class="popup-close"><i class="far fa-window-close fa-2x"></i></a><h1>{{title}}</h1></div><div class="popup-content"><slot></slot></div></div></div></div></div>',
+  template: '<div class="popup"><i class="fas fa-cog tool-icon"></i><div class="popup-outerWrapper"><div class="card popup-wrapper"><h3 class="card-title">{{title}}</h3><span title="Close Popup" class="card-title-icon popup-close"><i class="far fa-window-close tool-icon"></i></span><div class="popup-content"><slot></slot></div></div></div></div>',
+
+
+
+
+
+props: ['title'],
+  data: function(){
+    return {
+      isOpen: false
+    }
+  },
+  mounted(){
+    let el = this.$el;
+    el.querySelector("i").addEventListener('click', function(event){
+      el.classList.add("open");
+    });
+    el.querySelectorAll(".popup-outerWrapper, .popup-close i").forEach(item => {
+      item.addEventListener("click", function(event){
+        if(event.target == item)
+          el.classList.remove("open");
+      });
+    });
+  }
+});
 
 // Create Slider component
 Vue.component('slider', {
@@ -190,7 +218,7 @@ Vue.component('resizehandle', {
             width = parent.offsetWidth;
 
         parent.style = 'width: '+width+'; transition: none';
-        var sidebarWidth = app.sidebarStuck ? '260' : '80';
+        var sidebarWidth = app.app.sidebarStuck ? '260' : '80';
         otherContainer.style = 'width: calc(calc(100% - '+sidebarWidth+'px) - '+width+'px); transition: none;';
 
         setTimeout(function(){
@@ -270,7 +298,7 @@ Vue.component('editabletext', {
       });
 
       toolbar.addHandler('code', (value) => {
-        app.editHTML = true;
+        app.app.editHTML = true;
         setTimeout(function(){
 
           var toggleInputs = document.querySelectorAll('.editHTML');
@@ -310,89 +338,93 @@ let app = new Vue({
   props:{
   },
   data: {
-    sidebarHover: false,
-    sidebarStuck: false,
-    wordSupport: false,
-    editHTML: false,
-    activeView: "setup",
-    silentToggle: [],
-    previewText: "",
-    colors:{
-      background: "#ffffff",
-      button: "#06874E",
-      links: "#06874E",
-      header: {
-        background: "#333333",
-        text: "#ffffff"
-      },
-      posts:{
-        background: "#f3f3f3",
-        text: "#000000"
-      },
-      footer: {
-        background: "#333333",
-        text: "#ffffff"
-      }
-    },
-    styles: {
-      posts:{
-        shadow: false,
-        borderRadius: 0,
-        spacing: 5
-      }
-    },
-    analytics: {
-      code: null,
-      name: null
-    },
-    header: {
-      style: 0,
-      html: null,
-      image: null,
-      titles: {
-        title: null,
-        subtitle: null
-      }
-    },
-    footer: {
-      style: 0,
-      html: null,
-      preset: {
-        name: null,
-        email: null,
-        phone: null,
-        website: null,
-        social: {
-          facebook: null,
-          linkedin: null,
-          twitter: null
-        },
-        location: {
-          address: null,
-          city: null,
-          province: null,
-          postal: null
-        },
-        disclaimer:{
-          enable: true,
-          insuranceOBA: null,
-          licenses: {
-            iiroc: false,
-            mfda: false
-          }
-        }
-      }
-    },
     posts: [],
     newsletterHTML: "",
-    newsletter:{
+    app: {
+      sidebarHover: false,
+      sidebarStuck: false,
+      wordSupport: false,
+      editHTML: false,
+      activeView: "setup",
+      silentToggle: []
+    },
+    newsletter: {
+      previewText: "",
       data: 1,
       editPostTimer: null,
       version: 1
     },
-    tools:{
+    styles: {
+      backgroundColor: "#ffffff",
+      header: {
+        backgroundColor: "#333333",
+        textColor: "#ffffff"
+      },
+      post: {
+        backgroundColor: "#f3f3f3",
+        textColor: "#000000",
+        borderRadius: 0,
+        spacing: 5,
+        shadow: false,
+        buttonBackgroundColor: "#06874E",
+        buttonTextColor: "#ffffff",
+        buttonAlign: "left",
+        buttonWidth: 30
+      },
+      footer: {
+        backgroundColor: "#333333",
+        linkColor: "#06874E",
+        textColor: "#ffffff"
+      }
+    },
+    settings: {
+      analytics: {
+        code: null,
+        name: null
+      },
+      header: {
+        style: 0,
+        html: null,
+        image: null,
+        titles: {
+          title: null,
+          subtitle: null
+        }
+      },
+      footer: {
+        style: 0,
+        html: null,
+        preset: {
+          name: null,
+          email: null,
+          phone: null,
+          website: null,
+          social: {
+            facebook: null,
+            linkedin: null,
+            twitter: null
+          },
+          location: {
+            address: null,
+            city: null,
+            province: null,
+            postal: null
+          },
+          disclaimer: {
+            enable: true,
+            insuranceOBA: null,
+            licenses: {
+              iiroc: false,
+              mfda: false
+            }
+          }
+        }
+      }
+    },
+
+    tools: {
       bannerCreationTimer: null,
-      banner:{
+      banner: {
         align: 'center center',
         image: null,
         title: null,
@@ -415,35 +447,36 @@ let app = new Vue({
         shadowBlur: 5,
         displayGrid: false
       }
-    }
+    },
+    stylesBackup: {}
   },
   computed: {
 
     //If analytics code and name are valid
     analyticsEnabled: function(){
-      return this.analytics.code && this.analytics.name;
+      return this.settings.analytics.code && this.settings.analytics.name;
     }
   },
   watch:{
-    sidebarStuck: function(){
+    'app.sidebarStuck': function(){
       document.dispatchEvent(updateResizeHandle);
     },
-    wordSupport: function(){
-      if(!this.silentToggle.includes('wordSupport'))
-        sendInfo("Word support turned "+(this.wordSupport ? "on" : "off"));
+    'app.wordSupport': function(){
+      if(!this.app.silentToggle.includes('app.wordSupport'))
+        sendInfo("Word support turned "+(this.app.wordSupport ? "on" : "off"));
     },
-    editHTML: function(){
-      if(!this.silentToggle.includes('editHTML'))
-        sendInfo("Edit HTML support turned "+(this.editHTML ? "on" : "off"));
+    'app.editHTML': function(){
+      if(!this.app.silentToggle.includes('app.editHTML'))
+        sendInfo("Edit HTML support turned "+(this.app.editHTML ? "on" : "off"));
     },
-    'footer.preset.useDisclaimer': function(){
-      if(!this.silentToggle.includes('footer.preset.useDisclaimer'))
-        sendInfo("Manulife Securities Disclaimer turned "+(this.footer.preset.useDisclaimer ? "on" : "off"));
+    'settings.footer.preset.useDisclaimer': function(){
+      if(!this.app.silentToggle.includes('settings.footer.preset.useDisclaimer'))
+        sendInfo("Manulife Securities Disclaimer turned "+(this.settings.footer.preset.useDisclaimer ? "on" : "off"));
     },
 
     //On view change
-    activeView: function(){
-      let activeView = this.activeView,
+    'app.activeView': function(){
+      let activeView = this.app.activeView,
           preview = this.$refs.preview;
 
       document.dispatchEvent(updateResizeHandle);
@@ -464,6 +497,8 @@ let app = new Vue({
     }
   },
   mounted(){
+    this.stylesBackup = JSON.parse(JSON.stringify(this.styles));
+
     var style = document.createElement("style");
     this.$refs.newsletter.prepend(style);
 
@@ -480,43 +515,7 @@ let app = new Vue({
           {text: 'No'},
         ]
       });
-    }else{
-      //Prompt to load local options if exists
-      if(localStorage.options)
-        this.$snotify.info('Did you want to load local options', {
-          timeout: 5000,
-          showProgressBar: true,
-          closeOnClick: true,
-          pauseOnHover: true,
-          buttons: [
-            {text: 'Yes',  action: (toast) => {
-              this.loadOptions(); this.$snotify.remove(toast.id);
-              this.saveNewsletter(true);
-              localStorage.removeItem('options');
-              sendInfo("Updating Newsletter save to newer version");
-            }},
-            {text: 'No'},
-          ]
-        });
-
-        //Prompt to load local posts if exists
-        if(localStorage.posts)
-          this.$snotify.info('Did you want to load local posts', {
-            timeout: 5000,
-            showProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            buttons: [
-              {text: 'Yes', action: (toast) => {
-                this.loadPosts(); this.$snotify.remove(toast.id);
-                this.saveNewsletter(true);
-                localStorage.removeItem('posts');
-                sendInfo("Updating Newsletter save to newer version");
-              }},
-              {text: 'No'},
-            ]
-          });
-        }
+    }
   },
   methods: {
 
@@ -568,12 +567,47 @@ let app = new Vue({
       if(typeof this.colors.background == 'undefined')
         this.$set(this.colors, "background", "#ffffff");
 
-      if(typeof this.styles.posts == 'undefined')
-        this.$set(this.styles, "posts", {});
-      if(typeof this.styles.posts.shadow == 'undefined')
-        this.$set(this.styles.posts, "shadow", false);
-      if(typeof this.styles.posts.borderRadius == 'undefined')
-        this.$set(this.styles.posts, "borderRadius", 0);
+      if(typeof this.styles.post == 'undefined')
+        this.$set(this.styles, "post", {});
+
+      if(typeof this.styles.post.borderRadius == 'undefined')
+        this.$set(this.styles.post, "borderRadius", 0);
+
+      if(typeof this.styles.button == 'undefined')
+        this.$set(this.styles, "button", {});
+
+      if(typeof this.styles.button.align == 'undefined')
+        this.$set(this.styles.button, "align", "left");
+      if(typeof this.styles.button.width == 'undefined')
+        this.$set(this.styles.button, "width", 30);
+
+    },
+    get(obj, path) {
+      return path.split(".").reduce(function(o, x) {
+        return (typeof o == "undefined" || o === null) ? o : o[x];
+      }, obj);
+    },
+
+    has(obj, path) {
+      return path.split(".").every(function(x) {
+        if (typeof obj != "object" || obj === null || !(x in obj))
+          return false;
+        obj = obj[x];
+        return true;
+      });
+    },
+
+    set(obj, path, value) {
+      var schema = obj;
+      var pathSplit = path.split('.');
+      var pathSplitLength = pathSplit.length;
+
+      for (var i = 0; i < pathSplitLength - 1; i++) {
+        var elem = pathSplit[i];
+        if (!schema[elem]) schema[elem] = {}
+        schema = schema[elem];
+      }
+      schema[pathSplit[pathSplitLength - 1]] = value;
     },
 
     //Download custom tool banner
@@ -692,53 +726,63 @@ let app = new Vue({
           this.$refs.loadPosts.value = file.options.loadPosts;
         if(file.options.loadPost)
           this.$refs.loadPost.value = file.options.loadPost;
-        if(file.options.header)
-          this.header = file.options.header;
-        if(file.options.footer)
-          this.footer = file.options.footer;
-        if(file.options.colors)
-          this.colors = file.options.colors;
+
         if(file.options.analytics)
-          this.analytics = file.options.analytics;
-        if(file.posts)
+          this.settings.analytics = file.options.analytics;
+
+        this.posts = file.posts;
+
+        if(file.version == 1){
+          this.settings.header = file.header;
+          this.settings.footer = file.footer;
+          this.styles = file.styles;
+        }
+        else{
+
+          this.settings.header = file.options.header;
+          this.settings.footer = file.options.footer;
           this.posts = file.posts;
+          if(this.posts.length){
+              console.log("converting old post styles");
+              this.posts.forEach((item, i) => {
+                item.style = {};
+                if(item.background)
+                  item.style.backgroundColor = item.background;
+                if(item.text)
+                  item.style.textColor = item.text;
+                delete item.background;
+                delete item.text;
+              });
+          }
+          console.log("converting old colours");
+          if(file.options.colors.background)
+            this.styles.backgroundColor = file.options.colors.background;
+          if(file.options.colors.posts.background)
+            this.styles.post.backgroundColor = file.options.colors.posts.background;
+          if(file.options.colors.posts.text)
+            this.styles.post.textColor=  file.options.colors.posts.text;
+          if(file.options.colors.button)
+            this.styles.post.buttonBackgroundColor = file.options.colors.button;
+
+          if(file.options.colors.header.background)
+            this.styles.header.backgroundColor= file.options.colors.header.background;
+          if(file.options.colors.header.text)
+            this.styles.header.textColor= file.options.colors.header.text;
+
+          if(file.options.colors.footer.background)
+            this.styles.footer.backgroundColor= file.options.colors.footer.background;
+          if(file.options.colors.footer.text)
+            this.styles.footer.textColor= file.options.colors.footer.text;
+          if(file.options.colors.links)
+            this.styles.footer.linkColor = file.options.colors.links;
+        }
+
         sendSuccess("Newsletter Loaded");
-      }
-    },
-
-    //Load options
-    // DEPRECATED
-    loadOptions(options){
-      if((!options || options.target) && localStorage.options)
-        options = JSON.parse(localStorage.options);
-
-      if(!options || options.target)
-        sendError("Unable to load options");
-      else{
-        if(options.loadPosts)
-          this.$refs.loadPosts.value = options.loadPosts;
-        if(options.loadPost)
-          this.$refs.loadPost.value = options.loadPost;
-        if(options.header)
-          this.header = options.header;
-        if(options.footer)
-          this.footer = options.footer;
-        if(options.colors)
-          this.colors = options.colors;
-        if(options.analytics)
-          this.analytics = options.analytics;
-        if(options.editHTML)
-          this.editHTML = options.editHTML;
-        if(options.previewText)
-          this.previewText = options.previewText;
-
-        this.updateData();
-        sendSuccess("Options Loaded");
+        this.toggleEditHTMLSilently();
       }
     },
 
     //Save Posts and Options
-    // DEPRECATED
     saveNewsletter(overwrite){
       if(overwrite == null || overwrite == undefined)
         overwrite = false;
@@ -747,52 +791,8 @@ let app = new Vue({
           sendInfo("Didn't Save Newsletter");
           return;
         }
-      localStorage.setItem("newsletter", JSON.stringify({
-        'posts': this.posts,
-        'options': {
-          loadPosts: this.$refs.loadPosts.value,
-          loadPost: this.$refs.loadPost.value,
-          header: this.header,
-          footer: this.footer,
-          colors: this.colors,
-          analytics: this.analytics
-        }
-      }));
+      localStorage.setItem("newsletter", this.newsletterAsJSON());
       sendSuccess("Newsletter Saved");
-    },
-
-    //Save posts
-    // DEPRECATED
-    savePosts(){
-      if(localStorage.getItem("posts"))
-        if(!confirm("Do you want to overwrite your currently saved posts?")){
-          sendInfo("Didn't Save Posts");
-          return;
-        }
-      localStorage.setItem("posts", JSON.stringify(this.posts));
-      sendSuccess("Posts Saved");
-    },
-
-    //Save options
-    // DEPRECATED
-    saveOptions(){
-      if(localStorage.getItem("options"))
-        if(!confirm("Do you want to overwrite your currently saved options?")){
-          sendInfo("Didn't Save Options");
-          return;
-        }
-
-      localStorage.setItem("options", JSON.stringify({
-        loadPosts: this.$refs.loadPosts.value,
-        loadPost: this.$refs.loadPost.value,
-        header: this.header,
-        footer: this.footer,
-        colors: this.colors,
-        analytics: this.analytics,
-        editHTML: this.editHTML,
-        previewText: this.previewText
-      }));
-      sendSuccess("Options Saved");
     },
     downloadPDF(){
       // var tempDiv = document.createElement("div");
@@ -809,45 +809,32 @@ let app = new Vue({
         var doc = new jsPDF();
         doc.html(document.getElementById("newsletterwrapper"), {
          callback: function (doc) {
-           doc.save("Newsletter - " + this.previewText + ".pdf");
+           doc.save("Newsletter - " + this.newsletter.previewText + ".pdf");
          }
        });
       // }, 5000);
     },
+    newsletterAsJSON(){
+      return JSON.stringify({
+        version: 1,
+        posts: this.posts,
+        styles : this.styles,
+        header: this.settings.header,
+        footer: this.settings.footer,
+        options: {
+          previewText: this.newsletter.previewText,
+          loadPosts: this.$refs.loadPosts.value,
+          loadPost: this.$refs.loadPost.value,
+          analytics: this.settings.analytics
+        }
+      })
+    },
     downloadHTML(){
-      downloadInnerHtml("Newsletter - " + this.previewText + ".html", 'newsletterwrapper','text/html');
+      downloadInnerHtml("Newsletter - " + this.newsletter.previewText + ".html", 'newsletterwrapper','text/html');
     },
     //Export posts as file
     exportNewsletter(){
-      exportJSONToFile({'posts': this.posts, 'options': {
-        loadPosts: this.$refs.loadPosts.value,
-        loadPost: this.$refs.loadPost.value,
-        header: this.header,
-        footer: this.footer,
-        colors: this.colors,
-        analytics: this.analytics,
-        previewText: this.previewText
-      }}, "Newsletter - " + this.previewText + ".json");
-    },
-    //Export posts as file
-    // DEPRECATED
-    exportPosts(){
-      exportJSONToFile(this.posts, "Newsletter - Posts.json");
-    },
-
-    //Export options as file
-    // DEPRECATED
-    exportOptions(){
-        exportJSONToFile({
-          loadPosts: this.$refs.loadPosts.value,
-          loadPost: this.$refs.loadPost.value,
-          header: this.header,
-          footer: this.footer,
-          colors: this.colors,
-          analytics: this.analytics,
-          editHTML: this.editHTML,
-          previewText: this.previewText
-        }, "Newsletter - Options.json");
+      exportJSONToFile(this.newsletterAsJSON(), "Newsletter - " + this.newsletter.previewText + ".json");
     },
 
     //Import posts from file
@@ -1009,7 +996,7 @@ let app = new Vue({
 
         //Look for analytics code
         let analyticsCode = data.match(/UA-\w*-1/g);
-        this.analytics.code = analyticsCode;
+        this.settings.analytics.code = analyticsCode;
 
         if(analyticsCode != null)
           sendSuccess("Found Analytics Code: " + analyticsCode);
@@ -1021,12 +1008,12 @@ let app = new Vue({
 
     //Silently toggle HTML Edit - forces editabletext to re-render
     toggleEditHTMLSilently(){
-      this.silentToggle.push('editHTML');
-      this.editHTML = true;
+      this.app.silentToggle.push('app.editHTML');
+      this.app.editHTML = true;
       setTimeout(function(){
-        app.editHTML = false;
+        app.app.editHTML = false;
         setTimeout(function(){
-          app.silentToggle.splice(app.silentToggle.indexOf('editHTML'), 1);
+          app.app.silentToggle.splice(app.app.silentToggle.indexOf('app.editHTML'), 1);
         },1);
       },1);
     },
@@ -1035,7 +1022,7 @@ let app = new Vue({
     deletePost(pos){
       sendSuccess("Deleted Post");
       this.posts.splice(pos, 1);
-      if(!this.editHTML)
+      if(!this.app.editHTML)
         this.toggleEditHTMLSilently();
     },
 
@@ -1043,18 +1030,8 @@ let app = new Vue({
     duplicatePost(pos){
       sendSuccess("Duplicated Post");
       let post = this.posts[pos];
-      this.posts.splice(pos, 0, {
-        title: post.title,
-        desc: post.desc,
-        date: post.date,
-        link: post.link,
-        img: post.img,
-        btnAlign: post.btnAlign,
-        background: post.background,
-        text: post.text,
-        linkLabel: post.linkLabel
-      });
-      if(!this.editHTML)
+      this.posts.splice(pos, 0, JSON.parse(JSON.stringify(post)));
+      if(!this.app.editHTML)
         this.toggleEditHTMLSilently();
     },
 
@@ -1062,20 +1039,32 @@ let app = new Vue({
     movePost(dir, pos){
       sendSuccess("Moved Post");
       moveItem(this.posts, pos, dir);
-      if(!this.editHTML)
+      if(!this.app.editHTML)
         this.toggleEditHTMLSilently();
+    },
+    getPostStyle(pos, key){
+      if(this.has(this.posts[pos].style, key))
+        return this.get(this.posts[pos].style, key);
+      else
+        return this.get(this.styles.post, key);
+      // return this.has(this.posts[pos].style, key) ? this.get(this.posts[pos].style, key) : this.get(this.styles.post, key);
     },
 
     //Edit post
     editPost(pos, key, value){
-      this.posts[pos][key] = value;
+      let updateNotRender = this.has(this.posts[pos], key);
+      this.set(this.posts[pos], key, value);
+      // this.posts[pos][key] = value;
 
-      // If currently on cooldown - reset cooldown
+      // // If currently on cooldown - reset cooldown
       if(this.newsletter.editPostTimer)
         clearTimeout(this.newsletter.editPostTimer)
       this.newsletter.editPostTimer = setTimeout(()=>{
-        if(!this.editHTML)
-          this.toggleEditHTMLSilently();
+        if(!this.app.editHTML)
+          if(updateNotRender)
+            this.$forceUpdate();
+          else
+            this.toggleEditHTMLSilently();
       }, 500);
     },
 
@@ -1084,7 +1073,8 @@ let app = new Vue({
       sendSuccess("Added New Post");
       this.posts.push({
         title: '<h2>New Post</h2>',
-        desc: '<p>New Desc</p>'
+        desc: '<p>New Desc</p>',
+        style: {}
       });
     },
 
@@ -1103,7 +1093,7 @@ let app = new Vue({
     },
 
     copyNewsletterWord(){
-      this.silentToggle.push('wordSupport');
+      this.app.silentToggle.push('app.wordSupport');
       if(!this.wordSupport)
       {
         this.wordSupport = true;
@@ -1112,41 +1102,17 @@ let app = new Vue({
           setTimeout(function(){
             app.wordSupport = false;
             setTimeout(function(){
-              app.silentToggle.splice(app.silentToggle.indexOf('wordSupport'), 1);
+              app.app.silentToggle.splice(app.app.silentToggle.indexOf('app.wordSupport'), 1);
             },1);
           },1);
         },1);
       }
     },
     resetStyles(){
-      this.colors = {
-        background: "#ffffff",
-        button: "#06874E",
-        links: "#06874E",
-        header: {
-          background: "#333333",
-          text: "#ffffff"
-        },
-        posts:{
-          background: "#f3f3f3",
-          text: "#000000"
-        },
-        footer: {
-          background: "#333333",
-          text: "#ffffff"
-        }
-      };
-      this.styles = {
-        posts:{
-          shadow: false,
-          borderRadius: 0,
-          spacing: 5
-        }
-      };
+      this.styles = JSON.parse(JSON.stringify(this.stylesBackup));
 
       this.posts.forEach(i =>{
-        delete i.background;
-        delete i.text;
+        delete i.styles;
       });
 
       sendSuccess("Styling has been reset");

@@ -365,11 +365,7 @@ textarea,
   top: 20px;
   right: 20px;
 }
-.popup{
-  position: relative;
-}
-.card-title-help,
-.popup-wrapper{
+.card-title-help{
   position: absolute;
   visibility: hidden;
   opacity: 0;
@@ -388,13 +384,55 @@ textarea,
   z-index: 1;
   transition: top .35s, visibility .35s, opacity .35s, max-height 1s;
 }
-.card-title-icon:hover .card-title-help,
-.popup:hover .popup-wrapper {
+.card-title-icon:hover .card-title-help{
   visibility: visible;
   top: -10%;
   width: 200px;
   max-height: 1000px;
   opacity: 1;
+}
+/* Popups */
+
+.popup .popup-wrapper{
+  opacity: 0;
+  border-radius: 15px;
+  width: 100%;
+  max-width: 800px;
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  z-index: 100;
+  transform: translateX(-50%);
+  transition: all 0.5s;
+}
+.popup .popup-inner{
+  height: 100%;
+}
+
+.popup .popup-close:hover,
+.popup .popup-close:focus{
+  color: #999;
+}
+.popup .popup-content{
+  padding: 5px;
+}
+
+.popup.open .popup-wrapper{
+  opacity: 1;
+  bottom: 15%;
+}
+.popup .popup-outerWrapper{
+  position: fixed;
+  visibility: hidden;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+.popup.open .popup-outerWrapper{
+  visibility: visible;
+  background: rgba(0,0,0,.15);
 }
 /* Tool styles */
 .tool-icon{
@@ -412,9 +450,6 @@ textarea,
   text-align: center;
 }
 
-.tool-list.vertical .popup{
-  text-align: left;
-}
 .tool-list.vertical.space-even{
   justify-content: space-around;
 }
@@ -540,9 +575,14 @@ textarea,
 .card.dark input[type="text"]{
   color: #fff;
 }
-.form-item.border{
+.form-item.border:not(.split){
   border-bottom: 1px solid #d2d2d2;
-  padding-bottom: 5px;
+}
+.form-item.split.border > div,
+.form-item.split > div.border{
+  border-bottom: 1px solid #d2d2d2;
+  display: flex;
+  vertical-align: bottom;
 }
 .form-item.split{
   display: flex;
@@ -606,7 +646,6 @@ textarea,
 .form-item .contentEditable:focus{
  border:none;
  outline:none;
- border-bottom:1px solid #00a72a;
 }
 .form-item input[type="text"],
 .form-item input[type="search"],
@@ -616,10 +655,9 @@ textarea,
 .form-item select{
   border:0;
   outline: none;
-  border-bottom:1px solid #d2d2d2;
   background:transparent;
   width:100%;
-  padding:8px 0 5px 0;
+  padding: 2px 0 5px 0;
   resize: vertical;
   font-size: 13px;
 }
@@ -644,21 +682,20 @@ input::-webkit-inner-spin-button {
 }
 .form-item input[type="number"].compact{
   text-align: center;
-  top: -6px;
   border: 0;
   margin:0 10px;
   width: 40px;
-  border-bottom:1px solid #d2d2d2;
   min-width: 0;
+  border-bottom: 1px solid #d2d2d2;
 }
 /* Select styles */
 .form-item select{
   text-align-last: right;
-  top: -2px;
+  top: -8px;
   position: relative;
 }
 .form-item select ~ label{
-  top: 8px;
+  top: -2px;
 }
 /* Editable Content */
 .form-item .contentEditable{
@@ -797,7 +834,7 @@ input[type="color"].postColorSelector:focus{
   text-align:left;
   position: absolute;
   left: calc(100% - 15px);
-  top: -7px;
+  top: -1px;
   z-index:1;
   cursor: text;
 }
