@@ -874,7 +874,7 @@ let app = new Vue({
      	   items.forEach((item , i) => {
             if(i < maxCount){
 
-              let post = {};
+              let post = {style: {}};
        	      //Remove the prefix of the node values
        	      let title = item.querySelector("title").innerHTML;
        	      let titlePrefix = '<![CDATA[';
@@ -936,7 +936,7 @@ let app = new Vue({
         .then(res => res.text())
         .then(data =>{
 
-          let post = {};
+          let post = {style: {}};
           let doc = (new DOMParser()).parseFromString(data, "text/html");
 
           //See if the description can be found
