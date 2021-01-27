@@ -1164,8 +1164,7 @@ function loadJSONFile(cb){
 
 //Export JSON File
 function exportJSONToFile(obj, fileName){
-  var json = JSON.stringify(obj);
-  var file = new File([json], fileName, {type: "text/txt"});
+  var file = new File([obj], fileName, {type: "text/json"});
   var blobUrl = (URL || webkitURL).createObjectURL(file);
 	var div = document.createElement("div"),
 	   anch = document.createElement("a");
