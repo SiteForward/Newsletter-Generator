@@ -154,7 +154,7 @@
                             </td>
 
                             <!-- If no image in post -->
-                            <td v-else width="800" style="display:inline-block;padding:10px 10px 20px 10px;font-family: 'Muli', Helvetica, sans-serif;" colspan="2">
+                            <td v-else width="780" style="display:inline-block;padding:10px 10px 20px 10px;font-family: 'Muli', Helvetica, sans-serif;" colspan="2">
                               <span style="margin-bottom:0;" :style="getPostStyle(pos, 'textColor')" v-html="post.title"></span>
                               <span v-if="post.date != '<p><br></p>'" style="font-size: .75em; opacity:.75;" :style="{'color': getPostStyle(pos, 'textColor')}" v-html="post.date"></span>
                               <span :style="{'color': getPostStyle(pos, 'textColor')}" v-html="post.desc"></span>
