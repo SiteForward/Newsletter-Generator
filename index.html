@@ -206,7 +206,7 @@
                          Banking products and services are offered by referral arrangements through our related company Manulife Bank of Canada. Please confirm with your advisor which company you are dealing with for each of your products and services.
                          <br><br>
               	         <em><a href="https://www.manulifesecurities.ca/corporate-disclaimers.html" target="_blank" :style="{color: styles.footer.linkColor}">Legal and Disclaimers</a> | <a href="https://www.manulife.ca/privacy-policies.html" target="_blank" :style="{color: styles.footer.linkColor}">Privacy Policy</a></em></p>
-                          <p v-if="settings.footer.preset.email" style="margin: 0;font-size:12px; text-align: center;"><a :href="'mailto:' + settings.footer.preset.email + '?subject=Unsubscribe from newsletters'":style="{color: styles.footer.linkColor}">Unsubscribe from newsletters</a></p>
+                          <p v-if="settings.footer.preset.email" style="margin: 0;font-size:12px; text-align: center;"><a :href="'mailto:' + settings.footer.preset.email + '?subject=Unsubscribe from newsletters&body=Hi,%0d%0aPlease remove my email address from your newsletter list.%0d%0aI wish to be removed because:__________.%0d%0aThanks,'":style="{color: styles.footer.linkColor}">Unsubscribe from newsletters</a></p>
                       </td>
                     </tr>
                     <tr v-else-if="settings.footer.style == '2'">
@@ -311,7 +311,7 @@
               </div>
               <div class="accordion-content">
                 <div class="form-item border ">
-                  <textarea class="app.editHTML" id="header-html" v-model="settings.header.html" required></textarea>
+                  <textarea class="editHTML" id="header-html" v-model="settings.header.html" required></textarea>
                   <label for="header-html">Header Content (HTML)</label>
                 </div>
               </div>
@@ -411,7 +411,7 @@
               </div>
               <div class="accordion-content expandable">
                 <div class="form-item border ">
-                    <textarea  class="app.editHTML" id="footer-html" v-model="settings.footer.html" required></textarea>
+                    <textarea class="editHTML" id="footer-html" v-model="settings.footer.html" required></textarea>
                   <label for="footer-html">Footer Content (HTML)</label>
                 </div>
               </div>
@@ -531,17 +531,17 @@
                     <div class="data">
                       <div class="form-item  border " :style="{'color':getPostStyle(pos, 'textColor')}">
                         <editabletext v-if="!app.editHTML" :id="'post-title-'+pos" v-model="post.title" :value="post.title">{{post.title}}</editabletext>
-                        <input v-else  class="app.editHTML"  :id="'post-title-'+pos" type="text" v-model="post.title" required>
+                        <input v-else  class="editHTML"  :id="'post-title-'+pos" type="text" v-model="post.title" required>
                         <label :for="'post-title-'+pos">Title</label>
                       </div>
                       <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
                         <editabletext v-if="!app.editHTML" :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc">{{post.desc}}</editabletext>
-                        <textarea v-else class="app.editHTML"  :id="'post-desc-'+pos" v-model="post.desc"required></textarea>
+                        <textarea v-else class="editHTML"  :id="'post-desc-'+pos" v-model="post.desc"required></textarea>
                         <label :for="'post-desc-'+pos">Description</label>
                       </div>
                       <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
                         <editabletext v-if="!app.editHTML" :id="'post-date-'+pos" v-model="post.date" :value="post.date" style="font-size: 11px">{{post.date}}</editabletext>
-                        <input v-else class="app.editHTML" :id="'post-date-'+pos" type="text" v-model="post.date" style="font-size: 11px" required>
+                        <input v-else class="editHTML" :id="'post-date-'+pos" type="text" v-model="post.date" style="font-size: 11px" required>
                         <label :for="'post-date-'+pos">Date</label>
                       </div>
                       <div class="form-item border  split even">
@@ -587,7 +587,7 @@
                         <div class="form-item border split even">
                           <slider min="0" max="100" v-model="posts[pos].style.buttonWidth" :value="getPostStyle(pos, 'buttonWidth')">Minimum Button Width (%)</slider>
                           <div>
-                            <select :id="'post-btnAlign-'+pos"  v-model='post.style.buttonAlign' :value="getPostStyle(pos, 'buttonAlign')" title="Customize Post Link Button Alignment">
+                            <select :id="'post-btnAlign-'+pos" v-model='post.style.buttonAlign' :value="getPostStyle(pos, 'buttonAlign')" title="Customize Post Link Button Alignment">
                               <option value="left" selected="selected">Left</option>
                               <option value="center">Center</option>
                               <option value="right">Right</option>

@@ -307,7 +307,7 @@ Vue.component('editabletext', {
             div.classList.add("editHTMLClose");
             e.parentNode.appendChild(div);
             div.addEventListener("click", function(){
-              app.editHTML = false;
+              app.app.editHTML = false;
               var closeBtns = document.querySelectorAll('.editHTMLClose');
               closeBtns.forEach(e => e.remove());
             });
