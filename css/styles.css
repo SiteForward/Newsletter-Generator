@@ -90,6 +90,9 @@ textarea,
 .preview-body{
   font-family: "Muli", Helvetica, sans-serif;
 }
+p.smallerText{
+  font-size: 11px;
+}
 
 /* Component styles */
 
