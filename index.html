@@ -286,8 +286,8 @@
                   <input type="text" id="header-image" v-model="settings.header.image" required>
                   <label for="header-image">Header Image URL</label>
                 </div>
-                <p class="smallerText">Looking to create a custom banner? - Try the <a href="#" @click="app.activeView = 'tools'; scrollToTop()">custom banner creator</a> in the tools section in the left navigation or you can try <a href="https://www.canva.com/design?create&width=800&height=230&units=px&schema=web-2" target="_blank">Canva</a>.</p>
-                <p class="smallerText">Once the banner is created you will need to upload the banner to your website and copy the URL into here</p>
+                <p class="smallerText">Looking to create a custom banner? - Try the <a href="#" @click="app.activeView = 'tools'; scrollToTop()">custom banner creator</a> in the tools section in the left navigation or you can try <a href="https://www.canva.com/design?create&width=800&height=230&units=px&schema=web-2" target="_blank">Canva</a>.
+                  <br>Once the banner is created you will need to upload the banner to your website and copy the URL into here</p>
               </div>
             </div>
             <div class="accordion" :class="{open: settings.header.style == 2}" @click="settings.header.style = 2">
