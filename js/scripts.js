@@ -148,7 +148,7 @@ Vue.component('searchbar', {
           for(let i = 0; i < childNodes.length; i++){
             let child = childNodes[i];
             let span = document.createElement('span');
-            span.innerHTML = child.data.replace(regex, '<span style="background-color: yellow">$1</span>');
+            span.innerHTML = child.data.replace(regex, '<mark>$1</mark>');
 
             child.parentNode.insertBefore(span, child);
             child.parentNode.removeChild(child);
