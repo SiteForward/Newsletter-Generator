@@ -558,16 +558,16 @@
                                     </div>
                                     <div class="form-item border  split even">
                                         <div>
-                                            <input :id="'post-link-'+pos" type="text" v-model="post.link" style="font-size: 11px" required>
+                                            <input :id="'post-link-'+pos" type="text" v-model="post.link" style="font-size: 11px" :style="{'color':getPostStyle(pos, 'textColor')}" required>
                                             <label :for="'post-link-'+pos">Link</label>
                                         </div>
                                         <div>
-                                            <input :id="'post-linkLabel-'+pos" type="text" v-model="post.linkLabel" style="font-size: 11px" required>
+                                            <input :id="'post-linkLabel-'+pos" type="text" v-model="post.linkLabel" style="font-size: 11px" :style="{'color':getPostStyle(pos, 'textColor')}" required>
                                             <label :for="'post-linkLabel-'+pos">Read More</label>
                                         </div>
                                     </div>
                                     <div class="form-item border ">
-                                        <input :id="'post-img-'+pos" type="text" v-model="post.img" style="font-size: 11px" required>
+                                        <input :id="'post-img-'+pos" type="text" v-model="post.img" style="font-size: 11px" :style="{'color':getPostStyle(pos, 'textColor')}" required>
                                         <label :for="'post-img-'+pos">Image URL</label>
                                     </div>
                                 </div>

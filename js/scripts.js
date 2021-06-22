@@ -253,7 +253,6 @@ let app = new Vue({
             sidebarHover: false,
             sidebarStuck: false,
             wordSupport: false,
-            editHTML: false,
             activeView: "setup",
             silentToggle: []
         },
@@ -374,10 +373,7 @@ let app = new Vue({
             if (!this.app.silentToggle.includes('app.wordSupport'))
                 sendInfo("Word support turned " + (this.app.wordSupport ? "on" : "off"));
         },
-        'app.editHTML': function() {
-            if (!this.app.silentToggle.includes('app.editHTML'))
-                sendInfo("Edit HTML support turned " + (this.app.editHTML ? "on" : "off"));
-        },
+
         'settings.footer.preset.useDisclaimer': function() {
             if (!this.app.silentToggle.includes('settings.footer.preset.useDisclaimer'))
                 sendInfo("Manulife Securities Disclaimer turned " + (this.settings.footer.preset.useDisclaimer ? "on" : "off"));
@@ -642,6 +638,7 @@ let app = new Vue({
                     this.settings.analytics = file.options.analytics;
 
                 this.posts = file.posts;
+                // ! Posts aren't being updated 
 
                 if (file.version == 1) {
                     this.settings.header = file.header;
@@ -688,7 +685,6 @@ let app = new Vue({
                 }
 
                 sendSuccess("Newsletter Loaded");
-                this.toggleEditHTMLSilently();
             }
         },
 
@@ -915,24 +911,10 @@ let app = new Vue({
                 .catch(error => sendError("Unable to find Google Analytics Code", error));;
         },
 
-        //Silently toggle HTML Edit - forces editabletext to re-render
-        toggleEditHTMLSilently() {
-            this.app.silentToggle.push('app.editHTML');
-            this.app.editHTML = true;
-            setTimeout(function() {
-                app.app.editHTML = false;
-                setTimeout(function() {
-                    app.app.silentToggle.splice(app.app.silentToggle.indexOf('app.editHTML'), 1);
-                }, 1);
-            }, 1);
-        },
-
         // Delete post
         deletePost(pos) {
             sendSuccess("Deleted Post");
             this.posts.splice(pos, 1);
-            if (!this.app.editHTML)
-                this.toggleEditHTMLSilently();
         },
 
         // Delete post
@@ -940,49 +922,42 @@ let app = new Vue({
             sendSuccess("Duplicated Post");
             let post = this.posts[pos];
             this.posts.splice(pos, 0, JSON.parse(JSON.stringify(post)));
-            if (!this.app.editHTML)
-                this.toggleEditHTMLSilently();
         },
 
         //Move post
         movePost(dir, pos) {
             sendSuccess("Moved Post");
             moveItem(this.posts, pos, dir);
-            if (!this.app.editHTML)
-                this.toggleEditHTMLSilently();
+
         },
         getPostStyle(pos, key) {
             if (this.has(this.posts[pos].style, key))
                 return this.get(this.posts[pos].style, key);
             else
                 return this.get(this.styles.post, key);
-            // return this.has(this.posts[pos].style, key) ? this.get(this.posts[pos].style, key) : this.get(this.styles.post, key);
         },
 
         //Edit post
         editPost(pos, key, value) {
             let updateNotRender = this.has(this.posts[pos], key);
-            this.set(this.posts[pos], key, value);
-            // this.posts[pos][key] = value;
 
-            // // If currently on cooldown - reset cooldown
+            // If currently on cooldown - reset cooldown
             if (this.newsletter.editPostTimer)
                 clearTimeout(this.newsletter.editPostTimer)
             this.newsletter.editPostTimer = setTimeout(() => {
-                if (!this.app.editHTML)
-                    if (updateNotRender)
-                        this.$forceUpdate();
-                    else
-                        this.toggleEditHTMLSilently();
-            }, 500);
+                this.set(this.posts[pos], key, value);
+
+                if (updateNotRender)
+                    this.$forceUpdate();
+            }, 250);
         },
 
         //Add a new post
         addPost() {
             sendSuccess("Added New Post");
             this.posts.push({
-                title: '<h2>New Post</h2>',
-                desc: '<p>New Desc</p>',
+                title: '<h2>Post Title</h2>',
+                desc: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>',
                 style: {}
             });
         },
