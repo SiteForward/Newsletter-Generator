@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -25,12 +26,10 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <!-- VueJS -->
-    <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
 
-    <!-- Quill -->
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <link href="https://cdn.quilljs.com/1.3.7/quill.core.css" rel="stylesheet">
-    <link href="https://cdn.quilljs.com/1.3.7/quill.bubble.css" rel="stylesheet">
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/eqepoqfy8y9ftr5kx84v4zm1og0ptew3yuwviio2jzd1meo0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
     <!-- Vue Snotify -->
     <link rel="stylesheet" href="https://unpkg.com/vue-snotify@3.2.1/styles/material.css">
@@ -327,8 +326,8 @@
                     </div>
                     <div class="accordion-content">
                         <div class="form-item border ">
-                            <textarea class="editHTML" id="header-html" v-model="settings.header.html" required></textarea>
-                            <label for="header-html">Header Content (HTML)</label>
+                            <editable id="header-html" v-model="settings.header.html" :value="settings.header.html"></editable>
+                            <label for="header-html">Header Content</label>
                         </div>
                     </div>
                 </div>
@@ -427,8 +426,8 @@
                     </div>
                     <div class="accordion-content expandable">
                         <div class="form-item border ">
-                            <textarea class="editHTML" id="footer-html" v-model="settings.footer.html" required></textarea>
-                            <label for="footer-html">Footer Content (HTML)</label>
+                            <editable id="footer-html" v-model="settings.footer.html" :value="settings.footer.html"></editable>
+                            <label for="footer-html">Footer Content </label>
                         </div>
                     </div>
                 </div>
@@ -545,19 +544,16 @@
                             <div class="post">
                                 <img v-if="post.img" :src="post.img">
                                 <div class="data">
-                                    <div class="form-item  border " :style="{'color':getPostStyle(pos, 'textColor')}">
-                                        <editabletext v-if="!app.editHTML" :id="'post-title-'+pos" v-model="post.title" :value="post.title">{{post.title}}</editabletext>
-                                        <input v-else class="editHTML" :id="'post-title-'+pos" type="text" v-model="post.title" required>
+                                    <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
+                                        <editable :id="'post-title-'+pos" v-model="post.title" :value="post.title"></editable>
                                         <label :for="'post-title-'+pos">Title</label>
                                     </div>
                                     <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
-                                        <editabletext v-if="!app.editHTML" :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc">{{post.desc}}</editabletext>
-                                        <textarea v-else class="editHTML" :id="'post-desc-'+pos" v-model="post.desc" required></textarea>
+                                        <editable :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc"></editable>
                                         <label :for="'post-desc-'+pos">Description</label>
                                     </div>
                                     <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
-                                        <editabletext v-if="!app.editHTML" :id="'post-date-'+pos" v-model="post.date" :value="post.date" style="font-size: 11px">{{post.date}}</editabletext>
-                                        <input v-else class="editHTML" :id="'post-date-'+pos" type="text" v-model="post.date" style="font-size: 11px" required>
+                                        <editable :id="'post-date-'+pos" v-model="post.date" :value="post.date"></editable>
                                         <label :for="'post-date-'+pos">Date</label>
                                     </div>
                                     <div class="form-item border  split even">
@@ -895,14 +891,7 @@
                     <button @click="resetStyles()" style="margin: 0"><i class="fas fa-remove-format"></i> Reset Styles</button>
                 </div>
             </div>
-            <!-- <div class="card">
-            <h3 class="card-title">Turn On Editing in HTML</h3>
-            <p><small>This allows the use of custom HTML when editing posts and will remove the WYSIWYG(What You See Is What You Get) toolbar</small></p>
-            <div class="form-item">
-              <input type="checkbox" v-model="app.editHTML" id="app.editHTMLToggle">
-              <label for="app.editHTMLToggle">Enable Editing in HTML</label>
-            </div>
-          </div> -->
+
             <div class="card">
                 <h3 class="card-title">Enable MS Word Support</h3>
                 <p><small><strong>This can cause issues if enabled and is being used in an email.
