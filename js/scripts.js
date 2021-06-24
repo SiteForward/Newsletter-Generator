@@ -2,6 +2,8 @@ let tinyMCE_settings = {
     selector: '.editable',
     menubar: false,
     inline: true,
+    skin: (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oxide-dark' : 'oxide'),
+    content_css: (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'),
     plugins: [
         'link',
         'autolink',
@@ -17,10 +19,12 @@ let tinyMCE_settings = {
     link_default_protocol: 'https',
     paste_as_text: true,
     contextmenu: 'undo redo | help',
-    toolbar: 'formatselect fontsizeselect | bold italic underline | forecolor backcolor | numlist  bullist | image | removeformat code',
+    toolbar: 'formatselect fontsizeselect | bold italic underline | align lineheight | forecolor backcolor | numlist  bullist | superscript subscript | image | removeformat code',
+    block_formats: 'Paragraph=p;Heading 1=h1;Heading 2=h2;Heading 3=h3;Heading 4=h4;',
+    fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt 48pt',
     setup: function(editor) {
         editor.on('BeforeAddUndo', function(e) {
-
+            document.querySelector("#" + editor.id).dispatchEvent(new Event("input"));
         });
     }
 }
@@ -28,28 +32,32 @@ let tinyMCE_settings = {
 tinymce.init(tinyMCE_settings);
 
 Vue.component('editable', {
-    template: '<div class="editable" @input="updateInput" @mousedown="updateInput"></div>',
+    template: '<div class="editable" @input="updateInput"></div>',
     props: ['value'],
+    watch: {
+        value: function() {
+            if (tinymce.get(this.$el.id) == null)
+                if (typeof this.value != 'undefined') {
+                    this.$el.innerHTML = this.value;
+
+                    let tinyMCE_settings_clone = Object.assign({}, tinyMCE_settings);
+                    tinyMCE_settings_clone.selector = "#" + this.$el.id;
+                    tinymce.init(tinyMCE_settings_clone);
+                }
+        }
+    },
     methods: {
         updateInput(e) {
-            this.$emit('input', tinymce.get(this.$el.id).getContent());
+            if (tinymce.get(this.$el.id) != null)
+                this.$emit('input', tinymce.get(this.$el.id).getContent());
         }
     },
     mounted() {
-        let editableComponent = this;
         if (typeof this.value != 'undefined')
             this.$el.innerHTML = this.value;
 
-        //? By adding an event listener on BeforeAddUndo it allows the Vue Component to force an update when something happens
-        let tinyMCE_setup = function(editor) {
-            editor.on('BeforeAddUndo', function(e) {
-                editableComponent.updateInput();
-            });
-        }
-
         let tinyMCE_settings_clone = Object.assign({}, tinyMCE_settings);
         tinyMCE_settings_clone.selector = "#" + this.$el.id;
-        tinyMCE_settings_clone.setup = tinyMCE_setup;
         tinymce.init(tinyMCE_settings_clone);
     }
 })
@@ -247,6 +255,7 @@ let app = new Vue({
     el: '#body-wrapper',
     props: {},
     data: {
+        renderKey: 0,
         posts: [],
         newsletterHTML: "",
         app: {
@@ -638,7 +647,6 @@ let app = new Vue({
                     this.settings.analytics = file.options.analytics;
 
                 this.posts = file.posts;
-                // ! Posts aren't being updated 
 
                 if (file.version == 1) {
                     this.settings.header = file.header;
@@ -700,6 +708,10 @@ let app = new Vue({
             localStorage.setItem("newsletter", this.newsletterAsJSON());
             sendSuccess("Newsletter Saved");
         },
+
+
+
+        //! Doesn't work cause it can't load images
         downloadPDF() {
             // var tempDiv = document.createElement("div");
             // tempDiv.innerHTML = this.$refs.newsletter.outerHTML;
@@ -921,14 +933,15 @@ let app = new Vue({
         duplicatePost(pos) {
             sendSuccess("Duplicated Post");
             let post = this.posts[pos];
+            while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
             this.posts.splice(pos, 0, JSON.parse(JSON.stringify(post)));
         },
 
         //Move post
         movePost(dir, pos) {
             sendSuccess("Moved Post");
+            while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
             moveItem(this.posts, pos, dir);
-
         },
         getPostStyle(pos, key) {
             if (this.has(this.posts[pos].style, key))
