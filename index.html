@@ -207,7 +207,7 @@
                             <span v-if="settings.footer.preset.location.postal" :style="{color: styles.footer.textColor}"><span v-if="settings.footer.preset.location.address || settings.footer.preset.location.city"> | </span>{{settings.footer.preset.location.postal}}</span>
                         </p>
                         <p v-if="settings.footer.preset.phone" style="margin:0;margin-bottom: 10px;text-align:center;" :style="{color: styles.footer.textColor}">{{settings.footer.preset.phone}}</p>
-                        <p v-if="settings.footer.preset.disclaimer.enable" style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;" :style="{color: styles.footer.textColor}"><br>Copyright &copy; {{(new Date().getFullYear())}} All rights reserved.<br> The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information
+                        <p v-if="settings.footer.preset.disclaimer.enable" style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;" :style="{color: styles.footer.textColor}"><br>Copyright &copy; {{(new Date().getFullYear())}}, All rights reserved.<br> The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information
                             purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities is an indirectly, wholly-owned subsidiary of Manulife
                             Financial Corporation (MFC). MFC owns The Manufacturers Life Insurance Company (MLI), a financial services organization offering a range of protection, estate planning, investment and banking solutions through a multi-channel
                             distribution network. MLI owns Manulife Securities Incorporated, Manulife Securities Investment Services Inc. and Manulife Securities Insurance Inc. MLI also owns Manulife Bank of Canada, a federally chartered Schedule 1 bank,
@@ -875,7 +875,7 @@
 
             <div class="card">
                 <h3 class="card-title">Use Manulife Securities Disclaimer in Footer Preset</h3>
-                <p><small>Copyright &copy; 2020 All rights reserved.
+                <p><small>Copyright &copy; {{(new Date().getFullYear())}}, All rights reserved.
                       The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities is an indirectly, wholly-owned subsidiary of Manulife Financial Corporation (MFC). MFC owns The Manufacturers Life Insurance Company (MLI), a financial services organization offering a range of protection, estate planning, investment and banking solutions through a multi-channel distribution network. MLI owns Manulife Securities Incorporated, Manulife Securities Investment Services Inc. and Manulife Securities Insurance Inc. MLI also owns Manulife Bank of Canada, a federally chartered Schedule 1 bank, which in turns owns Manulife Trust Company, a federally chartered trust company. Please confirm with your advisor which company you are dealing with for each of your products and services.
                       <br><br>
                       Legal and Disclaimers | Privacy Policy</small></p>
