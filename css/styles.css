@@ -15,8 +15,17 @@ body {
 }
 
 .tox-tinymce-inline,
-.tox-tinymce-inline .tox-editor-header {
+.tox-tinymce-inline .tox-editor-header,
+.tox .tox-toolbar-overlord {
     border-radius: 10px !important;
+}
+
+.tox-toolbar-overlord .tox-toolbar:first-child {
+    border-radius: 10px 10px 0 0;
+}
+
+.tox-toolbar-overlord .tox-toolbar:last-child {
+    border-radius: 0 0 10px 10px;
 }
 
 .tox-tinymce-inline .tox-editor-header {
