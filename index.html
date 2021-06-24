@@ -762,29 +762,19 @@
                             <label for="tool-banner-subtitle">Banner Subtitle</label>
                         </div>
                         <div class="form-item border">
-                            <!-- <slider min="-800" max="800" v-model="tools.banner.offsetX" :value="tools.banner.offsetX">Text Horizontal Offset</slider> -->
-                            <input type="number" v-model="tools.banner.titleSize" id="tool-banner-titleSize" required step="2">
-                            <label for="tool-banner-titleSize">Title Size</label>
+                            <slider min="0" max="100" v-model="tools.banner.titleSize" :value="tools.banner.titleSize">Title Size</slider>
                         </div>
                         <div class="form-item border">
-                            <!-- <slider min="1" max="50" v-model="tools.banner.subtitleSize" :value="tools.banner.subtitleSize">Subtitle Size</slider> -->
-                            <input type="number" v-model="tools.banner.subtitleSize" id="tool-banner-subtitleSize" required step="2">
-                            <label for="tool-banner-subtitleSize">Subtitle Size</label>
+                            <slider min="0" max="100" v-model="tools.banner.subtitleSize" :value="tools.banner.subtitleSize">Subtitle Size</slider>
                         </div>
                         <div class="form-item border">
-                            <!-- <slider min="-100" max="100"  :value="tools.banner.titleSpacing" v-model="tools.banner.titleSpacing">Title Spacing</slider> -->
-                            <input type="number" v-model="tools.banner.titleSpacing" id="tool-banner-titleSpacing" required step="5">
-                            <label for="tool-banner-titleSpacing">Title Spacing</label>
+                            <slider min="0" max="100" :value="tools.banner.titleSpacing" v-model="tools.banner.titleSpacing">Title Spacing</slider>
                         </div>
                         <div class="form-item border border">
                             <slider min="-225" max="225" v-model="tools.banner.offsetY" :value="tools.banner.offsetY">Text Vertical Offset</slider>
-                            <!-- <input type="number" v-model="tools.banner.offsetY" id="tool-banner-offsetY"  required step="5">
-                  <label for="tool-banner-offsetY">Text Vertical Offset</label> -->
                         </div>
                         <div class="form-item border border">
                             <slider min="-800" max="800" v-model="tools.banner.offsetX" :value="tools.banner.offsetX">Text Horizontal Offset</slider>
-                            <!-- <input type="number" v-model="tools.banner.offsetX" id="tool-banner-offsetX"required step="5">
-                  <label for="tool-banner-offsetX">Text Horizontal Offset</label> -->
                         </div>
                         <div class="form-item border">
                             <select v-model="tools.banner.textAlign" id="tool-banner-textAlign" required>
@@ -807,17 +797,12 @@
                         </div>
                         <div class="form-item border">
                             <slider min="-20" max="20" v-model="tools.banner.shadowOffsetY" :value="tools.banner.shadowOffsetY">Shadow Vertical Offset</slider>
-                            <!-- <input type="number" v-model="tools.banner.shadowOffsetY" id="tool-banner-shadowOffsetY"  required >
-                  <label for="tool-banner-shadowOffsetY">Shadow Vertical Offset</label> -->
                         </div>
                         <div class="form-item border">
                             <slider min="-20" max="20" v-model="tools.banner.shadowOffsetX" :value="tools.banner.shadowOffsetY">Shadow Horizontal Offset</slider>
-                            <!-- <input type="number" v-model="tools.banner.shadowOffsetX" id="tool-banner-shadowOffsetX"required>
-                  <label for="tool-banner-shadowOffsetX">Shadow Horizontal Offset</label> -->
                         </div>
                         <div class="form-item border">
-                            <input type="number" v-model="tools.banner.shadowBlur" id="tool-banner-shadowBlur" required>
-                            <label for="tool-banner-shadowBlur">Shadow Blur</label>
+                            <slider min="-800" max="800" v-model="tools.banner.shadowBlur" :value="tools.banner.shadowBlur">Shadow Blur</slider>
                         </div>
                         <div class="form-item">
                             <input id="tool-banner-shadowColor" type="color" v-model="tools.banner.shadowColor" :class="{light: isLight(tools.banner.shadowColor)}">
@@ -832,18 +817,12 @@
                         </div>
                         <div class="form-item border">
                             <slider min="0" max="225" :value="tools.banner.logoY" v-model="tools.banner.logoY">Logo Vertical Offset</slider>
-                            <!-- <input type="number"  v-model="tools.banner.logoY" id="tool-banner-logoY"  required>
-                  <label for="tool-banner-logoX">Logo Vertical Offset</label> -->
                         </div>
                         <div class="form-item border">
                             <slider min="-800" max="800" :value="tools.banner.logoX" v-model="tools.banner.logoX">Logo Horizontal Offset</slider>
-                            <!-- <input type="number" v-model="tools.banner.logoX" id="tool-banner-logoX"  required step="5">
-                  <label for="tool-banner-logoX">Logo Horizontal Offset</label> -->
                         </div>
                         <div class="form-item border">
                             <slider min="0" max="800" :value="tools.banner.logoWidth" v-model="tools.banner.logoWidth">Logo Width</slider>
-                            <!-- <input type="number" v-model="tools.banner.logoWidth" id="tool-banner-logoWidth"required step="5">
-                  <label for="tool-banner-logoWidth">Logo Width</label> -->
                         </div>
                     </div>
                 </div>
