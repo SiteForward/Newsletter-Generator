@@ -35,15 +35,16 @@ Vue.component('editable', {
     template: '<div class="editable" @input="updateInput"></div>',
     props: ['value'],
     watch: {
+        //* Needed because editable components don't seem to be removed and replaced when re-rendered
         value: function() {
-            if (tinymce.get(this.$el.id) == null)
-                if (typeof this.value != 'undefined') {
+            if (tinymce.get(this.$el.id) == null) {
+                if (typeof this.value != 'undefined' && this.value != this.$el.innerHTML)
                     this.$el.innerHTML = this.value;
 
-                    let tinyMCE_settings_clone = Object.assign({}, tinyMCE_settings);
-                    tinyMCE_settings_clone.selector = "#" + this.$el.id;
-                    tinymce.init(tinyMCE_settings_clone);
-                }
+                let tinyMCE_settings_clone = Object.assign({}, tinyMCE_settings);
+                tinyMCE_settings_clone.selector = "#" + this.$el.id;
+                tinymce.init(tinyMCE_settings_clone);
+            }
         }
     },
     methods: {
@@ -55,6 +56,8 @@ Vue.component('editable', {
     mounted() {
         if (typeof this.value != 'undefined')
             this.$el.innerHTML = this.value;
+        else
+            this.$el.innerHTML = "";
 
         let tinyMCE_settings_clone = Object.assign({}, tinyMCE_settings);
         tinyMCE_settings_clone.selector = "#" + this.$el.id;
@@ -64,7 +67,6 @@ Vue.component('editable', {
 
 //Create Popup component
 Vue.component('popup', {
-    // template: '<div class="popup"><i class="fas fa-cog tool-icon"></i><div class="popup-outerWrapper"><div class="popup-wrapper"><div class="popup-inner"><div class="popup-title"><a title="Close popup" href="#" class="popup-close"><i class="far fa-window-close fa-2x"></i></a><h1>{{title}}</h1></div><div class="popup-content"><slot></slot></div></div></div></div></div>',
     template: '<div class="popup"><i class="fas fa-cog tool-icon"></i><div class="popup-outerWrapper"><div class="card popup-wrapper"><h3 class="card-title">{{title}}</h3><span title="Close Popup" class="card-title-icon popup-close"><i class="far fa-window-close tool-icon"></i></span><div class="popup-content"><slot></slot></div></div></div></div>',
     props: ['title'],
     data: function() {
@@ -926,6 +928,7 @@ let app = new Vue({
         // Delete post
         deletePost(pos) {
             sendSuccess("Deleted Post");
+            while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
             this.posts.splice(pos, 1);
         },
 
@@ -971,6 +974,7 @@ let app = new Vue({
             this.posts.push({
                 title: '<h2>Post Title</h2>',
                 desc: '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>',
+                date: '',
                 style: {}
             });
         },
