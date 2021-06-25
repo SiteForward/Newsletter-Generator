@@ -957,7 +957,7 @@ input[type="color"].postColorSelector:focus {
     position: relative;
 }
 
-​ .form-item input[type="range"]:focus::-webkit-slider-thumb,
+​.form-item input[type="range"]:focus::-webkit-slider-thumb,
 .form-item input[type="range"]:active::-webkit-slider-thumb,
 .form-item input[type="range"]::-webkit-slider-thumb:hover {
     background-color: #00a72a;
