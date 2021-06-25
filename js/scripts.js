@@ -638,6 +638,7 @@ let app = new Vue({
             if (!posts || posts.target) sendError("Unable to load posts");
             else {
                 sendSuccess("Posts Loaded");
+                this.removeAllEditors();
                 this.posts = posts;
             }
 
@@ -678,6 +679,7 @@ let app = new Vue({
                 if (file.options.analytics)
                     this.settings.analytics = file.options.analytics;
 
+                this.removeAllEditors();
                 this.posts = file.posts;
 
                 if (file.version == 1) {
@@ -687,6 +689,8 @@ let app = new Vue({
                 } else {
                     this.settings.header = file.options.header;
                     this.settings.footer = file.options.footer;
+
+                    this.removeAllEditors();
                     this.posts = file.posts;
                     if (this.posts.length) {
                         console.log("converting old post styles");
@@ -993,7 +997,7 @@ let app = new Vue({
         // Delete post
         deletePost(pos) {
             sendSuccess("Deleted Post");
-            while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
+            this.removeAllEditors();
             this.posts.splice(pos, 1);
         },
 
@@ -1001,14 +1005,16 @@ let app = new Vue({
         duplicatePost(pos) {
             sendSuccess("Duplicated Post");
             let post = this.posts[pos];
-            while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
+            this.removeAllEditors();
             this.posts.splice(pos, 0, JSON.parse(JSON.stringify(post)));
         },
-
+        removeAllEditors(){
+            while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
+        },
         //Move post
         movePost(dir, pos) {
             sendSuccess("Moved Post");
-            while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
+            this.removeAllEditors();
             moveItem(this.posts, pos, dir);
         },
         getPostStyle(pos, key) {
