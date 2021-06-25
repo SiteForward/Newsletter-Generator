@@ -972,7 +972,7 @@ input[type="color"].postColorSelector:focus {
     padding: 0;
 }
 
-.newsletter-list li {
+.newsletter-list li.card {
     display: flex;
     flex-flow: row nowrap;
 }

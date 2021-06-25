@@ -3,7 +3,6 @@ let tinyMCE_settings = {
     menubar: false,
     inline: true,
     skin: (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oxide-dark' : 'oxide'),
-    content_css: (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'default'),
     plugins: [
         'link',
         'autolink',
@@ -90,11 +89,10 @@ Vue.component('popup', {
 
 // Create Slider component
 Vue.component('slider', {
-    template: '<div class="slider-wrapper"><label><slot></slot>:<input type="number" :max="max" :min="min" class="compact hideSpin hideBorder" :value="val" @input="adjust"></label><div><input :id="id" :value="val" :max="max" :min="min" type="range" @input="adjust" required></div></div>',
-    props: ['max', 'min', 'value'],
+    template: '<div class="slider-wrapper"><label :for="id"><slot></slot>:<input :id="id" type="number" :max="max" :min="min" class="compact hideSpin hideBorder" :value="val" @input="adjust"></label><div><input aria-label="id" :value="val" :max="max" :min="min" type="range" @input="adjust" required></div></div>',
+    props: ['max', 'min', 'value', 'id'],
     data: function() {
         return {
-            id: null,
             val: 0
         }
     },
