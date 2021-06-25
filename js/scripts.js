@@ -999,6 +999,7 @@ let app = new Vue({
             sendSuccess("Deleted Post");
             this.removeAllEditors();
             this.posts.splice(pos, 1);
+            this.initAllEditors();
         },
 
         // Delete post
@@ -1007,15 +1008,20 @@ let app = new Vue({
             let post = this.posts[pos];
             this.removeAllEditors();
             this.posts.splice(pos, 0, JSON.parse(JSON.stringify(post)));
+            this.initAllEditors();
         },
         removeAllEditors(){
             while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
+        },
+        initAllEditors(){
+            tinymce.init(tinyMCE_settings);
         },
         //Move post
         movePost(dir, pos) {
             sendSuccess("Moved Post");
             this.removeAllEditors();
             moveItem(this.posts, pos, dir);
+            this.initAllEditors();
         },
         getPostStyle(pos, key) {
             if (this.has(this.posts[pos].style, key))
