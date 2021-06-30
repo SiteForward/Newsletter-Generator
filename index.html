@@ -83,8 +83,8 @@
                     <p class="collapsed">Settings</p>
                 </li>
                 <li class="sidebar-item" :class="{active: app.activeView === 'tools'}" @click="app.activeView = 'tools'; scrollToTop()">
-                    <i class="fa fa-briefcase fa-2x"></i>
-                    <p class="collapsed">Tools</p>
+                    <i class="fa fa-image fa-2x"></i>
+                    <p class="collapsed">Banner Creator</p>
                 </li>
                 <li class="sidebar-item" :class="{active: app.activeView === 'help'}" @click="app.activeView = 'help'; scrollToTop()">
                     <i class="far fa-question-circle fa-2x"></i>
@@ -295,7 +295,7 @@
             <div class="card">
                 <h3 class="card-title">Email Preview Text</h3>
                 <div class="form-item border">
-                    <input type="text" id="previewText" v-model="newsletter.previewText" required>
+                    <input type="text" id="previewText" v-model="newsletter.previewText" required  title=" ">
                     <label for="previewText">Preview Text</label>
                 </div>
             </div>
@@ -313,7 +313,7 @@
                 <p>Load Multiple Posts</p>
                 <div class="form-item border split">
                     <div>
-                        <input type="text" id="loadPosts" required ref="loadPosts">
+                        <input type="text" id="loadPosts" required ref="loadPosts" title=" ">
                         <label for="loadPosts">Post Page's URL</label>
                     </div>
                     <input type="number" id="loadPostsCount" required ref="loadPostsCount" value="6" class="compact" aria-label="Number of posts to load">
@@ -322,7 +322,7 @@
                 <p>Load Individual Posts</p>
                 <div class="form-item border split">
                     <div>
-                        <input type="text" id="loadPost" required ref="loadPost">
+                        <input type="text" id="loadPost" required ref="loadPost" title=" ">
                         <label for="loadPost">Post's URL</label>
                     </div>
                     <button @click="loadPostFromURL"><i class="fas fa-file-import"></i> Load Post</button>
@@ -348,7 +348,7 @@
                     </div>
                     <div class="accordion-content">
                         <div class="form-item border ">
-                            <input type="text" id="header-image" v-model="settings.header.image" required>
+                            <input type="text" id="header-image" v-model="settings.header.image" required title=" ">
                             <label for="header-image">Header Image URL</label>
                         </div>
                         <p class="smallerText">Looking to create a custom banner? - Try the <a href="#" @click="app.activeView = 'tools'; scrollToTop()">custom banner creator</a> in the tools section in the left navigation or you can try <a href="https://www.canva.com/design?create&width=800&height=230&units=px&schema=web-2"
@@ -364,11 +364,11 @@
                     </div>
                     <div class="accordion-content">
                         <div class="form-item border ">
-                            <input type="text" id="header-titles-title" v-model="settings.header.titles.title" required>
+                            <input type="text" id="header-titles-title" v-model="settings.header.titles.title" required title=" ">
                             <label for="header-titles-title">Header Title</label>
                         </div>
                         <div class="form-item border ">
-                            <input type="text" id="header-titles-subtitle" v-model="settings.header.titles.subtitle" required>
+                            <input type="text" id="header-titles-subtitle" v-model="settings.header.titles.subtitle" required title=" ">
                             <label for="header-titles-subtitle">Header Subtitle</label>
                         </div>
                     </div>
@@ -403,58 +403,58 @@
                     <div class="accordion-content">
                         <div class="form-item border  split even">
                             <div>
-                                <input type="text" id="footer-preset-name" v-model="settings.footer.preset.name" required>
+                                <input type="text" id="footer-preset-name" v-model="settings.footer.preset.name" required title=" ">
                                 <label for="footer-preset-name">Name</label>
                             </div>
                             <div>
-                                <input type="text" id="footer-preset-email" v-model="settings.footer.preset.email" required>
+                                <input type="text" id="footer-preset-email" v-model="settings.footer.preset.email" required title=" ">
                                 <label for="footer-preset-email">Email</label>
                             </div>
                         </div>
                         <div class="form-item border  split even">
                             <div>
-                                <input type="text" id="footer-preset-phone" v-model="settings.footer.preset.phone" required>
+                                <input type="text" id="footer-preset-phone" v-model="settings.footer.preset.phone" required title=" ">
                                 <label for="footer-preset-phone">Phone</label>
                             </div>
                             <div>
-                                <input type="text" id="footer-preset-website" v-model="settings.footer.preset.website" required>
+                                <input type="text" id="footer-preset-website" v-model="settings.footer.preset.website" required title=" ">
                                 <label for="footer-preset-website">Website</label>
                             </div>
                         </div>
                         <div class="form-item border  split even">
                             <div>
-                                <input type="text" id="footer-preset-social-facebook" v-model="settings.footer.preset.social.facebook" required>
+                                <input type="text" id="footer-preset-social-facebook" v-model="settings.footer.preset.social.facebook" required title=" ">
                                 <label for="footer-preset-social-facebook">Facebook Page</label>
                             </div>
                             <div>
-                                <input type="text" id="footer-preset-social-linkedin" v-model="settings.footer.preset.social.linkedin" required>
+                                <input type="text" id="footer-preset-social-linkedin" v-model="settings.footer.preset.social.linkedin" required title=" ">
                                 <label for="footer-preset-social-linkedin">LinkedIn Page</label>
                             </div>
                         </div>
                         <div class="form-item  split even">
                             <div class="border">
-                                <input type="text" id="footer-preset-social-twitter" v-model="settings.footer.preset.social.twitter" required>
+                                <input type="text" id="footer-preset-social-twitter" v-model="settings.footer.preset.social.twitter" required title=" ">
                                 <label for="footer-preset-social-twitter">Twitter Page</label>
                             </div>
                             <div></div>
                         </div>
                         <div class="form-item border  split even">
                             <div>
-                                <input type="text" id="footer-preset-location-address" v-model="settings.footer.preset.location.address" required>
+                                <input type="text" id="footer-preset-location-address" v-model="settings.footer.preset.location.address" required title=" ">
                                 <label for="footer-preset-location-address">Address</label>
                             </div>
                             <div>
-                                <input type="text" id="footer-preset-location-city" v-model="settings.footer.preset.location.city" required>
+                                <input type="text" id="footer-preset-location-city" v-model="settings.footer.preset.location.city" required title=" ">
                                 <label for="footer-preset-location-city">City</label>
                             </div>
                         </div>
                         <div class="form-item border  split even">
                             <div>
-                                <input type="text" id="footer-preset-location-province" v-model="settings.footer.preset.location.province" required>
+                                <input type="text" id="footer-preset-location-province" v-model="settings.footer.preset.location.province" required title=" ">
                                 <label for="footer-preset-location-province">Province</label>
                             </div>
                             <div>
-                                <input type="text" id="footer-preset-location-postal" v-model="settings.footer.preset.location.postal" required>
+                                <input type="text" id="footer-preset-location-postal" v-model="settings.footer.preset.location.postal" required title=" ">
                                 <label for="footer-preset-location-postal">Postal</label>
                             </div>
                         </div>
@@ -468,7 +468,7 @@
                                 <label for="footer-preset-disclaimer-license-iiroc">IIROC</label>
                             </div>
                             <div>
-                                <input type="text" id="footer-preset-disclaimer-insuranceOBA" v-model="settings.footer.preset.disclaimer.insuranceOBA" required>
+                                <input type="text" id="footer-preset-disclaimer-insuranceOBA" v-model="settings.footer.preset.disclaimer.insuranceOBA" required title=" ">
                                 <label for="footer-preset-disclaimer-insuranceOBA">Insurance OBA</label>
                             </div>
                         </div>
@@ -622,16 +622,16 @@
                                     </div>
                                     <div class="form-item border  split even">
                                         <div>
-                                            <input :id="'post-link-'+pos" type="text" v-model="post.link" style="font-size: 11px" :style="{'color':getPostStyle(pos, 'textColor')}" required>
+                                            <input :id="'post-link-'+pos" type="text" v-model="post.link" style="font-size: 11px" :style="{'color':getPostStyle(pos, 'textColor')}" required title=" ">
                                             <label :for="'post-link-'+pos">Link</label>
                                         </div>
                                         <div>
-                                            <input :id="'post-linkLabel-'+pos" type="text" v-model="post.linkLabel" style="font-size: 11px" :style="{'color':getPostStyle(pos, 'textColor')}" required>
+                                            <input :id="'post-linkLabel-'+pos" type="text" v-model="post.linkLabel" style="font-size: 11px" :style="{'color':getPostStyle(pos, 'textColor')}" required title=" ">
                                             <label :for="'post-linkLabel-'+pos">Read More</label>
                                         </div>
                                     </div>
                                     <div class="form-item border ">
-                                        <input :id="'post-img-'+pos" type="text" v-model="post.img" style="font-size: 11px" :style="{'color':getPostStyle(pos, 'textColor')}" required>
+                                        <input :id="'post-img-'+pos" type="text" v-model="post.img" style="font-size: 11px" :style="{'color':getPostStyle(pos, 'textColor')}" required title=" ">
                                         <label :for="'post-img-'+pos">Image URL</label>
                                     </div>
                                 </div>
@@ -725,7 +725,7 @@
                 <h3 class="card-title">Find Google Analytics Code</h3>
                 <div class="form-item split border">
                     <div>
-                        <input type="text" id="analyticsWebURL" ref="analyticsWebURL" required>
+                        <input type="text" id="analyticsWebURL" ref="analyticsWebURL" required title=" ">
                         <label for="analyticsWebURL">Website URL</label>
                     </div>
                     <button @click="findAnalyticsCode"><i class="fas fa-search"></i> Find Code</button>
@@ -739,11 +739,11 @@
                             Google Analytics on Newsletters is still being tested
                         </span></span>
                 <div class="form-item border">
-                    <input type="text" id="analytics-code" v-model="settings.analytics.code" required>
+                    <input type="text" id="analytics-code" v-model="settings.analytics.code" required title=" ">
                     <label for="analytics-code">Analytics Code</label>
                 </div>
                 <div class="form-item border">
-                    <input type="text" id="analytics-name" v-model="settings.analytics.name" required>
+                    <input type="text" id="analytics-name" v-model="settings.analytics.name" required title=" ">
                     <label for="analytics-name">Newsletter Tracking Name</label>
                 </div>
             </div>
@@ -803,9 +803,9 @@
                     <textarea disabled v-model="newsletterHTML" style="min-height: 250px;" aria-label="Newsletters HTML Code"></textarea>
                 </div>
                 <div class="form-item split even">
-                    <button @click="copyNewsletterCode"><i class="fas fa-code"></i> Copy Code</button>
+                    <button @click="copyNewsletterCode"><i class="fas fa-code"></i> Copy HTML Code</button>
                     <button @click="copyNewsletter"><i class="fas fa-paste"></i> Copy Newsletter</button>
-                    <button @click="downloadHTML"><i class="fas fa-paste"></i> Download HTML</button>
+                    <button @click="downloadHTML"><i class="fas fa-file-download"></i> Download Preview</button>
                     <!-- <button  @click="downloadPDF"><i class="fas fa-paste"></i> Download PDF</button> -->
                 </div>
             </div>
@@ -829,11 +829,11 @@
                         </span></span>
                 <div class="form-item split even border">
                     <div>
-                        <input id="tools-banner-image" type="text" v-model="tools.banner.image" required>
+                        <input id="tools-banner-image" type="text" v-model="tools.banner.image" required title=" ">
                         <label for="tools-banner-image">Banner Image URL</label>
                     </div>
                     <div>
-                        <select v-model="tools.banner.align" id="tools-banner-align" required>
+                        <select v-model="tools.banner.align" id="tools-banner-align">
                                 <option value="top left">Top Left</option>
                                 <option value="top center">Top Center</option>
                                 <option value="top right">Top Right</option>
@@ -854,11 +854,11 @@
                     <div class="col">
                         <p class="col-title">Text Controls</p>
                         <div class="form-item border">
-                            <input type="text" v-model="tools.banner.title" id="tool-banner-title" required>
+                            <input type="text" v-model="tools.banner.title" id="tool-banner-title"  title=" ">
                             <label for="tool-banner-title">Banner Title</label>
                         </div>
                         <div class="form-item border">
-                            <input type="text" v-model="tools.banner.subtitle" id="tool-banner-subtitle" required>
+                            <input type="text" v-model="tools.banner.subtitle" id="tool-banner-subtitle" required title=" ">
                             <label for="tool-banner-subtitle">Banner Subtitle</label>
                         </div>
                         <div class="form-item border">
@@ -881,7 +881,7 @@
                             </slider>
                         </div>
                         <div class="form-item border">
-                            <select v-model="tools.banner.textAlign" id="tools-banner-textAlign" required>
+                            <select v-model="tools.banner.textAlign" id="tools-banner-textAlign">
                                     <option value="center">Center</option>
                                     <option value="left">Left</option>
                                     <option value="right">Right</option>
@@ -917,7 +917,7 @@
                     <div class="col">
                         <p class="col-title">Logo Controls</p>
                         <div class="form-item border">
-                            <input id="tool-banner-logo" type="text" v-model="tools.banner.logo" required>
+                            <input id="tool-banner-logo" type="text" v-model="tools.banner.logo" required title=" ">
                             <label for="tool-banner-logo">Banner logo URL</label>
                         </div>
                         <div class="form-item border">
