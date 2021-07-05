@@ -39,12 +39,10 @@ Vue.component("editable", {
     watch: {
         //* Needed because editable components don't seem to be removed and replaced when re-rendered
         value: function() {
+            if (typeof this.value != "undefined")
+                this.$el.innerHTML = this.value;
+                
             if (tinymce.get(this.$el.id) == null) {
-                if (
-                    typeof this.value != "undefined" &&
-                    this.value != this.$el.innerHTML
-                )
-                    this.$el.innerHTML = this.value;
 
                 let tinyMCE_settings_clone = Object.assign({}, tinyMCE_settings);
                 tinyMCE_settings_clone.selector = "#" + this.$el.id;
