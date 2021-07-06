@@ -413,10 +413,10 @@ let app = new Vue({
       setTimeout(function () {
         //If changed to any of the following close the preview window
         if (
-          activeView == "help" ||
-          activeView == "tools" ||
-          activeView == "settings" ||
-          activeView == "load"
+          activeView == "help"
+          || activeView == "tools" 
+          || activeView == "settings"
+         // || activeView == "load"
         )
           preview.classList.add("closed");
         else preview.classList.remove("closed");
