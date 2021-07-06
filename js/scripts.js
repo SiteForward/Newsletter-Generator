@@ -33,7 +33,7 @@ let tinyMCE_settings = {
   },
 };
 
-tinymce.init(tinyMCE_settings);
+//tinymce.init(tinyMCE_settings);
 
 Vue.component("editable", {
   template: '<div class="editable" @input="updateInput"></div>',
@@ -455,9 +455,7 @@ let app = new Vue({
     }
   },
   methods: {
-    forceRerender(){
-        this.app.forceRerender = !this.app.forceRerender;
-    },
+    
     //Update settings to ensure no error on load
     updateData() {
       //Update useDisclaimer
@@ -993,6 +991,11 @@ let app = new Vue({
           sendError("Unable to find Google Analytics Code", error)
         );
     },
+   
+    forceRerender(){ 
+      while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
+      this.app.forceRerender = !this.app.forceRerender;
+    },
 
     // Delete post
     deletePost(pos) {
@@ -1010,7 +1013,7 @@ let app = new Vue({
     },
     //Move post
     movePost(dir, pos) {
-      moveItem(this.posts, pos, dir);
+      moveItem(this.posts, pos, dir)
       sendSuccess("Moved Post");
       this.forceRerender();
     },
@@ -1043,7 +1046,7 @@ let app = new Vue({
         style: {},
       });
       sendSuccess("Added New Post");
-      this.forceRerender();
+      //this.forceRerender();
     },
 
     //Copy newsletter from preview

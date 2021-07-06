@@ -395,7 +395,7 @@
                     </div>
                     <div class="accordion-content">
                         <div class="form-item border ">
-                            <editable id="header-html" v-model="settings.header.html" value="settings.header.html">
+                            <editable  :key="app.forceRerender" id="header-html" v-model="settings.header.html" :value="settings.header.html">
                             </editable>
                             <label for="header-html">Header Content</label>
                         </div>
@@ -496,8 +496,8 @@
                     </div>
                     <div class="accordion-content expandable">
                         <div class="form-item border ">
-                            <editable id="footer-html" v-model="settings.footer.html" value="settings.footer.html">
-                            </editable>
+                            
+                            <editable  :key="app.forceRerender" id="footer-html" v-model="settings.footer.html"  :value="settings.footer.html"></editable>
                             <label for="footer-html">Footer Content </label>
                         </div>
                     </div>
@@ -630,17 +630,17 @@
                                 <img v-if="post.img" :src="post.img" :alt="'Post #'+ pos + ' Thumbnail'">
                                 <div class="data">
                                     <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
-                                        <editable :id="'post-title-'+pos" v-model="post.title" :value="post.title">
+                                        <editable  :key="app.forceRerender" :id="'post-title-'+pos" v-model="post.title" :value="post.title">
                                         </editable>
                                         <label :for="'post-title-'+pos">Title</label>
                                     </div>
                                     <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
-                                        <editable :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc">
+                                        <editable  :key="app.forceRerender" :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc">
                                         </editable>
                                         <label :for="'post-desc-'+pos">Description</label>
                                     </div>
                                     <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
-                                        <editable :id="'post-date-'+pos" v-model="post.date" :value="post.date">
+                                        <editable  :key="app.forceRerender" :id="'post-date-'+pos" v-model="post.date" :value="post.date">
                                         </editable>
                                         <label :for="'post-date-'+pos">Date</label>
                                     </div>
