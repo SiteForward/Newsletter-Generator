@@ -82,7 +82,7 @@
                     <i class="fa fa-chart-pie fa-2x"></i>
                     <p class="collapsed">Analytics</p>
                 </li>
-                <li class="sidebar-item" :class="{active: app.activeView === 'tools'}" @click="app.activeView = 'tools'; scrollToTop()">
+                <li class="sidebar-item" :class="{active: app.activeView === 'banner'}" @click="app.activeView = 'banner'; scrollToTop()">
                     <i class="fa fa-image fa-2x"></i>
                     <p class="collapsed">Custom Banner Creator</p>
                 </li>
@@ -366,7 +366,7 @@
                             <input type="text" id="header-image" v-model="settings.header.image" required title=" ">
                             <label for="header-image">Header Image URL</label>
                         </div>
-                        <p class="smallerText">Looking to create a custom banner? - Try the <a href="#" @click="app.activeView = 'tools'; scrollToTop()">custom banner creator</a> in the tools section in the left navigation or you can try <a href="https://www.canva.com/design?create&width=800&height=230&units=px&schema=web-2"
+                        <p class="smallerText">Looking to create a custom banner? - Try the <a href="#" @click="app.activeView = 'banner'; scrollToTop()">custom banner creator</a> in the tools section in the left navigation or you can try <a href="https://www.canva.com/design?create&width=800&height=230&units=px&schema=web-2"
                                 target="_blank">Canva</a>.
                             <br>Once the banner is created you will need to upload the banner to your website and copy the URL into here
                         </p>
@@ -868,7 +868,7 @@
             </div>
         </div>
 
-        <div id="tools" class="main-view" :class="{open: app.activeView === 'tools'}">
+        <div id="banner" class="main-view" :class="{open: app.activeView === 'banner'}">
             <div class="card">
                 <h3 class="card-title">Create a Custom Banner Image</h3>
                 <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span
@@ -886,11 +886,11 @@
                         </span></span>
                 <div class="form-item split even border">
                     <div>
-                        <input id="tools-banner-image" type="text" v-model="tools.banner.image" required title=" ">
-                        <label for="tools-banner-image">Banner Image URL</label>
+                        <input id="banner-image" type="text" v-model="banner.image" required title=" ">
+                        <label for="banner-image">Banner Image URL</label>
                     </div>
                     <div>
-                        <select v-model="tools.banner.align" id="tools-banner-align">
+                        <select v-model="banner.align" id="banner-align">
                                 <option value="top left">Top Left</option>
                                 <option value="top center">Top Center</option>
                                 <option value="top right">Top Right</option>
@@ -903,7 +903,7 @@
                                 <option value="bottom center">Bottom Center</option>
                                 <option value="bottom right">Bottom Right</option>
                             </select>
-                        <label for="tools-banner-align">Image Alignment:</label>
+                        <label for="banner-align">Image Alignment:</label>
                     </div>
                 </div>
                 <br>
@@ -911,80 +911,80 @@
                     <div class="col">
                         <p class="col-title">Text Controls</p>
                         <div class="form-item border">
-                            <input type="text" v-model="tools.banner.title" id="tool-banner-title"  title=" ">
-                            <label for="tool-banner-title">Banner Title</label>
+                            <input type="text" v-model="banner.title" id="banner-title"  title=" ">
+                            <label for="banner-title">Banner Title</label>
                         </div>
                         <div class="form-item border">
-                            <input type="text" v-model="tools.banner.subtitle" id="tool-banner-subtitle" required title=" ">
-                            <label for="tool-banner-subtitle">Banner Subtitle</label>
+                            <input type="text" v-model="banner.subtitle" id="banner-subtitle" required title=" ">
+                            <label for="banner-subtitle">Banner Subtitle</label>
                         </div>
                         <div class="form-item border">
-                            <slider min="0" max="100" v-model="tools.banner.titleSize" :value="tools.banner.titleSize" id="tool-banner-titlesize">Title Size</slider>
+                            <slider min="0" max="100" v-model="banner.titleSize" :value="banner.titleSize" id="banner-titlesize">Title Size</slider>
                         </div>
                         <div class="form-item border">
-                            <slider min="0" max="100" v-model="tools.banner.subtitleSize" :value="tools.banner.subtitleSize" id="tools-banner-subtitlesize">Subtitle Size
+                            <slider min="0" max="100" v-model="banner.subtitleSize" :value="banner.subtitleSize" id="banner-subtitlesize">Subtitle Size
                             </slider>
                         </div>
                         <div class="form-item border">
-                            <slider min="0" max="100" :value="tools.banner.titleSpacing" v-model="tools.banner.titleSpacing" id="tools-banner-titlespacing">Title Spacing
-                            </slider>
-                        </div>
-                        <div class="form-item border border">
-                            <slider min="-225" max="225" v-model="tools.banner.offsetY" :value="tools.banner.offsetY" id="tools-banner-offsety">Text Vertical Offset
+                            <slider min="0" max="100" :value="banner.titleSpacing" v-model="banner.titleSpacing" id="banner-titlespacing">Title Spacing
                             </slider>
                         </div>
                         <div class="form-item border border">
-                            <slider min="-800" max="800" v-model="tools.banner.offsetX" :value="tools.banner.offsetX" id="tools-banner-offsetx">Text Horizontal Offset
+                            <slider min="-225" max="225" v-model="banner.offsetY" :value="banner.offsetY" id="banner-offsety">Text Vertical Offset
+                            </slider>
+                        </div>
+                        <div class="form-item border border">
+                            <slider min="-800" max="800" v-model="banner.offsetX" :value="banner.offsetX" id="banner-offsetx">Text Horizontal Offset
                             </slider>
                         </div>
                         <div class="form-item border">
-                            <select v-model="tools.banner.textAlign" id="tools-banner-textAlign">
+                            <select v-model="banner.textAlign" id="banner-textAlign">
                                     <option value="center">Center</option>
                                     <option value="left">Left</option>
                                     <option value="right">Right</option>
                                 </select>
-                            <label for="tools-banner-textAlign">Text Alignment:</label>
+                            <label for="banner-textAlign">Text Alignment:</label>
                         </div>
                         <div class="form-item">
-                            <input id="tools-banner-color" type="color" v-model="tools.banner.color" :class="{light: isLight(tools.banner.color)}">
-                            <label for="tools-banner-color">Banner Text Colour</label>
+                            <input id="banner-color" type="color" v-model="banner.color" :class="{light: isLight(banner.color)}">
+                            <label for="banner-color">Banner Text Colour</label>
                         </div>
                     </div>
                     <div class="col col-left col-right">
                         <p class="col-title">Shadow Controls</p>
                         <div class="form-item border">
-                            <input id="tools-banner-shadowEnabled" type="checkbox" v-model="tools.banner.shadowEnabled" class="checkbox-right">
-                            <label for="tools-banner-shadowEnabled">Banner Shadow Enabled</label>
+                            <input id="banner-shadowEnabled" type="checkbox" v-model="banner.shadowEnabled" class="checkbox-right">
+                            <label for="banner-shadowEnabled">Banner Shadow Enabled</label>
                         </div>
                         <div class="form-item border">
-                            <slider min="-20" max="20" v-model="tools.banner.shadowOffsetY" :value="tools.banner.shadowOffsetY" id="tools-banner-shadowOffsety">Shadow Vertical Offset
+                            <slider min="-20" max="20" v-model="banner.shadowOffsetY" :value="banner.shadowOffsetY" id="banner-shadowOffsety">Shadow Vertical Offset
                             </slider>
                         </div>
                         <div class="form-item border">
-                            <slider min="-20" max="20" v-model="tools.banner.shadowOffsetX" :value="tools.banner.shadowOffsetX" id="tools-banner-shadowOffsetx">Shadow Horizontal Offset</slider>
+                            <slider min="-20" max="20" v-model="banner.shadowOffsetX" :value="banner.shadowOffsetX" id="banner-shadowOffsetx">Shadow Horizontal Offset</slider>
                         </div>
                         <div class="form-item border">
-                            <slider min="-800" max="800" v-model="tools.banner.shadowBlur" :value="tools.banner.shadowBlur" id="tools-banner-shadowBlur">Shadow Blur</slider>
+                            <slider min="-800" max="800" v-model="banner.shadowBlur" :value="banner.shadowBlur" id="banner-shadowBlur">Shadow Blur</slider>
                         </div>
                         <div class="form-item">
-                            <input id="tools-banner-shadowColor" type="color" v-model="tools.banner.shadowColor" :class="{light: isLight(tools.banner.shadowColor)}">
-                            <label for="tools-banner-shadowColor">Banner Shadow Colour</label>
+                            <input id="banner-shadowColor" type="color" v-model="banner.shadowColor" :class="{light: isLight(banner.shadowColor)}">
+                            <label for="banner-shadowColor">Banner Shadow Colour</label>
                         </div>
                     </div>
                     <div class="col">
                         <p class="col-title">Logo Controls</p>
                         <div class="form-item border">
-                            <input id="tool-banner-logo" type="text" v-model="tools.banner.logo" required title=" ">
-                            <label for="tool-banner-logo">Banner logo URL</label>
+                            <input id="banner-logo" type="text" v-model="banner.logo" required title=" ">
+                            <label for="banner-logo">Banner logo URL</label>
                         </div>
                         <div class="form-item border">
-                            <slider min="0" max="225" :value="tools.banner.logoY" v-model="tools.banner.logoY" id="tools-banner-logoy">Logo Vertical Offset</slider>
+                            <slider min="0" max="225" :value="banner.logoY" v-model="banner.logoY" id="banner-logoy">Logo Vertical Offset</slider>
                         </div>
                         <div class="form-item border">
-                            <slider min="-800" max="800" :value="tools.banner.logoX" v-model="tools.banner.logoX" id="tools-banner-logox">Logo Horizontal Offset</slider>
+                            <slider min="-800" max="800" :value="banner.logoX" v-model="banner.logoX" id="banner-logox">Logo Horizontal Offset</slider>
                         </div>
                         <div class="form-item border">
-                            <slider min="0" max="800" :value="tools.banner.logoWidth" v-model="tools.banner.logoWidth" id="tools-banner-logowidth">Logo Width</slider>
+                            <slider min="0" max="800" :value="banner.logoWidth" v-model="banner.logoWidth" id="banner-logowidth">Logo Width</slider>
                         </div>
                     </div>
                 </div>
@@ -999,8 +999,8 @@
                         </div>
                         <div class="col col-left">
                             <div class="form-item" style="margin: 15px 8px;">
-                                <input type="checkbox" v-model="tools.banner.displayGrid" id="tool-banner-displayGrid">
-                                <label for="tool-banner-displayGrid">Display Grid</label>
+                                <input type="checkbox" v-model="banner.displayGrid" id="banner-displayGrid">
+                                <label for="banner-displayGrid">Display Grid</label>
                             </div>
                             <div class="form-item" style="margin-top: 5px;">
                                 <input type="button" value="Download Custom Banner" @click="downloadCustomBanner">

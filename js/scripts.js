@@ -48,9 +48,9 @@ Vue.component("editable", {
     let el = this.$el;
     el.innerHTML = typeof this.value == "undefined" ? "" : this.value;
 
-      let tinyMCE_settings_clone = Object.assign({}, tinyMCE_settings);
-      tinyMCE_settings_clone.selector = "#" + el.id;
-      tinymce.init(tinyMCE_settings_clone);
+    let tinyMCE_settings_clone = Object.assign({}, tinyMCE_settings);
+    tinyMCE_settings_clone.selector = "#" + el.id;
+    tinymce.init(tinyMCE_settings_clone);
   },
 });
 
@@ -272,7 +272,7 @@ let app = new Vue({
       wordSupport: false,
       activeView: "setup",
       silentToggle: [],
-      forceRerender: false
+      forceRerender: false,
     },
     newsletter: {
       previewText: "",
@@ -347,32 +347,29 @@ let app = new Vue({
         },
       },
     },
-
-    tools: {
-      bannerCreationTimer: null,
-      banner: {
-        align: "center center",
-        image: null,
-        title: null,
-        titleSize: 30,
-        subtitle: null,
-        subtitleSize: 17,
-        titleSpacing: 20,
-        textAlign: "center",
-        color: "#000000",
-        offsetY: 0,
-        offsetX: 0,
-        logo: null,
-        logoX: 0,
-        logoY: 0,
-        logoWidth: 300,
-        shadowColor: "#333333",
-        shadowEnabled: false,
-        shadowOffsetX: 1,
-        shadowOffsetY: 1,
-        shadowBlur: 5,
-        displayGrid: false,
-      },
+    bannerCreationTimer: null,
+    banner: {
+      align: "center center",
+      image: null,
+      title: null,
+      titleSize: 30,
+      subtitle: null,
+      subtitleSize: 17,
+      titleSpacing: 20,
+      textAlign: "center",
+      color: "#000000",
+      offsetY: 0,
+      offsetX: 0,
+      logo: null,
+      logoX: 0,
+      logoY: 0,
+      logoWidth: 300,
+      shadowColor: "#333333",
+      shadowEnabled: false,
+      shadowOffsetX: 1,
+      shadowOffsetY: 1,
+      shadowBlur: 5,
+      displayGrid: false,
     },
     stylesBackup: {},
   },
@@ -413,16 +410,16 @@ let app = new Vue({
       setTimeout(function () {
         //If changed to any of the following close the preview window
         if (
-          activeView == "help"
-          || activeView == "tools" 
-          || activeView == "settings"
-         // || activeView == "load"
+          activeView == "help" ||
+          activeView == "banner" ||
+          activeView == "settings"
+          // || activeView == "load"
         )
           preview.classList.add("closed");
         else preview.classList.remove("closed");
       }, 1);
     },
-    "tools.banner": {
+    banner: {
       handler(val) {
         this.updateCreatedBanner();
       },
@@ -455,7 +452,6 @@ let app = new Vue({
     }
   },
   methods: {
-    
     //Update settings to ensure no error on load
     updateData() {
       //Update useDisclaimer
@@ -594,16 +590,15 @@ let app = new Vue({
     //Update the tool banner
     updateCreatedBanner() {
       //If an image is provided
-      if (this.tools.banner.image) {
+      if (this.banner.image) {
         //If currently on cooldown - reset cooldown
-        if (this.tools.bannerCreationTimer)
-          clearTimeout(this.tools.bannerCreationTimer);
-        this.tools.bannerCreationTimer = setTimeout(() => {
+        if (this.bannerCreationTimer) clearTimeout(this.bannerCreationTimer);
+        this.bannerCreationTimer = setTimeout(() => {
           sendInfo("Loading custom banner image");
 
           //Create Banner URL with settings
           let url = "https://banner.newsletter.siteforward.ca/?createNew=true";
-          for (let [key, value] of Object.entries(app.tools.banner)) {
+          for (let [key, value] of Object.entries(app.banner)) {
             if (key == "color" || key == "shadowColor")
               value = value.substring(1);
             if (key == "align") {
@@ -674,7 +669,6 @@ let app = new Vue({
         if (file.options.analytics)
           this.settings.analytics = file.options.analytics;
 
-        
         this.forceRerender();
         this.posts = file.posts;
 
@@ -991,8 +985,8 @@ let app = new Vue({
           sendError("Unable to find Google Analytics Code", error)
         );
     },
-   
-    forceRerender(){ 
+
+    forceRerender() {
       while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
       this.app.forceRerender = !this.app.forceRerender;
     },
@@ -1013,7 +1007,7 @@ let app = new Vue({
     },
     //Move post
     movePost(dir, pos) {
-      moveItem(this.posts, pos, dir)
+      moveItem(this.posts, pos, dir);
       sendSuccess("Moved Post");
       this.forceRerender();
     },
