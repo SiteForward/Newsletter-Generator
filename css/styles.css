@@ -307,7 +307,8 @@ p.smallerText {
 .sidebar-split::before {
     content: '';
     position: absolute;
-    left: 0;
+    left: 50%;
+    transform: translateX(-50%);
     top: -5px;
     width: 95%;
     height: 1px;
@@ -417,7 +418,7 @@ p.smallerText {
     border-radius: 5px;
     cursor: text;
     overflow: hidden;
-    z-index: 1;
+    z-index: 5;
     transition: top .35s, visibility .35s, opacity .35s, max-height 1s;
 }
 
@@ -592,7 +593,12 @@ p.smallerText {
     font-weight: normal;
     color: #fff;
 }
-
+/* Template Styles */
+.template-thumbnail{
+    width: 200px;
+    height: 300px;
+    padding-left: 30px;
+}
 
 /* Form Styles */
 
@@ -964,7 +970,7 @@ input[type="color"].postColorSelector:focus {
 }
 
 
-/* Edit Posts klist */
+/* Edit Posts list */
 
 .newsletter-list {
     list-style: none;

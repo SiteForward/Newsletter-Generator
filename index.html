@@ -59,33 +59,42 @@
                     <i class="fa fa-edit fa-2x"></i>
                     <p class="collapsed">Edit Items</p>
                 </li>
-                <li class="sidebar-item" :class="{active: app.activeView === 'analytics'}" @click="app.activeView = 'analytics'; scrollToTop()">
-                    <i class="fa fa-chart-pie fa-2x"></i>
-                    <p class="collapsed">Analytics</p>
-                </li>
                 <li class="sidebar-item" :class="{active: app.activeView === 'preview'}" @click="app.activeView = 'preview'; scrollToTop()">
                     <i class="fa fa-eye fa-2x"></i>
                     <p class="collapsed">Preview</p>
                 </li>
+            </ul>
+            <span class="sidebar-split"></span>
+            <ul class="sidebar-menu">
+              
                 <li class="sidebar-item" :class="{active: app.activeView === 'use'}" @click="app.activeView = 'use'; scrollToTop()">
                     <i class="fa fa-file-export fa-2x"></i>
                     <p class="collapsed">Use Newsletter</p>
                 </li>
-            </ul>
-            <span class="sidebar-split"></span>
-            <ul class="sidebar-menu">
                 <li class="sidebar-item" :class="{active: app.activeView === 'load'}" @click="app.activeView = 'load'; scrollToTop()">
                     <i class="fas fa-clone fa-2x"></i>
                     <p class="collapsed">Load / Save</p>
                 </li>
+            </ul>
+            <span class="sidebar-split"></span>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item" :class="{active: app.activeView === 'analytics'}" @click="app.activeView = 'analytics'; scrollToTop()">
+                    <i class="fa fa-chart-pie fa-2x"></i>
+                    <p class="collapsed">Analytics</p>
+                </li>
+                <li class="sidebar-item" :class="{active: app.activeView === 'tools'}" @click="app.activeView = 'tools'; scrollToTop()">
+                    <i class="fa fa-image fa-2x"></i>
+                    <p class="collapsed">Custom Banner Creator</p>
+                </li>
+            </ul>
+            <span class="sidebar-split"></span>
+            <ul class="sidebar-menu">
+               
                 <li class="sidebar-item" :class="{active: app.activeView === 'settings'}" @click="app.activeView = 'settings'; scrollToTop()">
                     <i class="fa fa-cog fa-2x"></i>
                     <p class="collapsed">Settings</p>
                 </li>
-                <li class="sidebar-item" :class="{active: app.activeView === 'tools'}" @click="app.activeView = 'tools'; scrollToTop()">
-                    <i class="fa fa-image fa-2x"></i>
-                    <p class="collapsed">Banner Creator</p>
-                </li>
+                
                 <li class="sidebar-item" :class="{active: app.activeView === 'help'}" @click="app.activeView = 'help'; scrollToTop()">
                     <i class="far fa-question-circle fa-2x"></i>
                     <p class="collapsed">Help</p>
@@ -294,6 +303,12 @@
         <div id="setup" class="main-view" :class="{open: app.activeView === 'setup'}">
             <div class="card">
                 <h3 class="card-title">Email Preview Text</h3>
+                <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span
+                    class="card-title-help" style="width:300px">
+                    <p><strong>Email Preview Text</strong><br>
+                        <small>(The text below the subject line)</small><br>
+                    This is the text that will be shown in an email client when showing a preview of the email.</p>
+                </span></span>
                 <div class="form-item border">
                     <input type="text" id="previewText" v-model="newsletter.previewText" required  title=" ">
                     <label for="previewText">Preview Text</label>
@@ -302,9 +317,14 @@
             <div class="card">
                 <h3 class="card-title">Load Blog Posts From Your Website</h3>
                 <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span
-                            class="card-title-help" style="width:250px">
-                            <p>For multiple posts use your blog page's url<br>For individual posts use the blog post's
-                                url</p>
+                            class="card-title-help" style="width:300px">
+                            <p><strong>Load Multiple Posts</strong><br>
+                            This will load in multiple blog posts from your website.<br>
+                            Make sure to use your Blog <strong>Page's</strong> URL</p>
+                            <p><strong>Load Individual Posts</strong><br>
+                            This will load in a single blog post from your website.<br>
+                            Make sure to use your Blog <strong>Post's</strong> URL</p>
+                            
                             <p>If you're using SiteForward's RSS Feed you can load posts from: <a
                                     href="http://siteforward.ca/rss-feed"
                                     target="_blank">http://siteforward.ca/rss-feed</a></p>
@@ -330,11 +350,6 @@
             </div>
             <div class="card">
                 <h3 class="card-title">Header Settings</h3>
-                <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span
-                            class="card-title-help" style="width:250px">
-                            <p><strong>Looking for ready to use banners?</strong></p>
-                            <p>Create custom banners using the Banner Generator in the tools tab.</p>
-                        </span></span>
                 <div class="accordion" :class="{open: settings.header.style == 0}" @click="settings.header.style = 0">
                     <div class="accordion-title">
                         <p>No Header</p>
@@ -380,7 +395,7 @@
                     </div>
                     <div class="accordion-content">
                         <div class="form-item border ">
-                            <editable id="header-html" v-model="settings.header.html" :value="settings.header.html">
+                            <editable id="header-html" v-model="settings.header.html" value="settings.header.html">
                             </editable>
                             <label for="header-html">Header Content</label>
                         </div>
@@ -481,7 +496,7 @@
                     </div>
                     <div class="accordion-content expandable">
                         <div class="form-item border ">
-                            <editable id="footer-html" v-model="settings.footer.html" :value="settings.footer.html">
+                            <editable id="footer-html" v-model="settings.footer.html" value="settings.footer.html">
                             </editable>
                             <label for="footer-html">Footer Content </label>
                         </div>
@@ -490,6 +505,11 @@
             </div>
             <div class="card">
                 <h3 class="card-title">Colour Settings</h3>
+                <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span
+                    class="card-title-help" style="width:200px">
+                    <p><strong>Colour Settings</strong><br>
+                        These colours can also be set per post in the Edit tab</p>
+                </span></span>
                 <div class="form-item  split even">
                     <div>
                         <input id="buttonColor" type="color" v-model="styles.post.buttonBackgroundColor" :class="{light: isLight(styles.post.buttonBackgroundColor)}">
@@ -543,8 +563,11 @@
             <div class="card">
                 <h3 class="card-title">Style Settings</h3>
                 <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span
-                            class="card-title-help" style="width:200px">
-                            <p>Border Radius(Rounded) will not be displayed in Outlook for Desktop or Web.</p>
+                            class="card-title-help" style="width:300px">
+                            <p><strong>Style Settings</strong><br>
+                                Some of these settings also be set per post in the Edit tab</p>
+                            <p><strong>Border Radius(Rounded)</strong><br>
+                                Due to Outlook's limitations, this will not be displayed in Outlook for Desktop or Web.</p>
                         </span></span>
                 <div class="form-item  split even">
                     <div>
@@ -582,6 +605,7 @@
         </div>
 
         <div id="edit" class="main-view" :class="{open: app.activeView === 'edit'}">
+            <div v-if="app.forceRerender"></div>
             <div class="card">
                 <h3 class="card-title">Edit Newsletter</h3>
                 <span class="card-title-icon" title="Add Custom Post" @click="addPost"><i
@@ -736,7 +760,7 @@
                 <p><strong><small>The Analytic's code will save automatically once added</small></strong><br></p>
                 <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span
                             class="card-title-help" style="width:200px">
-                            Google Analytics on Newsletters is still being tested
+                            Google Analytics on Newsletters is still being tested, and may not work as intended.
                         </span></span>
                 <div class="form-item border">
                     <input type="text" id="analytics-code" v-model="settings.analytics.code" required title=" ">
@@ -761,7 +785,14 @@
         <div id="load" class="main-view" :class="{open: app.activeView === 'load'}">
             <div class="card">
                 <h3 class="card-title">Newsletter Management</h3>
-
+                <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span
+                    class="card-title-help" style="width:400px">
+                    <p><strong>Local <small>(Web browser)</small></strong><br>
+                    This will load/save the newsletter into your web browser's local storage.<br>
+                    Clearing your browser's cache will delete this saved version.</p>
+                    <p><strong>File <small>(JSON file)</small></strong><br>
+                    This will load/save the newsletter into a .json file that can be moved and saved on your computer</p>
+                </span></span>
                 <div class="accordion" :class="{open: newsletter.data == 0}" @click="newsletter.data = 0">
                     <div class="accordion-title">
                         <p>Local <small>(Web browser)</small></p>
@@ -794,18 +825,44 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <h3 class="card-title">Start from a Template</h3>
+                <div class="row">
+                    <div class="col col-3">
+                        <p>This <strong>will</strong> overwrite your current Newsletter.</p>
+                        <p>Make sure to save your current newsletter if you think you may want to revert back to it.</p>
+                        <div class="form-item">
+                            <button @click="loadTemplate(1)" title="Load the Template" style="margin-left: 0; margin-top: 10px;">
+                                <i class="fas fa-file-download"></i> Load Template
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col col-left">
+                            <img class="template-thumbnail" src="https://via.placeholder.com/200x300.png?text=Template+Image" alt="Template Thumbnail">
+                        </div>
+                    </div>
+                </div>
         </div>
 
         <div id="use" class="main-view" :class="{open: app.activeView === 'use'}">
             <div class="card">
                 <h3 class="card-title">Use The Newsletter</h3>
+                <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span
+                    class="card-title-help" style="width:400px">
+                    <p><strong><i class="fas fa-code"></i> Copy HTML Code</strong><br>
+                        Use this if you need to paste the HTML code into something that allows for code.</p>
+                    <p><strong><i class="fas fa-paste"></i> Copy Newsletter</strong><br>
+                        Use this if you need to paste the Newsletter into something like MS Outlook.</p>
+                    <p><strong><i class="fas fa-file-download"></i> Download Preview</strong><br>
+                        Use this if you need to download a preview for Compliance.</p>
+                </span></span>
                 <div class="form-item border">
                     <textarea disabled v-model="newsletterHTML" style="min-height: 250px;" aria-label="Newsletters HTML Code"></textarea>
                 </div>
                 <div class="form-item split even">
                     <button @click="copyNewsletterCode"><i class="fas fa-code"></i> Copy HTML Code</button>
                     <button @click="copyNewsletter"><i class="fas fa-paste"></i> Copy Newsletter</button>
-                    <button @click="downloadHTML"><i class="fas fa-file-download"></i> Download Preview</button>
+                    <button @click="downloadHTML"><i class="fas fa-file-download"></i> &nbsp;Download Preview</button>
                     <!-- <button  @click="downloadPDF"><i class="fas fa-paste"></i> Download PDF</button> -->
                 </div>
             </div>
@@ -985,6 +1042,7 @@
                 <h3 class="card-title">Reset Global/Individual Styles</h3>
                 <p><small>This will reset the styling of the global and individual posts of the newsletter</small>
                 </p>
+                <p><small>Make sure to save your current newsletter if you think you may want to revert back to it.</small></p>
                 <div class="form-item">
                     <button @click="resetStyles()" style="margin: 0"><i class="fas fa-remove-format"></i> Reset
                             Styles</button>
