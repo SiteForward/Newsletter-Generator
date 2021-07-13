@@ -284,7 +284,7 @@ let app = new Vue({
       backgroundColor: "#ffffff",
       header: {
         backgroundColor: "#333333",
-        textColor: "#ffffff",
+        textColor: "#ffffff"
       },
       post: {
         backgroundColor: "#f3f3f3",
@@ -496,8 +496,14 @@ let app = new Vue({
       if (typeof this.footer.preset.disclaimer.licenses.iiroc == "undefined")
         this.$set(this.footer.preset.disclaimer.licenses, "iiroc", false);
 
-      if (typeof this.colors.background == "undefined")
+        if (typeof this.colors.background == "undefined")
         this.$set(this.colors, "background", "#ffffff");
+
+        if (typeof this.header.borderColor == "undefined")
+          this.$set(this.header, "borderColor", "#111111");
+
+        if (typeof this.header.borderWidth == "undefined")
+          this.$set(this.header, "borderWidth", 0);
 
       if (typeof this.styles.post == "undefined")
         this.$set(this.styles, "post", {});
@@ -1154,6 +1160,8 @@ function exportJSONToFile(obj, fileName) {
 // Is the color light
 function isLightColor(color) {
   // Check the format of the color, HEX or RGB?
+  if(!color) return false;
+
   if (color.match(/^rgb/)) {
     // If HEX --> store the red, green, blue values in separate variables
     color = color.match(
