@@ -997,7 +997,7 @@ input[type="color"].postColorSelector:focus {
     flex-flow: column nowrap;
 }
 
-.post img {
+.post .post-img {
     width: 124px;
     height: auto;
     object-fit: cover;
