@@ -107,7 +107,7 @@ Vue.component("slider", {
 // Create searchbar component
 Vue.component("searchbar", {
   template:
-    '<div><input :id="id" type="search" @input="search" required><label :for="id"><slot></slot></label></div>',
+    '<div><input :id="id" type="search" @input="search" required title=" "><label :for="id"><slot></slot></label></div>',
   props: ["element"],
   data: function () {
     return {
