@@ -819,7 +819,7 @@ let app = new Vue({
       loadJSONFile((d) => this.loadOptions(d));
     },
     loadTemplate(){
-      fetch("templates\Newsletter - Template 1.json")
+      fetch("templates/Newsletter - Template 1.json")
       .then(res =>  res.json())
       .then(data => {
         this.loadNewsletter(data);
