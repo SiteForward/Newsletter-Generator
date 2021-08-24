@@ -1,9 +1,12 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="Content-Language" content="en_US" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Newsletter Generator v2</title>
-    <meta http-equiv="Content-Language" content="en_US" />
     <link rel="icon" href="imgs\icons8-news-128.png">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -25,12 +28,10 @@
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 
     <!-- VueJS -->
-    <script src="https://unpkg.com/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://unpkg.com/vue@2.6.14/dist/vue.js"></script>
 
-    <!-- Quill -->
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-    <link href="https://cdn.quilljs.com/1.3.7/quill.core.css" rel="stylesheet">
-    <link href="https://cdn.quilljs.com/1.3.7/quill.bubble.css" rel="stylesheet">
+    <!-- TinyMCE -->
+    <script src="https://cdn.tiny.cloud/1/eqepoqfy8y9ftr5kx84v4zm1og0ptew3yuwviio2jzd1meo0/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
 
     <!-- Vue Snotify -->
     <link rel="stylesheet" href="https://unpkg.com/vue-snotify@3.2.1/styles/material.css">
@@ -43,10 +44,12 @@
 
 <body>
     <div id="body-wrapper">
-        <aside id="sidebar" @mouseover="app.sidebarHover = true" @mouseleave="app.sidebarHover = false" :class="{open: app.sidebarHover || app.sidebarStuck, stuck: app.sidebarStuck}">
+        <aside id="sidebar" @mouseover="app.sidebarHover = true" @mouseleave="app.sidebarHover = false"
+            :class="{open: app.sidebarHover || app.sidebarStuck, stuck: app.sidebarStuck}">
             <span class="sidebar-title">
-          <i class="fa fa-th fa-2x"></i> <p class="collapsed">Newsletter Generator</p>
-        </span>
+                <i class="fa fa-th fa-2x"></i>
+                <p class="collapsed">Newsletter Generator</p>
+            </span>
             <a class="sidebar-pin" @click="app.sidebarStuck = !app.sidebarStuck"><i class="fas fa-thumbtack"></i></a>
             <ul class="sidebar-menu">
                 <li class="sidebar-item" :class="{active: app.activeView === 'setup'}" @click="app.activeView = 'setup'; scrollToTop()">
@@ -57,463 +60,608 @@
                     <i class="fa fa-edit fa-2x"></i>
                     <p class="collapsed">Edit Items</p>
                 </li>
-                <li class="sidebar-item" :class="{active: app.activeView === 'analytics'}" @click="app.activeView = 'analytics'; scrollToTop()">
-                    <i class="fa fa-chart-pie fa-2x"></i>
-                    <p class="collapsed">Analytics</p>
-                </li>
                 <li class="sidebar-item" :class="{active: app.activeView === 'preview'}" @click="app.activeView = 'preview'; scrollToTop()">
                     <i class="fa fa-eye fa-2x"></i>
                     <p class="collapsed">Preview</p>
                 </li>
+            </ul>
+            <span class="sidebar-split"></span>
+            <ul class="sidebar-menu">
                 <li class="sidebar-item" :class="{active: app.activeView === 'use'}" @click="app.activeView = 'use'; scrollToTop()">
                     <i class="fa fa-file-export fa-2x"></i>
                     <p class="collapsed">Use Newsletter</p>
                 </li>
-            </ul>
-            <span class="sidebar-split"></span>
-            <ul class="sidebar-menu">
                 <li class="sidebar-item" :class="{active: app.activeView === 'load'}" @click="app.activeView = 'load'; scrollToTop()">
                     <i class="fas fa-clone fa-2x"></i>
                     <p class="collapsed">Load / Save</p>
                 </li>
+            </ul>
+            <span class="sidebar-split"></span>
+            <ul class="sidebar-menu">
+                <li class="sidebar-item" :class="{active: app.activeView === 'analytics'}" @click="app.activeView = 'analytics'; scrollToTop()">
+                    <i class="fa fa-chart-pie fa-2x"></i>
+                    <p class="collapsed">Analytics</p>
+                </li>
+                <li class="sidebar-item" :class="{active: app.activeView === 'banner'}" @click="app.activeView = 'banner'; scrollToTop()">
+                    <i class="fa fa-image fa-2x"></i>
+                    <p class="collapsed">Custom Banner Creator</p>
+                </li>
+            </ul>
+            <span class="sidebar-split"></span>
+            <ul class="sidebar-menu">
                 <li class="sidebar-item" :class="{active: app.activeView === 'settings'}" @click="app.activeView = 'settings'; scrollToTop()">
                     <i class="fa fa-cog fa-2x"></i>
                     <p class="collapsed">Settings</p>
-                </li>
-                <li class="sidebar-item" :class="{active: app.activeView === 'tools'}" @click="app.activeView = 'tools'; scrollToTop()">
-                    <i class="fa fa-briefcase fa-2x"></i>
-                    <p class="collapsed">Tools</p>
                 </li>
                 <li class="sidebar-item" :class="{active: app.activeView === 'help'}" @click="app.activeView = 'help'; scrollToTop()">
                     <i class="far fa-question-circle fa-2x"></i>
                     <p class="collapsed">Help</p>
                 </li>
             </ul>
-
             <span class="footer">
-          Randy Bimm<br>
-          &copy; 2020
-      </aside>
-      <aside id="preview" :class="{large: app.activeView == 'preview'}" ref="preview">
-        <!-- <resizehandle othercontainer="#main" mincontainer="830" minother="700"></resizehandle> -->
-        <div class="preview-header">
-          <h3>Newsletter Preview</h3>
-        </div>
-        <div class="preview-body">
-          <div ref="newsletterwrapper" id="newsletterwrapper">
-            <table ref="newsletter" id="newsletter" width="800"  align="center" class="no-borders" style="border-collapse: collapse; box-sizing: border-box; overflow-wrap: break-word;" :style="{'background-color': styles.backgroundColor}">
-              <tr>
-                <td style="padding:0;">
-                  <span id="previewText"><p v-html="newsletter.previewText" style="font-size: 1pt;text-align:center;" :style="{color: styles.backgroundColor}"></p></span>
-            <table id="newsletter-content" align="center" width="800" class="no-borders" style=" margin: 0 auto; border-collapse: seperate; border-spacing: 0 4px; box-sizing: border-box;" :cellspacing="styles.post.spacing" :style="{'border-spacing': '0 '+styles.post.spacing+'px'}">
+                Randy Bimm
+                <br>&copy; 2020
+        </aside>
+        <aside id="preview" :class="{large: app.activeView == 'preview'}" ref="preview">
+            <!-- <resizehandle othercontainer="#main" mincontainer="830" minother="700"></resizehandle> -->
+            <div class="preview-header">
+                <h3>Newsletter Preview</h3>
+            </div>
+            <div class="preview-body">
+                <div ref="newsletterwrapper" id="newsletterwrapper">
+                    <table ref="newsletter" id="newsletter" width="800" align="center" class="no-borders"
+                        style="border-collapse: collapse; box-sizing: border-box; overflow-wrap: break-word;"
+                        :style="{'background-color': styles.backgroundColor}">
+                        <tr>
+                            <td style="padding:0;">
+                                <p v-html="newsletter.previewText" style="font-size: 1pt;text-align:center;" :style="{color: styles.backgroundColor}">
+                                </p>
+                                <table id="newsletter-content" align="center" width="800" class="no-borders"
+                                    style=" margin: 0 auto; border-collapse: seperate; border-spacing: 0 4px; box-sizing: border-box;"
+                                    :cellspacing="styles.post.spacing" :style="{'border-spacing': '0 '+styles.post.spacing+'px'}">
+                                    <!-- HEADER -->
+                                    <tr v-if="settings.header.style == '1'" id="newsletter-header">
+                                        <td colspan="2" :style="{'border': styles.header.borderWidth+'px solid '+styles.header.borderColour}">
+                                            <img :src="settings.header.image" width="800" alt="Newsletter Header">
+                                        </td>
+                                    </tr>
+                                    <tr v-if="settings.header.style == '2'" id="newsletter-header" style="text-align: center;"
+                                        :style="{'background-color': styles.header.backgroundColor}">
+                                        <td valign="middle" style=" padding: 20px;font-family: 'Muli', Helvetica, sans-serif;" colspan="2">
+                                            <h2 style="margin:0;" :style="{color: styles.header.textColor}">
+                                                {{settings.header.titles.title}}</h2>
+                                            <h4 style="margin:0;" :style="{color: styles.header.textColor}">
+                                                {{settings.header.titles.subtitle}}</h4>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="settings.header.style == '3'" id="newsletter-header" style="align-items: left;"
+                                        :style="{'background-color': styles.header.backgroundColor}">
+                                        <td valign="middle" style="padding:0;font-family: 'Muli', Helvetica, sans-serif;" colspan="2">
+                                            <span v-html="settings.header.html" :style="{color: styles.header.textColor}"></span>
+                                        </td>
+                                    </tr>
 
-                <!-- HEADER -->
-                <tr v-if="settings.header.style == '1'" id="newsletter-header">
-                    <td colspan="2">
-                        <img :src="settings.header.image" width="800">
-                    </td>
-                </tr>
-                <tr v-if="settings.header.style == '2'" style="text-align: center;" :style="{'background-color': styles.header.backgroundColor}">
-                    <td valign="middle" style=" padding: 20px;font-family: 'Muli', Helvetica, sans-serif;" colspan="2">
-                        <h2 style="margin:0;" :style="{color: styles.header.textColor}">{{settings.header.titles.title}}</h2>
-                        <h4 style="margin:0;" :style="{color: styles.header.textColor}">{{settings.header.titles.subtitle}}</h4>
-                    </td>
-                </tr>
-                <tr v-if="settings.header.style == '3'" style="align-items: left;" :style="{'background-color': styles.header.backgroundColor}">
-                    <td valign="middle" style="padding:0;font-family: 'Muli', Helvetica, sans-serif;" colspan="2">
-                        <span v-html="settings.header.html" :style="{color: styles.header.textColor}"></span>
-                    </td>
-                </tr>
+                                    <!-- CONTENT -->
+                                    <tr v-for="(post, pos) in posts">
+                                        <td style="padding:0;" class="newsletter-body">
+                                            <table valign="top" class="no-borders" width="800"
+                                                style="align-items: left; display: inline-block;border-collapse: separate;" border="0" cellspacing="0"
+                                                cellpadding="20"
+                                                :style="{'background-color': getPostStyle(pos, 'backgroundColor'),'border-radius': getPostStyle(pos, 'borderRadius')+'px'}">
+                                                <!-- 'box-shadow': post.shadow != null ? post.shadow ? '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)' : '' : styles.post.shadow ? '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)' : '', -->
 
-                <!-- CONTENT -->
-                <tr v-for="(post, pos) in posts">
-                    <td style="padding:0;" class="newsletter-body">
-                        <table valign="top" class="no-borders" width="800" style="align-items: left; display: inline-block;border-collapse: separate;" border="0" cellspacing="0" cellpadding="20" :style="{
-                          'background-color': getPostStyle(pos, 'backgroundColor'),
-                          'border-radius': getPostStyle(pos, 'borderRadius')+'px'
-                        }">
-                            <!-- 'box-shadow': post.shadow != null ? post.shadow ? '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)' : '' : styles.post.shadow ? '0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)' : '', -->
+                                                <tr>
+                                                    <!-- If image in post -->
+                                                    <td v-if="post.img" width="200" valign="top"
+                                                        style="display:inline-block;padding: 10px 10px 10px 10px;">
+                                                        <!-- <div style="background-position: center center; background-repeat: no-repeat; background-size: contain; height: 200px; width: 100%" height="200px" width="100%"  :style="{'background-image': 'url('+post.img+')'}"> -->
+                                                        <img :src="post.img" height="auto" width="200" :alt="'Post #'+ pos + ' Thumbnail'">
+                                                    </td>
+                                                    <td v-if="post.img" width="560"
+                                                        style="display:inline-block;padding:10px 10px 20px 10px;font-family: 'Muli', Helvetica, sans-serif;">
+                                                        <span style="margin-bottom:0;" v-html="post.title"
+                                                            :style="{'color': getPostStyle(pos, 'textColor')}"></span>
+                                                        <span v-if="post.date != '<p><br></p>'" style="font-size: .75em;opacity: .75;"
+                                                            :style="{'color': getPostStyle(pos, 'textColor')}" v-html="post.date"></span>
+                                                        <span :style="{'color': getPostStyle(pos, 'textColor')}" v-html="post.desc"></span>
 
-                            <tr>
-                                <!-- If image in post -->
-                                <td v-if="post.img" width="200" valign="top" style="display:inline-block;padding: 10px 10px 10px 10px;">
-                                    <!-- <div style="background-position: center center; background-repeat: no-repeat; background-size: contain; height: 200px; width: 100%" height="200px" width="100%"  :style="{'background-image': 'url('+post.img+')'}"> -->
-                                    <img :src="post.img" height="auto" width="200">
-                                </td>
-                                <td v-if="post.img" width="560" style="display:inline-block;padding:10px 10px 20px 10px;font-family: 'Muli', Helvetica, sans-serif;">
-                                    <span style="margin-bottom:0;" v-html="post.title" :style="{'color': getPostStyle(pos, 'textColor')}"></span>
-                                    <span v-if="post.date != '<p><br></p>'" style="font-size: .75em;opacity: .75;" :style="{'color': getPostStyle(pos, 'textColor')}" v-html="post.date"></span>
-                                    <span :style="{'color': getPostStyle(pos, 'textColor')}" v-html="post.desc"></span>
+                                                        <table class="no-borders" v-if="post.link" width="100%" border="0" cellspacing="0"
+                                                            cellpadding="0">
+                                                            <tr>
+                                                                <td>
+                                                                    <table class="no-borders" border="0" cellspacing="0" cellpadding="0"
+                                                                        :style="{'width': getPostStyle(pos, 'buttonWidth') + '%'}"
+                                                                        :align="getPostStyle(pos, 'buttonAlign')">
+                                                                        <tr>
+                                                                            <td :bgcolor="getPostStyle(pos, 'buttonWidth') != 0 ? getPostStyle(pos, 'buttonBackgroundColor') : ''"
+                                                                                style="padding: 12px 18px 12px 18px; border-radius:3px;"
+                                                                                align="center">
+                                                                                <a target="_blank" :href="post.link" style="text-decoration:none;"
+                                                                                    :style="{'color': getPostStyle(pos, 'buttonTextColor')}"><strong
+                                                                                        style="font-weight:normal">
+                                                                                        <span v-if="post.linkLabel != null && post.linkLabel != ''"
+                                                                                            v-html="post.linkLabel"></span>
+                                                                                        <span v-else>Read More</span>
+                                                                                    </strong></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
 
-                                    <table class="no-borders" v-if="post.link" width="100%" border="0" cellspacing="0" cellpadding="0">
-                                        <tr>
-                                            <td>
-                                                <table class="no-borders" border="0" cellspacing="0" cellpadding="0" :style="{'width': getPostStyle(pos, 'buttonWidth') + '%'}" :align="getPostStyle(pos, 'buttonAlign')">
-                                                    <tr>
-                                                        <td :bgcolor="getPostStyle(pos, 'buttonWidth') != 0 ? getPostStyle(pos, 'buttonBackgroundColor') : ''" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center">
-                                                            <a target="_blank" :href="post.link" style="text-decoration:none;" :style="{'color': getPostStyle(pos, 'buttonTextColor')}"><strong style="font-weight:normal">
-                                            <span v-if="post.linkLabel != null && post.linkLabel != ''" v-html="post.linkLabel"></span>
-                                            <span v-else>Read More</span>
-                                          </strong></a>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
+                                                    <!-- If no image in post -->
+                                                    <td v-else width="780"
+                                                        style="display:inline-block;padding:10px 10px 20px 10px;font-family: 'Muli', Helvetica, sans-serif;"
+                                                        colspan="2">
+                                                        <span style="margin-bottom:0;" :style="getPostStyle(pos, 'textColor')"
+                                                            v-html="post.title"></span>
+                                                        <span v-if="post.date != '<p><br></p>'" style="font-size: .75em; opacity:.75;"
+                                                            :style="{'color': getPostStyle(pos, 'textColor')}" v-html="post.date"></span>
+                                                        <span :style="{'color': getPostStyle(pos, 'textColor')}" v-html="post.desc"></span>
+                                                        <table class="no-borders" v-if="post.link" width="100%" border="0" cellspacing="0"
+                                                            cellpadding="0">
+                                                            <tr>
+                                                                <td>
+                                                                    <table class="no-borders" border="0" cellspacing="0" cellpadding="0"
+                                                                        :style="{'width': getPostStyle(pos, 'buttonWidth') + '%'}"
+                                                                        :align="getPostStyle(pos, 'buttonAlign')">
+                                                                        <tr>
+                                                                            <td :bgcolor="getPostStyle(pos, 'buttonWidth') != 0 ? getPostStyle(pos, 'buttonBackgroundColor') : ''"
+                                                                                style="padding: 12px 18px 12px 18px; border-radius:3px;"
+                                                                                align="center">
+                                                                                <a target="_blank" :href="post.link"
+                                                                                    style="text-decoration:none;display: inline-block;"
+                                                                                    :style="{'color': getPostStyle(pos, 'buttonTextColor')}"><strong
+                                                                                        style="font-weight:normal">
+                                                                                        <span v-if="post.linkLabel != null && post.linkLabel != ''"
+                                                                                            v-html="post.linkLabel"></span>
+                                                                                        <span v-else>Read More</span>
+                                                                                    </strong></a>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                                <!-- If no image in post -->
-                                <td v-else width="780" style="display:inline-block;padding:10px 10px 20px 10px;font-family: 'Muli', Helvetica, sans-serif;" colspan="2">
-                                    <span style="margin-bottom:0;" :style="getPostStyle(pos, 'textColor')" v-html="post.title"></span>
-                                    <span v-if="post.date != '<p><br></p>'" style="font-size: .75em; opacity:.75;" :style="{'color': getPostStyle(pos, 'textColor')}" v-html="post.date"></span>
-                                    <span :style="{'color': getPostStyle(pos, 'textColor')}" v-html="post.desc"></span>
-                                    <table class="no-borders" v-if="post.link" width="100%" border="0" cellspacing="0" cellpadding="0">
-                                        <tr>
-                                            <td>
-                                                <table class="no-borders" border="0" cellspacing="0" cellpadding="0" :style="{'width': getPostStyle(pos, 'buttonWidth') + '%'}" :align="getPostStyle(pos, 'buttonAlign')">
-                                                    <tr>
-                                                        <td :bgcolor="getPostStyle(pos, 'buttonWidth') != 0 ? getPostStyle(pos, 'buttonBackgroundColor') : ''" style="padding: 12px 18px 12px 18px; border-radius:3px;" align="center">
-                                                            <a target="_blank" :href="post.link" style="text-decoration:none;display: inline-block;" :style="{'color': getPostStyle(pos, 'buttonTextColor')}"><strong style="font-weight:normal">
-                                            <span v-if="post.linkLabel != null && post.linkLabel != ''" v-html="post.linkLabel"></span>
-                                            <span v-else>Read More</span>
-                                          </strong></a>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </td>
-                                        </tr>
-                                    </table>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
+                                    <!-- FOOTER -->
 
-                <!-- FOOTER -->
+                                    <tr v-if="settings.footer.style == '1'">
+                                        <td :style="{'background-color': styles.footer.backgroundColor}" valign="middle"
+                                            style="padding: 20px;font-family: 'Muli', Helvetica, sans-serif;">
+                                            <p v-if="settings.footer.preset.website || settings.footer.preset.social.facebook || settings.footer.preset.social.linkedin || settings.footer.preset.social.twitter"
+                                                style="margin:0;margin-bottom: 10px;text-align:center;color:#fff;">
+                                                <a v-if="settings.footer.preset.website" :href="settings.footer.preset.website" target="_blank"
+                                                    :style="{color: styles.footer.linkColor}">Website</a>
+                                                <span v-if="settings.footer.preset.social.facebook"><span v-if="settings.footer.preset.website"> |
+                                                    </span><a :href="settings.footer.preset.social.facebook" target="_blank"
+                                                        :style="{color: styles.footer.linkColor}">Facebook</a></span>
+                                                <span v-if="settings.footer.preset.social.linkedin"><span
+                                                        v-if="settings.footer.preset.website || settings.footer.preset.social.facebook">
+                                                        | </span><a :href="settings.footer.preset.social.linkedin" target="_blank"
+                                                        :style="{color: styles.footer.linkColor}">LinkedIn</a></span>
+                                                <span v-if="settings.footer.preset.social.twitter"><span
+                                                        v-if="settings.footer.preset.website || settings.footer.preset.social.facebook || settings.footer.preset.social.linkedin">
+                                                        | </span><a :href="settings.footer.preset.social.twitter" target="_blank"
+                                                        :style="{color: styles.footer.linkColor}">Twitter</a></span>
+                                            </p>
+                                            <h3 v-if="settings.footer.preset.name" style="margin:0;margin-bottom: 10px;text-align:center;"
+                                                :style="{color: styles.footer.textColor}">
+                                                {{settings.footer.preset.name}}</h3>
+                                            <p v-if="settings.footer.preset.location.address || settings.footer.preset.location.city || settings.footer.preset.location.postal"
+                                                style="margin:0;text-align:center;" :style="{color: styles.footer.textColor}">
+                                                <span v-if="settings.footer.preset.location.address"
+                                                    :style="{color: styles.footer.textColor}">{{settings.footer.preset.location.address}}</span>
+                                                <span v-if="settings.footer.preset.location.city" :style="{color: styles.footer.textColor}"><span
+                                                        v-if="settings.footer.preset.location.address"> |
+                                                    </span>{{settings.footer.preset.location.city}},
+                                                    {{settings.footer.preset.location.province}}
+                                                </span>
+                                                <span v-if="settings.footer.preset.location.postal" :style="{color: styles.footer.textColor}"><span
+                                                        v-if="settings.footer.preset.location.address || settings.footer.preset.location.city">
+                                                        | </span>{{settings.footer.preset.location.postal}}</span>
+                                            </p>
+                                            <p v-if="settings.footer.preset.phone" style="margin:0;margin-bottom: 10px;text-align:center;"
+                                                :style="{color: styles.footer.textColor}">
+                                                {{settings.footer.preset.phone}}</p>
+                                            <p v-if="settings.footer.preset.disclaimer.enable"
+                                                style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;"
+                                                :style="{color: styles.footer.textColor}"><br>Copyright &copy; {{(new Date().getFullYear())}}, All
+                                                rights reserved.<br> The persons and situations depicted are fictional and their resemblance to anyone
+                                                living or dead is purely coincidental. This media is for information purposes only and is not intended
+                                                to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in
+                                                that regard. Manulife Securities is an indirectly, wholly-owned subsidiary of Manulife Financial
+                                                Corporation (MFC). MFC owns The Manufacturers Life Insurance Company (MLI), a financial services
+                                                organization offering a range of protection, estate planning, investment and banking solutions through
+                                                a multi-channel distribution network. MLI owns Manulife Securities Incorporated, Manulife Securities
+                                                Investment Services Inc. and Manulife Securities Insurance Inc. MLI also owns Manulife Bank of Canada,
+                                                a federally chartered Schedule 1 bank, which in turns owns Manulife Trust Company, a federally
+                                                chartered trust company.
+                                                <span v-if="settings.footer.preset.disclaimer.licenses.mfda">Mutual funds are offered through Manulife
+                                                    Securities Investment Services Inc. </span>
+                                                <span v-if="settings.footer.preset.disclaimer.licenses.iiroc">Stocks, Bonds, and Mutual funds are
+                                                    offered through Manulife Securities Incorporated. </span>
+                                                <span v-if="settings.footer.preset.disclaimer.insuranceOBA != null">Insurance products and services
+                                                    are offered through {{settings.footer.preset.disclaimer.insuranceOBA}}. </span>
+                                                Banking products and services are offered by referral arrangements through our related company
+                                                Manulife Bank of Canada. Please confirm with your advisor which company you are dealing with for each
+                                                of your products and services.
+                                                <br>
+                                                <img v-if="settings.footer.preset.disclaimer.logo" :src="isLight(styles.footer.textColor) ? 'https://s3.ca-central-1.amazonaws.com/files.siteforward.ca/Images/Logos/English/white/Manulife_Securities_linear_white.png' : 'https://s3.ca-central-1.amazonaws.com/files.siteforward.ca/Images/Logos/English/black/Manulife_Securities_linear_black.png'" width="300" height="auto"><br>
+                                                <em><a href="https://www.manulifesecurities.ca/corporate-disclaimers.html" target="_blank"
+                                                        :style="{color: styles.footer.linkColor}">Legal
+                                                        and Disclaimers</a> | <a href="https://www.manulife.ca/privacy-policies.html" target="_blank"
+                                                        :style="{color: styles.footer.linkColor}">Privacy
+                                                        Policy</a></em>
+                                            </p>
+                                            <p v-if="settings.footer.preset.email" style="margin: 0;font-size:12px; text-align: center;"><a
+                                                    :href="'mailto:' + settings.footer.preset.email + '?subject=Unsubscribe from newsletters&body=Hi,%0d%0aPlease remove my email address from your newsletter list.%0d%0aI wish to be removed because:__________.%0d%0aThanks,'"
+                                                    :style="{color: styles.footer.linkColor}">Unsubscribe from
+                                                    newsletters</a></p>
+                                        </td>
+                                    </tr>
+                                    <tr v-else-if="settings.footer.style == '2'">
+                                        <td :style="{'background-color': styles.footer.backgroundColor}" valign="middle"
+                                            style="padding: 20px;font-family: 'Muli', Helvetica, sans-serif;">
+                                            <span v-html="settings.footer.html" :style="{color: styles.footer.textColor}"></span>
+                                        </td>
+                                    </tr>
 
-                <tr v-if="settings.footer.style == '1'">
-                    <td :style="{'background-color': styles.footer.backgroundColor}" valign="middle" style="padding: 20px;font-family: 'Muli', Helvetica, sans-serif;">
-                        <p v-if="settings.footer.preset.website || settings.footer.preset.social.facebook || settings.footer.preset.social.linkedin || settings.footer.preset.social.twitter" style="margin:0;margin-bottom: 10px;text-align:center;color:#fff;">
-                            <a v-if="settings.footer.preset.website" :href="settings.footer.preset.website" target="_blank" :style="{color: styles.footer.linkColor}">Website</a>
-                            <span v-if="settings.footer.preset.social.facebook"><span v-if="settings.footer.preset.website"> | </span><a :href="settings.footer.preset.social.facebook" target="_blank" :style="{color: styles.footer.linkColor}">Facebook</a></span>
-                            <span v-if="settings.footer.preset.social.linkedin"><span v-if="settings.footer.preset.website || settings.footer.preset.social.facebook"> | </span><a :href="settings.footer.preset.social.linkedin" target="_blank" :style="{color: styles.footer.linkColor}">LinkedIn</a></span>
-                            <span v-if="settings.footer.preset.social.twitter"><span v-if="settings.footer.preset.website || settings.footer.preset.social.facebook || settings.footer.preset.social.linkedin"> | </span><a :href="settings.footer.preset.social.twitter"
-                                target="_blank" :style="{color: styles.footer.linkColor}">Twitter</a></span>
-                        </p>
-                        <h3 v-if="settings.footer.preset.name" style="margin:0;margin-bottom: 10px;text-align:center;" :style="{color: styles.footer.textColor}">{{settings.footer.preset.name}}</h3>
-                        <p v-if="settings.footer.preset.location.address || settings.footer.preset.location.city || settings.footer.preset.location.postal" style="margin:0;text-align:center;" :style="{color: styles.footer.textColor}">
-                            <span v-if="settings.footer.preset.location.address" :style="{color: styles.footer.textColor}">{{settings.footer.preset.location.address}}</span>
-                            <span v-if="settings.footer.preset.location.city" :style="{color: styles.footer.textColor}"><span v-if="settings.footer.preset.location.address"> | </span>{{settings.footer.preset.location.city}}, {{settings.footer.preset.location.province}}</span>
-                            <span v-if="settings.footer.preset.location.postal" :style="{color: styles.footer.textColor}"><span v-if="settings.footer.preset.location.address || settings.footer.preset.location.city"> | </span>{{settings.footer.preset.location.postal}}</span>
-                        </p>
-                        <p v-if="settings.footer.preset.phone" style="margin:0;margin-bottom: 10px;text-align:center;" :style="{color: styles.footer.textColor}">{{settings.footer.preset.phone}}</p>
-                        <p v-if="settings.footer.preset.disclaimer.enable" style="margin: 0;margin-bottom:5px;font-size:10px; text-align: center;" :style="{color: styles.footer.textColor}"><br>Copyright &copy; {{(new Date().getFullYear())}} All rights reserved.<br> The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information
-                            purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife, Manulife & Stylized M Design, Stylized M Design and Manulife Securities
-                            are trademarks of The Manufacturers Life Insurance Company and are used by it, and by its affiliates under license. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which
-                            is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website <a href="https://www.manulifesecurities.ca" target="_blank"
-                                :style="{color: styles.footer.linkColor}">www.manulifesecurities.ca</a>.
-                            <span v-if="settings.footer.preset.disclaimer.licenses.mfda">Mutual funds are offered through Manulife Securities Investment Services Inc. </span>
-                            <span v-if="settings.footer.preset.disclaimer.licenses.iiroc">Stocks, Bonds, and Mutual funds are offered through Manulife Securities Incorporated. </span>
-                            <span v-if="settings.footer.preset.disclaimer.insuranceOBA != null">Insurance products and services are offered through {{settings.footer.preset.disclaimer.insuranceOBA}}. </span> Banking products and services are offered by
-                            referral arrangements through our related company Manulife Bank of Canada. Please confirm with your advisor which company you are dealing with for each of your products and services.
-                            <br><br>
-                            <em><a href="https://www.manulifesecurities.ca/corporate-disclaimers.html" target="_blank" :style="{color: styles.footer.linkColor}">Legal and Disclaimers</a> | <a href="https://www.manulife.ca/privacy-policies.html" target="_blank" :style="{color: styles.footer.linkColor}">Privacy Policy</a></em></p>
-                        <p v-if="settings.footer.preset.email" style="margin: 0;font-size:12px; text-align: center;"><a :href="'mailto:' + settings.footer.preset.email + '?subject=Unsubscribe from newsletters&body=Hi,%0d%0aPlease remove my email address from your newsletter list.%0d%0aI wish to be removed because:__________.%0d%0aThanks,'" :style="{color: styles.footer.linkColor}">Unsubscribe from newsletters</a></p>
-                    </td>
-                </tr>
-                <tr v-else-if="settings.footer.style == '2'">
-                    <td :style="{'background-color': styles.footer.backgroundColor}" valign="middle" style="padding: 20px;font-family: 'Muli', Helvetica, sans-serif;">
-                        <span v-html="settings.footer.html" :style="{color: styles.footer.textColor}"></span>
-                    </td>
-                </tr>
-
-                <!-- ANALYTICS -->
-                <tr v-if="analyticsEnabled">
-                    <td>
-                        <img width="1" height="1" :src="'https://www.google-analytics.com/collect?v=1&tid'+settings.analytics.code+'&cid=555&t=event&ec=Email+Newsletter&ea=open&el='+settings.analytics.name" />
-                    </td>
-                </tr>
-            </table>
-            </td>
-            </tr>
-            </table>
-    </div>
-    </div>
-    </aside>
-    <main id="main" ref="main">
-        <vue-snotify></vue-snotify>
-
-        <div id="setup" class="main-view" :class="{open: app.activeView === 'setup'}">
-            <div class="card">
-                <h3 class="card-title">Email Preview Text</h3>
-                <div class="form-item border">
-                    <input type="text" id="previewText" v-model="newsletter.previewText" required>
-                    <label for="previewText">Preview Text</label>
+                                    <!-- ANALYTICS -->
+                                    <tr v-if="analyticsEnabled">
+                                        <td>
+                                            <img alt="Analytics Loader" width="1" height="1"
+                                                :src="'https://www.google-analytics.com/collect?v=1&tid'+settings.analytics.code+'&cid=555&t=event&ec=Email+Newsletter&ea=open&el='+settings.analytics.name" />
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-            <div class="card">
-                <h3 class="card-title">Load Posts For the Newsletter</h3>
-                <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:250px">
-              <p>For multiple posts use your blog page's url<br>For individual posts use the blog post's url</p>
-              <p>If you're using SiteForward's RSS Feed you can load posts from: <a href="http://siteforward.ca/rss-feed" target="_blank">http://siteforward.ca/rss-feed</a></p>
+        </aside>
+        <main id="main" ref="main">
+            <vue-snotify></vue-snotify>
 
-            </span></span>
-                <p>Load Multiple Posts</p>
-                <div class="form-item border split">
-                    <div>
-                        <input type="text" id="loadPosts" required ref="loadPosts">
-                        <label for="loadPosts">Post Page's URL</label>
-                    </div>
-                    <input type="number" id="loadPostsCount" required ref="loadPostsCount" value="6" class="compact">
-                    <button @click="loadPostsFromURL"><i class="fas fa-file-import"></i> Load Posts</button>
-                </div>
-                <p>Load Individual Posts</p>
-                <div class="form-item border split">
-                    <div>
-                        <input type="text" id="loadPost" required ref="loadPost">
-                        <label for="loadPost">Post's URL</label>
-                    </div>
-                    <button @click="loadPostFromURL"><i class="fas fa-file-import"></i> Load Post</button>
-                </div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Header Settings</h3>
-                <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:250px">
-              <p><strong>Looking for ready to use banners?</strong></p>
-              <p>Create custom banners using the Banner Generator in the tools tab.</p>
-            </span></span>
-                <div class="accordion" :class="{open: settings.header.style == 0}" @click="settings.header.style = 0">
-                    <div class="accordion-title">
-                        <p>No Header</p>
-                        <div class="selector"></div>
+            <div id="setup" class="main-view" :class="{open: app.activeView === 'setup'}">
+                <div class="card">
+                    <h3 class="card-title">Email Preview Text</h3>
+                    <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
+                            <p><strong><i class="fas fa-envelope-open-text"></i> Preview Text</strong><br>
+                                <small>(The text below the subject line)</small><br>
+                                This is the text that will be shown in an email client when showing a preview of the
+                                email.
+                            </p>
+                        </span></span>
+                    <div class="form-item border">
+                        <input type="text" id="previewText" v-model="newsletter.previewText" required title=" ">
+                        <label for="previewText">Preview Text</label>
                     </div>
                 </div>
-                <div class="accordion" :class="{open: settings.header.style == 1}" @click="settings.header.style = 1">
-                    <div class="accordion-title">
-                        <p>Use Image</p>
-                        <div class="selector"></div>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="form-item border ">
-                            <input type="text" id="header-image" v-model="settings.header.image" required>
-                            <label for="header-image">Header Image URL</label>
-                        </div>
-                        <p class="smallerText">Looking to create a custom banner? - Try the <a href="#" @click="app.activeView = 'tools'; scrollToTop()">custom banner creator</a> in the tools section in the left navigation or you can try <a href="https://www.canva.com/design?create&width=800&height=230&units=px&schema=web-2"
-                                target="_blank">Canva</a>.
-                            <br>Once the banner is created you will need to upload the banner to your website and copy the URL into here</p>
-                    </div>
-                </div>
-                <div class="accordion" :class="{open: settings.header.style == 2}" @click="settings.header.style = 2">
-                    <div class="accordion-title">
-                        <p>Use Titles</p>
-                        <div class="selector"></div>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="form-item border ">
-                            <input type="text" id="header-titles-title" v-model="settings.header.titles.title" required>
-                            <label for="header-titles-title">Header Title</label>
-                        </div>
-                        <div class="form-item border ">
-                            <input type="text" id="header-titles-subtitle" v-model="settings.header.titles.subtitle" required>
-                            <label for="header-titles-subtitle">Header Subtitle</label>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion" :class="{open: settings.header.style == 3}" @click="settings.header.style = 3">
-                    <div class="accordion-title">
-                        <p>Custom Header</p>
-                        <div class="selector"></div>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="form-item border ">
-                            <textarea class="editHTML" id="header-html" v-model="settings.header.html" required></textarea>
-                            <label for="header-html">Header Content (HTML)</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Footer Settings</h3>
-                <div class="accordion" :class="{open: settings.footer.style == 0}" @click="settings.footer.style = 0">
-                    <div class="accordion-title">
-                        <p>No Footer</p>
-                        <div class="selector"></div>
-                    </div>
-                </div>
-                <div class="accordion" :class="{open: settings.footer.style == 1}" @click="settings.footer.style = 1">
-                    <div class="accordion-title">
-                        <p>Use Template</p>
-                        <div class="selector"></div>
-                    </div>
-                    <div class="accordion-content">
-                        <div class="form-item border  split even">
-                            <div>
-                                <input type="text" id="footer-preset-name" v-model="settings.footer.preset.name" required>
-                                <label for="footer-preset-name">Name</label>
-                            </div>
-                            <div>
-                                <input type="text" id="footer-preset-email" v-model="settings.footer.preset.email" required>
-                                <label for="footer-preset-email">Email</label>
-                            </div>
-                        </div>
-                        <div class="form-item border  split even">
-                            <div>
-                                <input type="text" id="footer-preset-phone" v-model="settings.footer.preset.phone" required>
-                                <label for="footer-preset-phone">Phone</label>
-                            </div>
-                            <div>
-                                <input type="text" id="footer-preset-website" v-model="settings.footer.preset.website" required>
-                                <label for="footer-preset-website">Website</label>
-                            </div>
-                        </div>
-                        <div class="form-item border  split even">
-                            <div>
-                                <input type="text" id="footer-preset-social-facebook" v-model="settings.footer.preset.social.facebook" required>
-                                <label for="footer-preset-social-facebook">Facebook Page</label>
-                            </div>
-                            <div>
-                                <input type="text" id="footer-preset-social-linkedin" v-model="settings.footer.preset.social.linkedin" required>
-                                <label for="footer-preset-social-linkedin">LinkedIn Page</label>
-                            </div>
-                        </div>
-                        <div class="form-item  split even">
-                            <div class="border">
-                                <input type="text" id="footer-preset-social-twitter" v-model="settings.footer.preset.social.twitter" required>
-                                <label for="footer-preset-social-twitter">Twitter Page</label>
-                            </div>
-                            <div></div>
-                        </div>
-                        <div class="form-item border  split even">
-                            <div>
-                                <input type="text" id="footer-preset-location-address" v-model="settings.footer.preset.location.address" required>
-                                <label for="footer-preset-location-address">Address</label>
-                            </div>
-                            <div>
-                                <input type="text" id="footer-preset-location-city" v-model="settings.footer.preset.location.city" required>
-                                <label for="footer-preset-location-city">City</label>
-                            </div>
-                        </div>
-                        <div class="form-item border  split even">
-                            <div>
-                                <input type="text" id="footer-preset-location-province" v-model="settings.footer.preset.location.province" required>
-                                <label for="footer-preset-location-province">Province</label>
-                            </div>
-                            <div>
-                                <input type="text" id="footer-preset-location-postal" v-model="settings.footer.preset.location.postal" required>
-                                <label for="footer-preset-location-postal">Postal</label>
-                            </div>
-                        </div>
-                        <div class="form-item border  split even">
-                            <div>
-                                <input type="checkbox" id="footer-preset-disclaimer-licenses-mfda" v-model="settings.footer.preset.disclaimer.licenses.mfda" required>
-                                <label for="footer-preset-disclaimer-license-mfda">MFDA</label>
-                            </div>
-                            <div>
-                                <input type="checkbox" id="footer-preset-disclaimer-licenses-iiroc" v-model="settings.footer.preset.disclaimer.licenses.iiroc" required>
-                                <label for="footer-preset-disclaimer-license-iiroc">IIROC</label>
-                            </div>
-                            <div>
-                                <input type="text" id="footer-preset-disclaimer-insuranceOBA" v-model="settings.footer.preset.disclaimer.insuranceOBA" required>
-                                <label for="footer-preset-disclaimer-insuranceOBA">Insurance OBA</label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion" :class="{open: settings.footer.style == 2}" @click="settings.footer.style = 2">
-                    <div class="accordion-title">
-                        <p>Custom Footer</p>
-                        <div class="selector"></div>
-                    </div>
-                    <div class="accordion-content expandable">
-                        <div class="form-item border ">
-                            <textarea class="editHTML" id="footer-html" v-model="settings.footer.html" required></textarea>
-                            <label for="footer-html">Footer Content (HTML)</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Colour Settings</h3>
-                <div class="form-item  split even">
-                    <div>
-                        <input id="buttonColor" type="color" v-model="styles.post.buttonBackgroundColor" :class="{light: isLight(styles.post.buttonBackgroundColor)}">
-                        <label for="buttonColor">Button Colour</label>
-                    </div>
-                    <div>
-                        <input id="linkColor" type="color" v-model="styles.footer.linkColor" :class="{light: isLight(styles.footer.linkColor)}">
-                        <label for="linkColor">Footer Link Colour</label>
-                    </div>
-                </div>
-                <div class="form-item  split even">
-                    <div>
-                        <input id="headerColor" type="color" v-model="styles.header.backgroundColor" :class="{light: isLight(styles.header.backgroundColor)}">
-                        <label for="headerColor">Header Background Colour</label>
-                    </div>
-                    <div>
-                        <input id="headerText" type="color" v-model="styles.header.textColor" :class="{light: isLight(styles.header.textColor)}">
-                        <label for="headerText">Header Text</label>
-                    </div>
-                </div>
-                <div class="form-item  split even">
-                    <div>
-                        <input id="postColor" type="color" v-model="styles.post.backgroundColor" :class="{light: isLight(styles.post.backgroundColor)}">
-                        <label for="postColor">Post Background Colour</label>
-                    </div>
-                    <div>
-                        <input id="postText" type="color" v-model="styles.post.textColor" :class="{light: isLight(styles.post.textColor)}">
-                        <label for="postText">Post Text</label>
-                    </div>
-                </div>
-                <div class="form-item  split even">
-                    <div>
-                        <input id="footerColor" type="color" v-model="styles.footer.backgroundColor" :class="{light: isLight(styles.footer.backgroundColor)}">
-                        <label for="footerColor">Footer Background Colour</label>
-                    </div>
-                    <div>
-                        <input id="footerText" type="color" v-model="styles.footer.textColor" :class="{light: isLight(styles.footer.textColor)}">
-                        <label for="footerText">Footer Text</label>
-                    </div>
-                </div>
+                <div class="card">
+                    <h3 class="card-title">Load Blog Posts From Your Website</h3>
+                    <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
+                            <p><strong><i class="fas fa-mail-bulk"></i> Load Multiple Posts</strong><br>
+                                This will load in multiple blog posts from your website.<br>
+                                Make sure to use your Blog <strong>Page's</strong> URL</p>
+                            <p><strong><i class="fas fa-envelope"></i> Load Individual Posts</strong><br>
+                                This will load in a single blog post from your website.<br>
+                                Make sure to use your Blog <strong>Post's</strong> URL</p>
 
-                <div class="form-item  split even">
-                    <div>
-                        <input id="backgroundColor" type="color" v-model="styles.backgroundColor" :class="{light: isLight(styles.backgroundColor)}">
-                        <label for="backgroundColor">Background Colour</label>
+                            <p>If you're using SiteForward's RSS Feed you can load posts from: <a href="http://siteforward.ca/rss-feed"
+                                    target="_blank">http://siteforward.ca/rss-feed</a></p>
+
+                        </span></span>
+                    <p>Load Multiple Posts</p>
+                    <div class="form-item border split">
+                        <div>
+                            <input type="text" id="loadPosts" required ref="loadPosts" title=" ">
+                            <label for="loadPosts">Post Page's URL</label>
+                        </div>
+                        <input type="number" id="loadPostsCount" required ref="loadPostsCount" value="3" class="compact"
+                            aria-label="Number of posts to load">
+                        <button @click="loadPostsFromURL"><i class="fas fa-file-import"></i> Load Posts</button>
                     </div>
-                    <div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Style Settings</h3>
-                <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help"  style="width:200px">
-              <p>Border Radius(Rounded) will not be displayed in Outlook for Desktop or Web.</p>
-            </span></span>
-                <div class="form-item  split even">
-                    <div>
-                        <slider min="0" max="50" v-model="styles.post.spacing" :value="styles.post.spacing">Post Spacing</slider>
-                    </div>
-                    <div>
-                        <slider min="0" max="50" v-model="styles.post.borderRadius" :value="styles.post.borderRadius">Post Border Radius</slider>
-                    </div>
-                </div>
-                <div class="form-item   split even">
-                    <div>
-                        <slider min="0" max="100" v-model="styles.post.buttonWidth" :value="styles.post.buttonWidth">Minimum Button Width (%)</slider>
-                    </div>
-                    <div>
-                        <select id="styles-button-align" v-model='styles.post.buttonAlign' title="Button Alignment">
-                  <option value="left" selected="selected">Left</option>
-                  <option value="center">Center</option>
-                  <option value="right">Right</option>
-                </select>
-                        <label for="styles-button-align">Button Alignment</label>
+                    <p>Load Individual Posts</p>
+                    <div class="form-item border split">
+                        <div>
+                            <input type="text" id="loadPost" required ref="loadPost" title=" ">
+                            <label for="loadPost">Post's URL</label>
+                        </div>
+                        <button @click="loadPostFromURL"><i class="fas fa-file-import"></i> Load Post</button>
                     </div>
                 </div>
+                <div class="card">
+                    <h3 class="card-title">Header Settings</h3>
+                    <div class="accordion" :class="{open: settings.header.style == 0}" @click="settings.header.style = 0">
+                        <div class="accordion-title">
+                            <p>No Header</p>
+                            <div class="selector"></div>
+                        </div>
+                    </div>
+                    <div class="accordion" :class="{open: settings.header.style == 1}" @click="settings.header.style = 1">
+                        <div class="accordion-title">
+                            <p>Use Image</p>
+                            <div class="selector"></div>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="form-item border ">
+                                <input type="text" id="header-image" v-model="settings.header.image" required title=" ">
+                                <label for="header-image">Header Image URL</label>
+                            </div>
+                            <p class="smallerText">Looking to create a custom banner? - Try the <a href="#"
+                                    @click="app.activeView = 'banner'; scrollToTop()">custom banner creator</a> in the
+                                tools section in the left navigation or you can try <a
+                                    href="https://www.canva.com/design?create&width=800&height=230&units=px&schema=web-2" target="_blank">Canva</a>.
+                                <br>Once the banner is created you will need to upload the banner to your website and
+                                copy the URL into here
+                            </p>
+                        </div>
+                    </div>
+                    <div class="accordion" :class="{open: settings.header.style == 2}" @click="settings.header.style = 2">
+                        <div class="accordion-title">
+                            <p>Use Titles</p>
+                            <div class="selector"></div>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="form-item border ">
+                                <input type="text" id="header-titles-title" v-model="settings.header.titles.title" required title=" ">
+                                <label for="header-titles-title">Header Title</label>
+                            </div>
+                            <div class="form-item border ">
+                                <input type="text" id="header-titles-subtitle" v-model="settings.header.titles.subtitle" required title=" ">
+                                <label for="header-titles-subtitle">Header Subtitle</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" :class="{open: settings.header.style == 3}" @click="settings.header.style = 3">
+                        <div class="accordion-title">
+                            <p>Custom Header</p>
+                            <div class="selector"></div>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="form-item border ">
+                                <editable :key="app.forceRerender" id="header-html" v-model="settings.header.html" :value="settings.header.html">
+                                </editable>
+                                <label for="header-html">Header Content</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Footer Settings</h3>
+                    <div class="accordion" :class="{open: settings.footer.style == 0}" @click="settings.footer.style = 0">
+                        <div class="accordion-title">
+                            <p>No Footer</p>
+                            <div class="selector"></div>
+                        </div>
+                    </div>
+                    <div class="accordion" :class="{open: settings.footer.style == 1}" @click="settings.footer.style = 1">
+                        <div class="accordion-title">
+                            <p>Use Template</p>
+                            <div class="selector"></div>
+                        </div>
+                        <div class="accordion-content">
+                            <div class="form-item border  split even">
+                                <div>
+                                    <input type="text" id="footer-preset-name" v-model="settings.footer.preset.name" required title=" ">
+                                    <label for="footer-preset-name">Name</label>
+                                </div>
+                                <div>
+                                    <input type="text" id="footer-preset-email" v-model="settings.footer.preset.email" required title=" ">
+                                    <label for="footer-preset-email">Email</label>
+                                </div>
+                            </div>
+                            <div class="form-item border  split even">
+                                <div>
+                                    <input type="text" id="footer-preset-phone" v-model="settings.footer.preset.phone" required title=" ">
+                                    <label for="footer-preset-phone">Phone</label>
+                                </div>
+                                <div>
+                                    <input type="text" id="footer-preset-website" v-model="settings.footer.preset.website" required title=" ">
+                                    <label for="footer-preset-website">Website</label>
+                                </div>
+                            </div>
+                            <div class="form-item border  split even">
+                                <div>
+                                    <input type="text" id="footer-preset-social-facebook" v-model="settings.footer.preset.social.facebook" required
+                                        title=" ">
+                                    <label for="footer-preset-social-facebook">Facebook Page</label>
+                                </div>
+                                <div>
+                                    <input type="text" id="footer-preset-social-linkedin" v-model="settings.footer.preset.social.linkedin" required
+                                        title=" ">
+                                    <label for="footer-preset-social-linkedin">LinkedIn Page</label>
+                                </div>
+                            </div>
+                            <div class="form-item  split even">
+                                <div class="border">
+                                    <input type="text" id="footer-preset-social-twitter" v-model="settings.footer.preset.social.twitter" required
+                                        title=" ">
+                                    <label for="footer-preset-social-twitter">Twitter Page</label>
+                                </div>
+                                <div></div>
+                            </div>
+                            <div class="form-item border  split even">
+                                <div>
+                                    <input type="text" id="footer-preset-location-address" v-model="settings.footer.preset.location.address" required
+                                        title=" ">
+                                    <label for="footer-preset-location-address">Address</label>
+                                </div>
+                                <div>
+                                    <input type="text" id="footer-preset-location-city" v-model="settings.footer.preset.location.city" required
+                                        title=" ">
+                                    <label for="footer-preset-location-city">City</label>
+                                </div>
+                            </div>
+                            <div class="form-item border  split even">
+                                <div>
+                                    <input type="text" id="footer-preset-location-province" v-model="settings.footer.preset.location.province"
+                                        required title=" ">
+                                    <label for="footer-preset-location-province">Province</label>
+                                </div>
+                                <div>
+                                    <input type="text" id="footer-preset-location-postal" v-model="settings.footer.preset.location.postal" required
+                                        title=" ">
+                                    <label for="footer-preset-location-postal">Postal</label>
+                                </div>
+                            </div>
+                            <div class="form-item border  split even">
+                                <div>
+                                    <input type="checkbox" id="footer-preset-disclaimer-licenses-mfda"
+                                        v-model="settings.footer.preset.disclaimer.licenses.mfda" aria-label="Toggle using MFDA Disclaimer" required>
+                                    <label for="footer-preset-disclaimer-license-mfda">MFDA</label>
+                                </div>
+                                <div>
+                                    <input type="checkbox" id="footer-preset-disclaimer-licenses-iiroc"
+                                        v-model="settings.footer.preset.disclaimer.licenses.iiroc" aria-label="Toggle using IIROC Disclaimer"
+                                        required>
+                                    <label for="footer-preset-disclaimer-license-iiroc">IIROC</label>
+                                </div>
+                                <div>
+                                    <input type="text" id="footer-preset-disclaimer-insuranceOBA"
+                                        v-model="settings.footer.preset.disclaimer.insuranceOBA" required title=" ">
+                                    <label for="footer-preset-disclaimer-insuranceOBA">Insurance OBA</label>
+                                </div>
+                            </div>
+                            <div class="form-item  split even">
+                                <div class="border">
+                                    <input type="checkbox" id="footer-preset-disclaimer-logo"
+                                    v-model="settings.footer.preset.disclaimer.logo" aria-label="Toggle using Securities Logo" checked required>
+                                    <label for="footer-reset-disclaimer-logo">Manulife Securities Logo</label>
+                                </div>
+                                <div ></div>
+                                <div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" :class="{open: settings.footer.style == 2}" @click="settings.footer.style = 2">
+                        <div class="accordion-title">
+                            <p>Custom Footer</p>
+                            <div class="selector"></div>
+                        </div>
+                        <div class="accordion-content expandable">
+                            <div class="form-item border ">
+
+                                <editable :key="app.forceRerender" id="footer-html" v-model="settings.footer.html" :value="settings.footer.html">
+                                </editable>
+                                <label for="footer-html">Footer Content </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Colour Settings</h3>
+                    <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:200px">
+                            <p><strong><i class="fas fa-palette"></i> Colour Settings</strong><br>
+                                These settings will affect all posts, but individual post colours can also be set per post in the Edit tab</p>
+                        </span></span>
+                    <div class="form-item  split even">
+                        <div>
+                            <input id="backgroundColor" type="color" v-model="styles.backgroundColor"
+                                :class="{light: isLight(styles.backgroundColor)}">
+                            <label for="backgroundColor">Background Colour</label>
+                        </div>
+                        <div>
+                        </div>
+                    </div><br>
+                    <div class="form-item  split even">
+                        <div>
+                            <input id="headerColor" type="color" v-model="styles.header.backgroundColor"
+                                :class="{light: isLight(styles.header.backgroundColor)}">
+                            <label for="headerColor">Header Background Colour</label>
+                        </div>
+                        <div>
+                            <input id="headerText" type="color" v-model="styles.header.textColor" :class="{light: isLight(styles.header.textColor)}">
+                            <label for="headerText">Header Text Colour</label>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="form-item  split even">
+                        <div>
+                            <input id="buttonColor" type="color" v-model="styles.post.buttonBackgroundColor"
+                                :class="{light: isLight(styles.post.buttonBackgroundColor)}">
+                            <label for="buttonColor">Button Colour</label>
+                        </div>
+                        <div>
+                            <input id="linkColor" type="color" v-model="styles.footer.linkColor" :class="{light: isLight(styles.footer.linkColor)}">
+                            <label for="linkColor">Footer Link Colour</label>
+                        </div>
+                    </div>
+
+                    <div class="form-item  split even">
+                        <div>
+                            <input id="postColor" type="color" v-model="styles.post.backgroundColor"
+                                :class="{light: isLight(styles.post.backgroundColor)}">
+                            <label for="postColor">Post Background Colour</label>
+                        </div>
+                        <div>
+                            <input id="postText" type="color" v-model="styles.post.textColor" :class="{light: isLight(styles.post.textColor)}">
+                            <label for="postText">Post Text Colour</label>
+                        </div>
+                    </div>
+
+                    <br>
+                    <div class="form-item  split even">
+                        <div>
+                            <input id="footerColor" type="color" v-model="styles.footer.backgroundColor"
+                                :class="{light: isLight(styles.footer.backgroundColor)}">
+                            <label for="footerColor">Footer Background Colour</label>
+                        </div>
+                        <div>
+                            <input id="footerText" type="color" v-model="styles.footer.textColor" :class="{light: isLight(styles.footer.textColor)}">
+                            <label for="footerText">Footer Text Colour</label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Style Settings</h3>
+                    <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
+                            <p><strong><i class="fas fa-pen-fancy"></i> Style Settings</strong><br>
+                                These settings will affect all posts, but individual post styles can also be set per post in the Edit tab</p>
+                            <p><strong><i class="fas fa-border-style"></i> Border Radius(Rounded)</strong><br>
+                                Due to Outlook's limitations, this will not be displayed in Outlook for Desktop or Web.
+                            </p>
+                        </span></span>
+
+                    <div class="form-item  split even">
+                        <div>
+                            <slider min="0" max="50" v-model="styles.post.spacing" :value="styles.post.spacing" id="stylesPostSpacing">Post Spacing
+                            </slider>
+                        </div>
+                        <div>
+                            <slider min="0" max="50" v-model="styles.post.borderRadius" :value="styles.post.borderRadius" id="stylesPostBorderRadius">
+                                Post Border Radius
+                            </slider>
+                        </div>
+                    </div>
+                    <div class="form-item   split even">
+                        <div>
+                            <slider min="0" max="100" v-model="styles.post.buttonWidth" :value="styles.post.buttonWidth" id="stylesPostButtonWidth">
+                                Minimum Button Width (%)</slider>
+                        </div>
+                        <div>
+                            <select id="styles-button-align" v-model='styles.post.buttonAlign' title="Button Alignment">
+                                <option value="left" selected="selected">Left</option>
+                                <option value="center">Center</option>
+                                <option value="right">Right</option>
+                            </select>
+                            <label for="styles-button-align">Button Alignment</label>
+                        </div>
+                    </div>
 
 
-                <!-- <div class="form-item split even">
+                    <!-- <div class="form-item split even">
               <div>
                 <input id="styles-posts-shadow" type="checkbox" v-model="styles.post.shadow" class="checkbox-right">
                 <label for="styles-posts-shadow">Posts Shadow</label>
@@ -521,563 +669,726 @@
               <div>
               </div>
             </div> -->
+                </div>
             </div>
-        </div>
 
-        <div id="edit" class="main-view" :class="{open: app.activeView === 'edit'}">
-            <div class="card">
-                <h3 class="card-title">Edit Newsletter</h3>
-                <span class="card-title-icon" title="Add Custom Post" @click="addPost"><i class="far fa-plus-square tool-icon"></i></span>
-                <div class="edit-newsletter">
-                    <ul class="newsletter-list">
-                        <p v-if="posts.length == 0">No Posts Loaded</p>
-                        <li v-for="(post, pos) in posts" class="card" :class='{light: isLight(getPostStyle(pos, "backgroundColor"))}' style="margin-bottom:10px;" :style="{'background-color': getPostStyle(pos, 'backgroundColor')}" :key="pos">
-                            <div class="tool-list vertical space-even">
-                                <div class="tool-list vertical space-even">
-                                    <i v-if="pos > 0" class="fas fa-chevron-up tool-icon" @click="movePost(0, pos)" title="Top"></i>
-                                    <i v-if="pos > 0" class="fas fa-sort-up tool-icon" @click="movePost(pos-1, pos)" title="Up"></i>
-                                </div>
-                                <div class="tool-list vertical space-even">
-                                    <i v-if="pos != posts.length-1" class="fas fa-sort-down tool-icon" @click="movePost(pos+1, pos)" title="Down"></i>
-                                    <i v-if="pos != posts.length-1" class="fas fa-chevron-down tool-icon" @click="movePost(posts.length, pos)" title="Bottom"></i>
-                                </div>
-                            </div>
-                            <div class="post">
-                                <img v-if="post.img" :src="post.img">
-                                <div class="data">
-                                    <div class="form-item  border " :style="{'color':getPostStyle(pos, 'textColor')}">
-                                        <editabletext v-if="!app.editHTML" :id="'post-title-'+pos" v-model="post.title" :value="post.title">{{post.title}}</editabletext>
-                                        <input v-else class="editHTML" :id="'post-title-'+pos" type="text" v-model="post.title" required>
-                                        <label :for="'post-title-'+pos">Title</label>
-                                    </div>
-                                    <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
-                                        <editabletext v-if="!app.editHTML" :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc">{{post.desc}}</editabletext>
-                                        <textarea v-else class="editHTML" :id="'post-desc-'+pos" v-model="post.desc" required></textarea>
-                                        <label :for="'post-desc-'+pos">Description</label>
-                                    </div>
-                                    <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
-                                        <editabletext v-if="!app.editHTML" :id="'post-date-'+pos" v-model="post.date" :value="post.date" style="font-size: 11px">{{post.date}}</editabletext>
-                                        <input v-else class="editHTML" :id="'post-date-'+pos" type="text" v-model="post.date" style="font-size: 11px" required>
-                                        <label :for="'post-date-'+pos">Date</label>
-                                    </div>
-                                    <div class="form-item border  split even">
-                                        <div>
-                                            <input :id="'post-link-'+pos" type="text" v-model="post.link" style="font-size: 11px" required>
-                                            <label :for="'post-link-'+pos">Link</label>
-                                        </div>
-                                        <div>
-                                            <input :id="'post-linkLabel-'+pos" type="text" v-model="post.linkLabel" style="font-size: 11px" required>
-                                            <label :for="'post-linkLabel-'+pos">Read More</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-item border ">
-                                        <input :id="'post-img-'+pos" type="text" v-model="post.img" style="font-size: 11px" required>
-                                        <label :for="'post-img-'+pos">Image URL</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <span class="tool-list vertical">
-                    <i class="fas fa-trash-alt tool-icon" @click="deletePost(pos)" title="Remove Post"></i>
-                    <i class="far fa-clone tool-icon" @click="duplicatePost(pos)" title="Duplicate Post"></i>
-                    <popup title="Post Settings">
-                        <div class="form-item split even">
-                          <div>
-                            <input :id="'post-style-backgroundColor-'+pos" type="color" :value='getPostStyle(pos, "backgroundColor")' @input='e => editPost(pos, "style.backgroundColor", e.target.value)'  :class='{light: isLight(getPostStyle(pos, "backgroundColor"))}' title="Customize Post Background Color">
-                            <label :for="'post-style-backgroundColor-'+pos">Post Background Color</label>
-                          </div>
-                          <div>
-                            <input :id="'post-color-'+pos" type="color" :value='getPostStyle(pos, "textColor")' @input='e=>editPost(pos, "style.textColor", e.target.value)' :class='{light: isLight(getPostStyle(pos, "textColor"))}' title="Customize Post Text Color">
-                            <label :for="'post-color-'+pos">Post Text Color</label>
-                          </div>
-                        </div>
-                        <div class="form-item split even">
-                          <div>
-                            <input :id="'post-button-backgroundColor-'+pos" type="color" :value='getPostStyle(pos, "buttonBackgroundColor")' @input='e=>editPost(pos, "style.buttonBackgroundColor", e.target.value)'  :class="{light: isLight(getPostStyle(pos, 'buttonBackgroundColor'))}" title="Customize Button Background Color">
-                            <label :for="'post-button-backgroundColor-'+pos">Post Button Background Color</label>
-                          </div>
-                          <div>
-                            <input :id="'post-button-textColor-'+pos" type="color" :value='getPostStyle(pos, "buttonTextColor")' @input='e=>editPost(pos, "style.buttonTextColor", e.target.value)'  :class="{light: isLight(getPostStyle(pos, 'buttonTextColor'))}" title="Customize Button Text Color">
-                            <label :for="'post-button-textColor-'+pos">Post Button Text Color</label>
-                          </div>
-                        </div>
-                        <div class="form-item border split even">
-                          <slider min="0" max="100" v-model="posts[pos].style.buttonWidth" :value="getPostStyle(pos, 'buttonWidth')">Minimum Button Width (%)</slider>
-                          <div>
-                            <select :id="'post-btnAlign-'+pos" v-model='post.style.buttonAlign' :value="getPostStyle(pos, 'buttonAlign')" title="Customize Post Link Button Alignment">
-                              <option value="left" selected="selected">Left</option>
-                              <option value="center">Center</option>
-                              <option value="right">Right</option>
-                            </select>
-                            <label :for="'post-btnAlign-'+pos">Link Button Alignment</label>
-                          </div>
-                        </div>
-                        <div class="form-item" style="text-align: center;margin-top: 30px;">
-                          <button @click="editPost(pos, 'style', {})">Reset to default</button>
-                        </div>
+            <div id="edit" class="main-view" :class="{open: app.activeView === 'edit'}">
+                <div v-if="app.forceRerender"></div>
+                <div class="card">
+                    <h3 class="card-title">Edit Newsletter</h3>
+                    <span class="card-title-icon" title="Add Custom Post" @click="addPost"><i class="far fa-plus-square tool-icon"></i></span>
+                    <span class="card-title-icon" style="right:50px"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:200px">
+                        <p><strong><i class="fa fa-image"></i> Looking for some images to use?</strong><br>Try SiteForward's image bank:<br><a href="https://siteforward.ca/tools/image-bank"
+                            target="_blank">https://siteforward.ca/tools/image-bank</a></p>
 
-                        <!-- <div class="form-item border">
+                    </span></span>
+                    <div class="edit-newsletter">
+                        <ul class="newsletter-list">
+                            <li v-if="posts.length == 0">
+                                <p>No Posts Loaded</p>
+                            </li>
+                            <li v-for="(post, pos) in posts" class="card" :class='{light: isLight(getPostStyle(pos, "backgroundColor"))}'
+                                style="margin-bottom:10px;" :style="{'background-color': getPostStyle(pos, 'backgroundColor')}" :key="pos">
+                                <div class="tool-list vertical space-even">
+                                    <div class="tool-list vertical space-even">
+                                        <i v-if="pos > 0" class="fas fa-chevron-up tool-icon" @click="movePost(0, pos)" title="Top"></i>
+                                        <i v-if="pos > 0" class="fas fa-sort-up tool-icon" @click="movePost(pos-1, pos)" title="Up"></i>
+                                    </div>
+                                    <div class="tool-list vertical space-even">
+                                        <i v-if="pos != posts.length-1" class="fas fa-sort-down tool-icon" @click="movePost(pos+1, pos)"
+                                            title="Down"></i>
+                                        <i v-if="pos != posts.length-1" class="fas fa-chevron-down tool-icon" @click="movePost(posts.length, pos)"
+                                            title="Bottom"></i>
+                                    </div>
+                                </div>
+                                <div class="post">
+                                    <img class="post-img" v-if="post.img" :src="post.img" :alt="'Post #'+ pos + ' Thumbnail'">
+                                    <div class="data">
+                                        <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
+                                            <editable :key="app.forceRerender" :id="'post-title-'+pos" v-model="post.title" :value="post.title">
+                                            </editable>
+                                            <label :for="'post-title-'+pos">Title</label>
+                                        </div>
+                                        <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
+                                            <editable :key="app.forceRerender" :id="'post-desc-'+pos" v-model="post.desc" :value="post.desc">
+                                            </editable>
+                                            <label :for="'post-desc-'+pos">Description</label>
+                                        </div>
+                                        <div class="form-item border " :style="{'color':getPostStyle(pos, 'textColor')}">
+                                            <editable :key="app.forceRerender" :id="'post-date-'+pos" v-model="post.date" :value="post.date">
+                                            </editable>
+                                            <label :for="'post-date-'+pos">Date</label>
+                                        </div>
+                                        <div class="form-item border  split even">
+                                            <div>
+                                                <input :id="'post-link-'+pos" type="text" v-model="post.link" style="font-size: 11px"
+                                                    :style="{'color':getPostStyle(pos, 'textColor')}" required title=" ">
+                                                <label :for="'post-link-'+pos">Link</label>
+                                            </div>
+                                            <div>
+                                                <input :id="'post-linkLabel-'+pos" type="text" v-model="post.linkLabel" style="font-size: 11px"
+                                                    :style="{'color':getPostStyle(pos, 'textColor')}" required title=" ">
+                                                <label :for="'post-linkLabel-'+pos">Read More</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-item border ">
+                                            <input :id="'post-img-'+pos" type="text" v-model="post.img" style="font-size: 11px"
+                                                :style="{'color':getPostStyle(pos, 'textColor')}" required title=" ">
+                                            <label :for="'post-img-'+pos">Image URL</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="tool-list vertical">
+                                    <i class="fas fa-trash-alt tool-icon" @click="deletePost(pos)" title="Remove Post"></i>
+                                    <i class="far fa-clone tool-icon" @click="duplicatePost(pos)" title="Duplicate Post"></i>
+                                    <popup title="Post Settings">
+                                        <div class="form-item split even">
+                                            <div>
+                                                <input :id="'post-style-backgroundColor-'+pos" type="color"
+                                                    :value='getPostStyle(pos, "backgroundColor")'
+                                                    @input='e => editPost(pos, "style.backgroundColor", e.target.value)'
+                                                    :class='{light: isLight(getPostStyle(pos, "backgroundColor"))}'
+                                                    title="Customize Post Background Color">
+                                                <label :for="'post-style-backgroundColor-'+pos">Post Background
+                                                    Color</label>
+                                            </div>
+                                            <div>
+                                                <input :id="'post-color-'+pos" type="color" :value='getPostStyle(pos, "textColor")'
+                                                    @input='e=>editPost(pos, "style.textColor", e.target.value)'
+                                                    :class='{light: isLight(getPostStyle(pos, "textColor"))}' title="Customize Post Text Color">
+                                                <label :for="'post-color-'+pos">Post Text Color</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-item split even">
+                                            <div>
+                                                <input :id="'post-button-backgroundColor-'+pos" type="color"
+                                                    :value='getPostStyle(pos, "buttonBackgroundColor")'
+                                                    @input='e=>editPost(pos, "style.buttonBackgroundColor", e.target.value)'
+                                                    :class="{light: isLight(getPostStyle(pos, 'buttonBackgroundColor'))}"
+                                                    title="Customize Button Background Color">
+                                                <label :for="'post-button-backgroundColor-'+pos">Post Button Background
+                                                    Color</label>
+                                            </div>
+                                            <div>
+                                                <input :id="'post-button-textColor-'+pos" type="color" :value='getPostStyle(pos, "buttonTextColor")'
+                                                    @input='e=>editPost(pos, "style.buttonTextColor", e.target.value)'
+                                                    :class="{light: isLight(getPostStyle(pos, 'buttonTextColor'))}"
+                                                    title="Customize Button Text Color">
+                                                <label :for="'post-button-textColor-'+pos">Post Button Text
+                                                    Color</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-item border split even">
+                                            <slider min="0" max="100" v-model="posts[pos].style.buttonWidth"
+                                                :value="getPostStyle(pos, 'buttonWidth')">Minimum Button Width (%)
+                                            </slider>
+                                            <div>
+                                                <select :id="'post-btnAlign-'+pos" v-model='post.style.buttonAlign'
+                                                    :value="getPostStyle(pos, 'buttonAlign')" title="Customize Post Link Button Alignment"
+                                                    aria-label="Customize Post Link Button Alignment">
+                                                    <option value="left" selected="selected">Left</option>
+                                                    <option value="center">Center</option>
+                                                    <option value="right">Right</option>
+                                                </select>
+                                                <label :for="'post-btnAlign-'+pos">Link Button Alignment</label>
+                                            </div>
+                                        </div>
+                                        <div class="form-item" style="text-align: center;margin-top: 30px;">
+                                            <button @click="editPost(pos, 'style', {})">Reset to default</button>
+                                        </div>
+
+                                        <!-- <div class="form-item border">
                           <slider min="0" max="50" v-model="post.spacing" :value="post.spacing != null ? post.spacing : styles.post.spacing">Post Spacing</slider>
                         </div> -->
-                        <!-- <div class="form-item border">
+                                        <!-- <div class="form-item border">
                           <slider min="0" max="50" v-model="post.borderRadius" :value="post.borderRadius != null ? post.borderRadius : styles.post.borderRadius">Post Border Radius</slider>
                         </div> -->
 
-                      <!--   <div class="form-item border">
+                                        <!--   <div class="form-item border">
                           <input id="post-shadow" type="checkbox" v-model="post.shadow" class="checkbox-left">
                           <label for="post-shadow">Posts Shadow</label>
                         </div> -->
-                    </popup>
-                  </span>
-                            </span>
-                        </li>
+                                    </popup>
+                                </span>
+                                </span>
+                            </li>
+                    </div>
                 </div>
             </div>
-        </div>
 
-        <div id="analytics" class="main-view" :class="{open: app.activeView === 'analytics'}">
-            <div class="card">
-                <h3 class="card-title">Find Google Analytics Code</h3>
-                <div class="form-item split border">
-                    <div>
-                        <input type="text" id="analyticsWebURL" ref="analyticsWebURL" required>
-                        <label for="analytics-code">Website URL</label>
-                    </div>
-                    <button @click="findAnalyticsCode"><i class="fas fa-search"></i> Find Code</button>
-                </div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Google Analytics</h3>
-                <p><strong><small>The Analytic's code will save automatically once added</small></strong><br></p>
-                <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:200px">
-            Google Analytics on Newsletters is still being tested
-            </span></span>
-                <div class="form-item border">
-                    <input type="text" id="analytics-code" v-model="settings.analytics.code" required>
-                    <label for="analytics-code">Analytics Code</label>
-                </div>
-                <div class="form-item border">
-                    <input type="text" id="analytics-name" v-model="settings.analytics.name" required>
-                    <label for="analytics-name">Newsletter Tracking Name</label>
-                </div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">How To View Analytics?</h3>
-                <ol>
-                    <li>If you don't have access to your Google Analytics, please send our team at SiteForward an email requesting access<br><small>Please include your Google Email in your request</small></li>
-                    <li>Open your Google Analytics Dashboard</li>
-                    <li>Open your Events Overview tab<br><small>Located under the Behaviour tab</small></li>
-                </ol>
-            </div>
-        </div>
-
-        <div id="load" class="main-view" :class="{open: app.activeView === 'load'}">
-            <div class="card">
-                <h3 class="card-title">Newsletter Management</h3>
-
-                <div class="accordion" :class="{open: newsletter.data == 0}" @click="newsletter.data = 0">
-                    <div class="accordion-title">
-                        <p>Local <small>(Web browser)</small></p>
-                        <div class="selector"></div>
-                    </div>
-                    <div class="accordion-content">
-                        <p><strong>Local</strong> will let you load/save the newsletter in your web browser.</p>
-
-                        <div class="form-item split even">
-                            <button @click="saveNewsletter" title="Save the newsletter"><i class="fas fa-download"></i> Save the Newsletter</button>
-                            <button @click="loadNewsletter" title="Load the Newsletter"><i class="fas fa-upload"></i> Load the Newsletter</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="accordion" :class="{open: newsletter.data == 1}" @click="newsletter.data = 1">
-                    <div class="accordion-title">
-                        <p>File <small>(JSON file)</small></p>
-                        <div class="selector"></div>
-                    </div>
-                    <div class="accordion-content">
-                        <p><strong>File</strong> will let you load/save the newsletter in a JSON file that can be moved around.</p>
-                        <div class="form-item split even">
-                            <button @click="exportNewsletter" title="Save the newsletter to a file"><i class="fas fa-file-download"></i> Save the Newsletter</button>
-                            <button @click="importNewsletter" title="Load the Newsletter from a file"><i class="fas fa-file-upload"></i> Load the Newsletter</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="use" class="main-view" :class="{open: app.activeView === 'use'}">
-            <div class="card">
-                <h3 class="card-title">Use The Newsletter</h3>
-                <div class="form-item border">
-                    <textarea disabled v-model="newsletterHTML" style="min-height: 250px;"></textarea>
-                </div>
-                <div class="form-item split even">
-                    <button @click="copyNewsletterCode"><i class="fas fa-code"></i> Copy Code</button>
-                    <button @click="copyNewsletter"><i class="fas fa-paste"></i> Copy Newsletter</button>
-                    <button @click="downloadHTML"><i class="fas fa-paste"></i> Download HTML</button>
-                    <!-- <button  @click="downloadPDF"><i class="fas fa-paste"></i> Download PDF</button> -->
-                </div>
-            </div>
-        </div>
-
-        <div id="tools" class="main-view" :class="{open: app.activeView === 'tools'}">
-            <div class="card">
-                <h3 class="card-title">Create a Banner Image</h3>
-                <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:300px">
-            Looking for some premade image banner backgrounds?<br>
-            Visit: <a href="https://siteforward.ca/tools/image-bank" target="_blank">https://siteforward.ca/tools/image-bank</a>
-            <hr>
-            <div class="row">
-              <div class="col">If you can't change the color, try changing the vertical slider first</div>
-              <div class="col"><img src="imgs\colourSlider.png" width="128px"></div>
-            </div>
-            </span></span>
-                <div class="form-item split even border">
-                    <div>
-                        <input id="tool-banner-image" type="text" v-model="tools.banner.image" required>
-                        <label for="tool-banner-image">Banner Image URL</label>
-                    </div>
-                    <div>
-                        <select v-model="tools.banner.align" id="tool-banner-align" required>
-                  <option value="top left">Top Left</option>
-                  <option value="top center">Top Center</option>
-                  <option value="top right">Top Right</option>
-
-                  <option value="center left">Center Left</option>
-                  <option value="center center">Center Center</option>
-                  <option value="center right">Center Right</option>
-
-                  <option value="bottom left">Bottom Left</option>
-                  <option value="bottom center">Bottom Center</option>
-                  <option value="bottom right">Bottom Right</option>
-                </select>
-                        <label for="tool-banner-align">Image Alignment:</label>
-                    </div>
-                </div>
-                <br>
-                <div class="row">
-                    <div class="col">
-                        <p class="col-title">Text Controls</p>
-                        <div class="form-item border">
-                            <input type="text" v-model="tools.banner.title" id="tool-banner-title" required>
-                            <label for="tool-banner-title">Banner Title</label>
-                        </div>
-                        <div class="form-item border">
-                            <input type="text" v-model="tools.banner.subtitle" id="tool-banner-subtitle" required>
-                            <label for="tool-banner-subtitle">Banner Subtitle</label>
-                        </div>
-                        <div class="form-item border">
-                            <!-- <slider min="-800" max="800" v-model="tools.banner.offsetX" :value="tools.banner.offsetX">Text Horizontal Offset</slider> -->
-                            <input type="number" v-model="tools.banner.titleSize" id="tool-banner-titleSize" required step="2">
-                            <label for="tool-banner-titleSize">Title Size</label>
-                        </div>
-                        <div class="form-item border">
-                            <!-- <slider min="1" max="50" v-model="tools.banner.subtitleSize" :value="tools.banner.subtitleSize">Subtitle Size</slider> -->
-                            <input type="number" v-model="tools.banner.subtitleSize" id="tool-banner-subtitleSize" required step="2">
-                            <label for="tool-banner-subtitleSize">Subtitle Size</label>
-                        </div>
-                        <div class="form-item border">
-                            <!-- <slider min="-100" max="100"  :value="tools.banner.titleSpacing" v-model="tools.banner.titleSpacing">Title Spacing</slider> -->
-                            <input type="number" v-model="tools.banner.titleSpacing" id="tool-banner-titleSpacing" required step="5">
-                            <label for="tool-banner-titleSpacing">Title Spacing</label>
-                        </div>
-                        <div class="form-item border border">
-                            <slider min="-225" max="225" v-model="tools.banner.offsetY" :value="tools.banner.offsetY">Text Vertical Offset</slider>
-                            <!-- <input type="number" v-model="tools.banner.offsetY" id="tool-banner-offsetY"  required step="5">
-                  <label for="tool-banner-offsetY">Text Vertical Offset</label> -->
-                        </div>
-                        <div class="form-item border border">
-                            <slider min="-800" max="800" v-model="tools.banner.offsetX" :value="tools.banner.offsetX">Text Horizontal Offset</slider>
-                            <!-- <input type="number" v-model="tools.banner.offsetX" id="tool-banner-offsetX"required step="5">
-                  <label for="tool-banner-offsetX">Text Horizontal Offset</label> -->
-                        </div>
-                        <div class="form-item border">
-                            <select v-model="tools.banner.textAlign" id="tool-banner-textAlign" required>
-                    <option value="center">Center</option>
-                    <option value="left">Left</option>
-                    <option value="right">Right</option>
-                  </select>
-                            <label for="tool-banner-textAlign">Text Alignment:</label>
-                        </div>
-                        <div class="form-item">
-                            <input id="tool-banner-color" type="color" v-model="tools.banner.color" :class="{light: isLight(tools.banner.color)}">
-                            <label for="tool-banner-color">Banner Text Colour</label>
-                        </div>
-                    </div>
-                    <div class="col col-left col-right">
-                        <p class="col-title">Shadow Controls</p>
-                        <div class="form-item border">
-                            <input id="tool-banner-shadowEnabled" type="checkbox" v-model="tools.banner.shadowEnabled" class="checkbox-right">
-                            <label for="tool-banner-shadowEnabled">Banner Shadow Enabled</label>
-                        </div>
-                        <div class="form-item border">
-                            <slider min="-20" max="20" v-model="tools.banner.shadowOffsetY" :value="tools.banner.shadowOffsetY">Shadow Vertical Offset</slider>
-                            <!-- <input type="number" v-model="tools.banner.shadowOffsetY" id="tool-banner-shadowOffsetY"  required >
-                  <label for="tool-banner-shadowOffsetY">Shadow Vertical Offset</label> -->
-                        </div>
-                        <div class="form-item border">
-                            <slider min="-20" max="20" v-model="tools.banner.shadowOffsetX" :value="tools.banner.shadowOffsetY">Shadow Horizontal Offset</slider>
-                            <!-- <input type="number" v-model="tools.banner.shadowOffsetX" id="tool-banner-shadowOffsetX"required>
-                  <label for="tool-banner-shadowOffsetX">Shadow Horizontal Offset</label> -->
-                        </div>
-                        <div class="form-item border">
-                            <input type="number" v-model="tools.banner.shadowBlur" id="tool-banner-shadowBlur" required>
-                            <label for="tool-banner-shadowBlur">Shadow Blur</label>
-                        </div>
-                        <div class="form-item">
-                            <input id="tool-banner-shadowColor" type="color" v-model="tools.banner.shadowColor" :class="{light: isLight(tools.banner.shadowColor)}">
-                            <label for="tool-banner-shadowColor">Banner Shadow Colour</label>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <p class="col-title">Logo Controls</p>
-                        <div class="form-item border">
-                            <input id="tool-banner-logo" type="text" v-model="tools.banner.logo" required>
-                            <label for="tool-banner-logo">Banner logo URL</label>
-                        </div>
-                        <div class="form-item border">
-                            <slider min="0" max="225" :value="tools.banner.logoY" v-model="tools.banner.logoY">Logo Vertical Offset</slider>
-                            <!-- <input type="number"  v-model="tools.banner.logoY" id="tool-banner-logoY"  required>
-                  <label for="tool-banner-logoX">Logo Vertical Offset</label> -->
-                        </div>
-                        <div class="form-item border">
-                            <slider min="-800" max="800" :value="tools.banner.logoX" v-model="tools.banner.logoX">Logo Horizontal Offset</slider>
-                            <!-- <input type="number" v-model="tools.banner.logoX" id="tool-banner-logoX"  required step="5">
-                  <label for="tool-banner-logoX">Logo Horizontal Offset</label> -->
-                        </div>
-                        <div class="form-item border">
-                            <slider min="0" max="800" :value="tools.banner.logoWidth" v-model="tools.banner.logoWidth">Logo Width</slider>
-                            <!-- <input type="number" v-model="tools.banner.logoWidth" id="tool-banner-logoWidth"required step="5">
-                  <label for="tool-banner-logoWidth">Logo Width</label> -->
-                        </div>
-                    </div>
-                </div>
-                <div class="bannerValidWrapper" ref="bannerValidWrapper">
-                    <hr>
-                    <div class="row middle">
-                        <div class="col col-3" style="text-align:center;position:relative">
-                            <img width="100%" style="max-width: 800px;border: 1px solid #eee;" ref="bannerCreatedImage">
-                            <div class="bannerCreatedImageLoadingWrapper">
-                                <i class="fas fa-circle-notch fa-2x"></i>
-                            </div>
-                        </div>
-                        <div class="col col-left">
-                            <div class="form-item" style="margin: 15px 8px;">
-                                <input type="checkbox" v-model="tools.banner.displayGrid" id="tool-banner-displayGrid">
-                                <label for="tool-banner-displayGrid">Display Grid</label>
-                            </div>
-                            <div class="form-item" style="margin-top: 5px;">
-                                <input type="button" value="Download Custom Banner" @click="downloadCustomBanner">
-                            </div>
-                            <p style="font-size: .75em; padding-left: 10px;">Upload the banner to your website's uploads<br>library and copy the link to use it</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="settings" class="main-view" :class="{open: app.activeView === 'settings'}">
-
-            <div class="card">
-                <h3 class="card-title">Use Manulife Securities Disclaimer in Footer Preset</h3>
-                <p><small>Copyright © 2020 All rights reserved.
-                      The persons and situations depicted are fictional and their resemblance to anyone living or dead is purely coincidental. This media is for information purposes only and is not intended to provide specific financial, tax, legal, accounting or other advice and should not be relied upon in that regard. Manulife Securities related companies are 100% owned by The Manufactures Life Insurance Company (MLI) which is 100% owned by the Manulife Financial Corporation a publicly traded company. Details regarding all affiliated companies of MLI can be found on the Manulife Securities website www.manulifesecurities.ca. Please confirm with your advisor which company you are dealing with for each of your products and services.
-                      <br><br>
-                      Legal and Disclaimers | Privacy Policy</small></p>
-                <div class="form-item">
-                    <input type="checkbox" id="useManulifeDisclaimer" v-model="settings.footer.preset.disclaimer.enable">
-                    <label for="useManulifeDisclaimer">Use Disclaimer</label>
-                </div>
-            </div>
-            <div class="card">
-                <h3 class="card-title">Reset Global/Individual Styles</h3>
-                <p><small>This will reset the styling of the global and individual posts of the newsletter</small></p>
-                <div class="form-item">
-                    <button @click="resetStyles()" style="margin: 0"><i class="fas fa-remove-format"></i> Reset Styles</button>
-                </div>
-            </div>
-            <!-- <div class="card">
-            <h3 class="card-title">Turn On Editing in HTML</h3>
-            <p><small>This allows the use of custom HTML when editing posts and will remove the WYSIWYG(What You See Is What You Get) toolbar</small></p>
-            <div class="form-item">
-              <input type="checkbox" v-model="app.editHTML" id="app.editHTMLToggle">
-              <label for="app.editHTMLToggle">Enable Editing in HTML</label>
-            </div>
-          </div> -->
-            <div class="card">
-                <h3 class="card-title">Enable MS Word Support</h3>
-                <p><small><strong>This can cause issues if enabled and is being used in an email.
-              <br>Microsoft Word was not the intended use of this generator so support for MS Word is <i>very</i> limited. </strong>
-                <br><br>After pasting the newsletter into MS Word right click on the inserted table, open table properties, go to columns, and unselect <strong>Preferred Width</strong>. Then you can drag the column width manually to fit the image</small></p>
-                <div class="form-item">
-                    <input type="checkbox" v-model="app.wordSupport" id="enableWordSupport">
-                    <label for="enableWordSupport">Word Support</label>
-                </div>
-            </div>
-        </div>
-
-        <div id="help" class="main-view" :class="{open: app.activeView === 'help'}">
-            <div class="card">
-                <div class="form-item split even" style="margin-top:15px">
-                    <div>
-                        <searchbar element="helpCards">Search for help</searchbar>
-                    </div>
-                    <div></div>
-                </div>
-            </div>
-            <div id="helpCards">
+            <div id="analytics" class="main-view" :class="{open: app.activeView === 'analytics'}">
                 <div class="card">
-                    <h3 class="card-title">How to <strong>Setup</strong> the Newsletter</h3>
-                    <p><strong><small>If you're using SiteForward's RSS Feed you can load posts from: <a href="http://siteforward.ca/rss-feed">http://siteforward.ca/rss-feed</a></small></strong></p>
-                    <ol>
-                        <ol>
-                            <li>Go to the <strong>Setup</strong> tab</li>
-                            <li>Add your blog posts <small>(Hover over the <strong><i class="fas fa-question-circle" style="color: #aeaeae;"></i></strong> for tips)</small></li>
-                            <ul style="list-style-type: square">
-                                <li><strong>Load Multiple Posts</strong> will load blogs from your Twenty Over Ten blog page <small>(You can even choose how many to load in using the number beside the field)</small></li>
-                                <li><strong>Load Individual Posts</strong> lets you Load a single post from a Twenty Over Ten website <small>(Use your blog post's URL link in this field)</small></li>
-                            </ul>
-                            <li>Choose your header option</li>
-                            <ul style="list-style-type: square">
-                                <li><strong>No Header</strong> will make it so no header appears</li>
-                                <li><strong>Use Image</strong> allows you to use a banner image</li>
-                                <li><strong>Use Titles</strong> allows you to enter your own title & subtitle</li>
-                                <li><strong>Custom Header</strong> allows you to design your own header</li>
-                            </ul>
-                            <li>Choose your footer option</li>
-                            <ul style="list-style-type: square">
-                                <li><strong>No Footer</strong> will make it so no footer appears</li>
-                                <li><strong>Use Template</strong> allows you to use a premade footer template <small>(This will include the required disclaimers)</small></li>
-                                <li><strong>Custom Footer</strong> allows you to design your own footer</li>
-                            </ul>
-                            <li>Optional: Customize each post's colours by clicking on the coloured box</li>
-                        </ol>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">How to <strong>Edit</strong> the Newsletter</h3>
-                    <div class="row middle">
-                        <div class="col">
-                            <ol>
-                                <li>Go to the <strong>Edit Items</strong> tab</li>
-                                <li>If you have loaded posts during setup you'll see a list of them here</li>
-                                <li>Clicking the <strong><i class="far fa-plus-square" style="color: #aeaeae;"></i></strong> in the top right will create a new post</li>
-                                <li>Clicking the <strong><i class="fas fa-trash-alt" style="color: #aeaeae;"></i></strong> to the right of each post will remove that post</li>
-                                <li>Clicking the <strong><i class="far fa-clone" style="color: #aeaeae;"></i></strong> to the right of each post will clone that post</li>
-                                <li>Clicking the <strong><i class="fas fa-paint-brush" style="color: #aeaeae;"></i></strong> to the right of each post will allow you to edit the colours for that post</li>
-                                <li>Edit the contents of each post by clicking on the field and typing</li>
-                                <ul style="list-style-type: square">
-                                    <li><strong>Title</strong> will change the title of the post <small>(Supports HTML)</small></li>
-                                    <li><strong>Description</strong> will change the description of the post <small>(Supports HTML)</small></li>
-                                    <li><strong>Date</strong> will change the subtext under the post's title <small>(Supports HTML)</small></li>
-                                    <li><strong>Link</strong> will change where the "Read More" button directs to</li>
-                                    <li><strong>Read More</strong> will change where the "Read More" button text</li>
-                                    <li><strong>Image URL</strong> will change the image to the left of the post</li>
-                                </ul>
-                                <li>Re-order your posts using the arrow head icons to the left of each post</li>
-                                <ul style="list-style-type: square">
-                                    <li><strong><i class="fas fa-chevron-up" style="color: #aeaeae;"></i> <i class="fas fa-chevron-down" style="color: #aeaeae;"></i></strong> will move the post to the top/bottom</li>
-                                    <li><strong><i class="fas fa-sort-up" style="color: #aeaeae;"></i> <i class="fas fa-sort-down" style="color: #aeaeae;vertical-align: super;"></i></strong> will move the post up/down</li>
-                                </ul>
-                            </ol>
+                    <h3 class="card-title">Find Google Analytics Code</h3>
+                    <div class="form-item split border">
+                        <div>
+                            <input type="text" id="analyticsWebURL" ref="analyticsWebURL" required title=" ">
+                            <label for="analyticsWebURL">Website URL</label>
                         </div>
+                        <button @click="findAnalyticsCode"><i class="fas fa-search"></i> Find Code</button>
                     </div>
                 </div>
                 <div class="card">
-                    <h3 class="card-title">How to use <strong>Analytics</strong> with the Newsletter</h3>
-                    <p><strong><small>View the Analytics tab for more information on how to view the analytics</small></strong></p>
-                    <ol>
-                        <li>Go to the <strong>Analytics</strong> tab</li>
-                        <li>Find your Google Analytics Code by entering your website's URL and clicking <strong>Find Code</strong></li>
-                        <li>Enter your Newsletter's name <small>(This can be something simliar to: Winter 2019)</small></li>
-                    </ol>
+                    <h3 class="card-title">Google Analytics</h3>
+                    <p><strong><small>The Analytic's code will save automatically once added</small></strong><br></p>
+                    <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:200px">
+                            Google Analytics on Newsletters is still being tested, and may not work as intended.
+                        </span></span>
+                    <div class="form-item border">
+                        <input type="text" id="analytics-code" v-model="settings.analytics.code" required title=" ">
+                        <label for="analytics-code">Analytics Code</label>
+                    </div>
+                    <div class="form-item border">
+                        <input type="text" id="analytics-name" v-model="settings.analytics.name" required title=" ">
+                        <label for="analytics-name">Newsletter Tracking Name</label>
+                    </div>
                 </div>
                 <div class="card">
                     <h3 class="card-title">How To View Analytics?</h3>
                     <ol>
-                        <li>If you don't have access to your Google Analytics, please send our team at SiteForward an email requesting access<br><small>Please include your Google Email in your request</small></li>
+                        <li>If you don't have access to your Google Analytics, please send our team at SiteForward an
+                            email requesting access<br><small>Please include your Google Email in your request</small>
+                        </li>
                         <li>Open your Google Analytics Dashboard</li>
                         <li>Open your Events Overview tab<br><small>Located under the Behaviour tab</small></li>
                     </ol>
                 </div>
-                <div class="card">
-                    <h3 class="card-title">How to <strong>Use</strong> the Newsletter</h3>
-                    <p><strong><small>If you're planning to use the newsletter in MS Word make sure to enable MS Word Support in the Settings tab in the newsletter generator</small></strong></p>
-                    <ol>
-                        <li>Go to the <strong>Use Newsletter</strong> tab</li>
-                        <li><strong>Copy Code</strong> will copy the code to your clipboard</li>
+            </div>
 
-                        <ul style="list-style-type: square">
-                            <li>Use this if you're using a CRM and require HTML code</li>
-                        </ul>
-                        <li><strong>Copy Newsleter</strong> will copy the whole newsletter to your clipboard</li>
+            <div id="load" class="main-view" :class="{open: app.activeView === 'load'}">
+                <div class="card">
+                    <h3 class="card-title">Newsletter Management</h3>
+                    <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:400px">
+                            <p><strong><i class="fas fa-download"></i> Local <small>(Web browser)</small></strong><br>
+                                This will load/save the newsletter into your web browser's local storage.<br>
+                                Clearing your browser's cache will delete this saved version.</p>
+                            <p><strong><i class="fas fa-file-download"></i> File <small>(JSON file)</small></strong><br>
+                                This will load/save the newsletter into a .json file that can be moved and saved on your
+                                computer</p>
+                        </span></span>
+                    <div class="accordion" :class="{open: newsletter.data == 0}" @click="newsletter.data = 0">
+                        <div class="accordion-title">
+                            <p>Local <small>(Web browser)</small></p>
+                            <div class="selector"></div>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>Local</strong> will let you load/save the newsletter in your web browser.</p>
 
-                        <ul style="list-style-type: square">
-                            <li>Use this if you're using Outlook/Gmail or posting as a blog on your website</li>
-                        </ul>
-                        <li>Paste the newsletter/code to where you need it</li>
-                    </ol>
+                            <div class="form-item split even">
+                                <button @click="saveNewsletter" title="Save the newsletter"><i class="fas fa-download"></i> Save the
+                                    Newsletter</button>
+                                <button @click="loadNewsletter" title="Load the Newsletter"><i class="fas fa-upload"></i> Load the Newsletter</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion" :class="{open: newsletter.data == 1}" @click="newsletter.data = 1">
+                        <div class="accordion-title">
+                            <p>File <small>(JSON file)</small></p>
+                            <div class="selector"></div>
+                        </div>
+                        <div class="accordion-content">
+                            <p><strong>File</strong> will let you load/save the newsletter in a JSON file that can be
+                                moved around.</p>
+                            <div class="form-item split even">
+                                <button @click="exportNewsletter" title="Save the newsletter to a file"><i class="fas fa-file-download"></i> Save the
+                                    Newsletter</button>
+                                <button @click="importNewsletter" title="Load the Newsletter from a file"><i class="fas fa-file-upload"></i> Load the
+                                    Newsletter</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="card">
-                    <h3 class="card-title">How to <strong>Load / Save</strong> the Newsletter Options & Posts</h3>
-                    <p><strong><small>If a newsletter has been saved locally you'll recieve a popup in the bottom right to quickly load it.</small></strong></p>
-                    <ol>
-                        <li>Go to the <strong>Load / Save</strong> tab</li>
-                        <li>Choose how you want to load/save the newsletter</li>
-                        <ul>
-                            <li><strong>Local</strong> will let you load/save the newsletter in your web browser.</li>
-                            <ul style="list-style-type: square">
-                                <li><strong>Save the newsletter</strong> will save the newsletter in your web browser.</li>
-                                <li><strong>Load the newsletter</strong> will load the newsletter from your web browser.</li>
-                            </ul>
-                            <li><strong>File</strong> will let you load/save the newsletter in a JSON file.</li>
-                            <ul style="list-style-type: square">
-                                <li><strong>Save the newsletter</strong> will save the newsletter in a JSON file.</li>
-                                <li><strong>Load the newsletter</strong> will load the newsletter from a JSON file.</li>
-                            </ul>
-                            <li><strong>Legacy</strong> only use this if you need to load/save with seperate JSON files<br><small>(No longer supported)</small></li>
-                        </ul>
-                    </ol>
-                </div>
-                <div class="card">
-                    <h3 class="card-title">How to use a <strong>Custom Banner</strong></h3>
-                    <p><strong><small>If you're looking for pre-made banner image urls please look here: <a href="https://siteforward.ca/tools/image-bank" target="_blank">https://siteforward.ca/tools/image-bank</a></small></strong></p>
-                    <ol>
-                        <li>Go to the <strong>Tools</strong> tab</li>
-                        <li>Insert a banner image URL</li>
-                        <ul style="list-style-type: square">
-                            <li><strong>Image Alignment</strong> is the alignment of your banner image</li>
-                        </ul>
-                        <li>Modify the title and subtitle</li>
-                        <ul style="list-style-type: square">
-                            <li><strong>Title Size</strong> is the font size for your title</li>
-                            <li><strong>Subtitle Size</strong> is the font size for your subtitle</li>
-                            <li><strong>Title Spacing</strong> is the space between your title and subtitle</li>
-                            <li><strong>Text Vertical Offset</strong> is the vertical offset for your titles</li>
-                            <li><strong>Text Horizontal Offset</strong> is the horizontal offset for your titles</li>
-                            <li><strong>Text Alignment</strong> is the alignment of your titles</li>
-                        </ul>
-                        <li>Enable/Disable your shadow on your text</li>
-                        <ul style="list-style-type: square">
-                            <li><strong>Shadow Vertical Offset</strong> is the offset on your shadow for the titles</li>
-                            <li><strong>Shadow Horizontal Offset</strong> is the offset on your shadow for the titles</li>
-                            <li><strong>Shadow Blur</strong> is the blurriness of the shadow</li>
-                        </ul>
-                        <li>Modify your logo image</li>
-                        <ul style="list-style-type: square">
-                            <li><strong>Banner Logo URL</strong> is an image to inset on your banner</li>
-                            <li><strong>Logo Vertical Offset</strong> is the offset on your logo</li>
-                            <li><strong>Logo Horizontal Offset</strong> is the offset on your logo</li>
-                            <li><strong>Logo Width</strong> is the width of the logo image</li>
-                        </ul>
-                    </ol>
-                </div>
-                <div class="card">
-                    <h3 class="cart-title">Newsletter Generator Changelog</h3>
-                    <p>To view the changelog for the Newsletter Generator click on the link below:<br>
-                        <a href="https://github.com/SiteForward/Newsletter-Generator/commits">https://github.com/SiteForward/Newsletter-Generator/commits</a>
-                        <p>
+                    <h3 class="card-title">Start from a Template</h3>
+                    <div class="row">
+                        <div class="col col-3">
+                            <p>This <strong>will</strong> overwrite your current Newsletter.</p>
+                            <p>Make sure to save your current newsletter if you think you may want to revert back to it.
+                            </p>
+                            <div class="form-item">
+                                <button @click="loadTemplate()" title="Load the Template" style="margin-left: 0; margin-top: 10px;">
+                                    <i class="fas fa-file-download"></i> Load Template
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col col-left">
+                            <img class="template-thumbnail" src="imgs/template.png"
+                                alt="Template Thumbnail">
+                        </div>
+                    </div>
                 </div>
             </div>
-    </main>
+
+            <div id="use" class="main-view" :class="{open: app.activeView === 'use'}">
+                <div class="card">
+                    <h3 class="card-title">Use The Newsletter</h3>
+                    <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:400px">
+                            <p><strong><i class="fas fa-code"></i> Copy HTML Code</strong><br>
+                                Use this if you need to paste the HTML code into something that allows for code.</p>
+                            <p><strong><i class="fas fa-paste"></i> Copy Newsletter</strong><br>
+                                Use this if you need to paste the Newsletter into something like MS Outlook.</p>
+                            <p><strong><i class="fas fa-file-download"></i> Download Preview</strong><br>
+                                Use this if you need to download a preview for Compliance.</p>
+                        </span></span>
+                    <div class="form-item border">
+                        <textarea disabled v-model="newsletterHTML" style="min-height: 250px;" aria-label="Newsletters HTML Code"></textarea>
+                    </div>
+                    <div class="form-item split even">
+                        <button @click="copyNewsletterCode"><i class="fas fa-code"></i> Copy HTML Code</button>
+                        <button @click="copyNewsletter"><i class="fas fa-paste"></i> Copy Newsletter</button>
+                        <button @click="downloadHTML"><i class="fas fa-file-download"></i> &nbsp;Download
+                            Preview</button>
+                        <!-- <button  @click="downloadPDF"><i class="fas fa-paste"></i> Download PDF</button> -->
+                    </div>
+                </div>
+            </div>
+
+            <div id="banner" class="main-view" :class="{open: app.activeView === 'banner'}">
+                <div class="card">
+                    <h3 class="card-title">Create a Custom Banner Image</h3>
+                    <span class="card-title-icon"><i class="fas fa-question-circle tool-icon"></i><span class="card-title-help" style="width:200px">
+                        <p><strong><i class="fa fa-image"></i> Looking for some images to use?</strong><br>Try SiteForward's image bank:<br><a href="https://siteforward.ca/tools/image-bank"
+                            target="_blank">https://siteforward.ca/tools/image-bank</a></p>
+                            
+                        </span></span>
+                    <div class="form-item split even border">
+                        <div>
+                            <input id="banner-image" type="text" v-model="banner.image" required title=" ">
+                            <label for="banner-image">Banner Image URL</label>
+                        </div>
+                        <div>
+                            <select v-model="banner.align" id="banner-align">
+                                <option value="top left">Top Left</option>
+                                <option value="top center">Top Center</option>
+                                <option value="top right">Top Right</option>
+
+                                <option value="center left">Center Left</option>
+                                <option value="center center">Center Center</option>
+                                <option value="center right">Center Right</option>
+
+                                <option value="bottom left">Bottom Left</option>
+                                <option value="bottom center">Bottom Center</option>
+                                <option value="bottom right">Bottom Right</option>
+                            </select>
+                            <label for="banner-align">Image Alignment:</label>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <p class="col-title">Text Controls</p>
+                            <div class="form-item border">
+                                <input type="text" v-model="banner.title" id="banner-title" required title=" ">
+                                <label for="banner-title">Banner Title</label>
+                            </div>
+                            <div class="form-item border">
+                                <input type="text" v-model="banner.subtitle" id="banner-subtitle" required title=" ">
+                                <label for="banner-subtitle">Banner Subtitle</label>
+                            </div>
+                            <div class="form-item border">
+                                <slider min="0" max="100" v-model="banner.titleSize" :value="banner.titleSize" id="banner-titlesize">Title Size
+                                </slider>
+                            </div>
+                            <div class="form-item border">
+                                <slider min="0" max="100" v-model="banner.subtitleSize" :value="banner.subtitleSize" id="banner-subtitlesize">Subtitle
+                                    Size
+                                </slider>
+                            </div>
+                            <div class="form-item border">
+                                <slider min="0" max="100" :value="banner.titleSpacing" v-model="banner.titleSpacing" id="banner-titlespacing">Title
+                                    Spacing
+                                </slider>
+                            </div>
+                            <div class="form-item border border">
+                                <slider min="-225" max="225" v-model="banner.offsetY" :value="banner.offsetY" id="banner-offsety">Text Vertical Offset
+                                </slider>
+                            </div>
+                            <div class="form-item border border">
+                                <slider min="-800" max="800" v-model="banner.offsetX" :value="banner.offsetX" id="banner-offsetx">Text Horizontal
+                                    Offset
+                                </slider>
+                            </div>
+                            <div class="form-item border">
+                                <select v-model="banner.textAlign" id="banner-textAlign">
+                                    <option value="center">Center</option>
+                                    <option value="left">Left</option>
+                                    <option value="right">Right</option>
+                                </select>
+                                <label for="banner-textAlign">Text Alignment:</label>
+                            </div>
+                            <div class="form-item">
+                                <input id="banner-color" type="color" v-model="banner.color" :class="{light: isLight(banner.color)}">
+                                <label for="banner-color">Banner Text Colour</label>
+                            </div>
+                        </div>
+                        <div class="col col-left col-right">
+                            <p class="col-title">Shadow Controls</p>
+                            <div class="form-item border">
+                                <input id="banner-shadowEnabled" type="checkbox" v-model="banner.shadowEnabled" class="checkbox-right">
+                                <label for="banner-shadowEnabled">Banner Shadow Enabled</label>
+                            </div>
+                            <div class="form-item border">
+                                <slider min="-20" max="20" v-model="banner.shadowOffsetY" :value="banner.shadowOffsetY" id="banner-shadowOffsety">
+                                    Shadow Vertical Offset
+                                </slider>
+                            </div>
+                            <div class="form-item border">
+                                <slider min="-20" max="20" v-model="banner.shadowOffsetX" :value="banner.shadowOffsetX" id="banner-shadowOffsetx">
+                                    Shadow Horizontal Offset</slider>
+                            </div>
+                            <div class="form-item border">
+                                <slider min="-800" max="800" v-model="banner.shadowBlur" :value="banner.shadowBlur" id="banner-shadowBlur">Shadow Blur
+                                </slider>
+                            </div>
+                            <div class="form-item">
+                                <input id="banner-shadowColor" type="color" v-model="banner.shadowColor"
+                                    :class="{light: isLight(banner.shadowColor)}">
+                                <label for="banner-shadowColor">Banner Shadow Colour</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <p class="col-title">Logo Controls</p>
+                            <div class="form-item border">
+                                <input id="banner-logo" type="text" v-model="banner.logo" required title=" ">
+                                <label for="banner-logo">Banner logo URL</label>
+                            </div>
+                            <div class="form-item border">
+                                <slider min="0" max="225" :value="banner.logoY" v-model="banner.logoY" id="banner-logoy">Logo Vertical Offset</slider>
+                            </div>
+                            <div class="form-item border">
+                                <slider min="-800" max="800" :value="banner.logoX" v-model="banner.logoX" id="banner-logox">Logo Horizontal Offset
+                                </slider>
+                            </div>
+                            <div class="form-item border">
+                                <slider min="0" max="800" :value="banner.logoWidth" v-model="banner.logoWidth" id="banner-logowidth">Logo Width
+                                </slider>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bannerValidWrapper" ref="bannerValidWrapper">
+                        <hr>
+                        <div class="row middle">
+                            <div class="col col-3" style="text-align:center;position:relative">
+                                <img width="100%" style="max-width: 800px;border: 1px solid #eee;" ref="bannerCreatedImage" alt="Created Banner">
+                                <div class="bannerCreatedImageLoadingWrapper">
+                                    <i class="fas fa-circle-notch fa-2x"></i>
+                                </div>
+                            </div>
+                            <div class="col col-left">
+                                <div class="form-item" style="margin: 15px 8px;">
+                                    <input type="checkbox" v-model="banner.displayGrid" id="banner-displayGrid">
+                                    <label for="banner-displayGrid">Display Grid</label>
+                                </div>
+                                <div class="form-item" style="margin-top: 5px;">
+                                    <input type="button" value="Download Custom Banner" @click="downloadCustomBanner">
+                                </div>
+                                <p style="font-size: .75em; padding-left: 10px;">Upload the banner to your website's
+                                    uploads
+                                    <br>library and copy the link to use it
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settings" class="main-view" :class="{open: app.activeView === 'settings'}">
+
+                <div class="card">
+                    <h3 class="card-title">Use Manulife Securities Disclaimer in Footer Preset</h3>
+                    <p><small>Copyright &copy; {{(new Date().getFullYear())}}, All rights reserved.
+                            The persons and situations depicted are fictional and their resemblance to anyone living or
+                            dead is purely coincidental. This media is for information purposes only and is not intended
+                            to provide specific financial, tax, legal, accounting or other advice and should not be
+                            relied upon in that regard. Manulife Securities is an indirectly, wholly-owned subsidiary of
+                            Manulife Financial Corporation (MFC). MFC owns The Manufacturers Life Insurance Company
+                            (MLI), a financial services organization offering a range of protection, estate planning,
+                            investment and banking solutions through a multi-channel distribution network. MLI owns
+                            Manulife Securities Incorporated, Manulife Securities Investment Services Inc. and Manulife
+                            Securities Insurance Inc. MLI also owns Manulife Bank of Canada, a federally chartered
+                            Schedule 1 bank, which in turns owns Manulife Trust Company, a federally chartered trust
+                            company. Please confirm with your advisor which company you are dealing with for each of
+                            your products and services.
+                            <br><br>
+                            Legal and Disclaimers | Privacy Policy</small></p>
+                    <div class="form-item">
+                        <input type="checkbox" id="useManulifeDisclaimer" v-model="settings.footer.preset.disclaimer.enable">
+                        <label for="useManulifeDisclaimer">Use Disclaimer</label>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 class="card-title">Reset Global/Individual Styles</h3>
+                    <p><small>This will reset the styling of the global and individual posts of the newsletter</small>
+                    </p>
+                    <p><small>Make sure to save your current newsletter if you think you may want to revert back to
+                            it.</small></p>
+                    <div class="form-item">
+                        <button @click="resetStyles()" style="margin: 0"><i class="fas fa-remove-format"></i> Reset
+                            Styles</button>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3 class="card-title">Enable MS Word Support</h3>
+                    <p><small><strong>This can cause issues if enabled and is being used in an email.
+                                <br>Microsoft Word was not the intended use of this generator so support for MS Word is
+                                <i>very</i> limited. </strong>
+                            <br><br>After pasting the newsletter into MS Word right click on the inserted table, open
+                            table properties, go to columns, and unselect <strong>Preferred Width</strong>. Then you can
+                            drag the column width manually to fit the image</small></p>
+                    <div class="form-item">
+                        <input type="checkbox" v-model="app.wordSupport" id="enableWordSupport">
+                        <label for="enableWordSupport">Word Support</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="help" class="main-view" :class="{open: app.activeView === 'help'}">
+                <div class="card">
+                    <div class="form-item split even border" style="margin-top:15px">
+                        <div>
+                            <searchbar element="helpCards">Search for help</searchbar>
+                        </div>
+                        <div></div>
+                    </div>
+                </div>
+                <div id="helpCards">
+                    <div class="card">
+                        <h3 class="card-title">How to <strong>Setup</strong> the Newsletter</h3>
+                        <p><strong><small>If you're using SiteForward's RSS Feed you can load posts from: <a
+                                        href="http://siteforward.ca/rss-feed">http://siteforward.ca/rss-feed</a></small></strong>
+                        </p>
+                        <ol>
+                            <li>Go to the <strong>Setup</strong> tab</li>
+                            <li>Add your blog posts <small>(Hover over the <strong><i class="fas fa-question-circle"
+                                            style="color: #aeaeae;"></i></strong> for tips)</small></li>
+                            <li style="list-style: none;">
+                                <ul style="list-style-type: square">
+                                    <li><strong>Load Multiple Posts</strong> will load blogs from your Twenty Over Ten
+                                        blog page <small>(You can even choose how many to load in using the number
+                                            beside the field)</small></li>
+                                    <li><strong>Load Individual Posts</strong> lets you Load a single post from a Twenty
+                                        Over Ten website <small>(Use your blog post's URL link in this field)</small>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>Choose your header option</li>
+                            <li style="list-style: none;">
+                                <ul style="list-style-type: square">
+                                    <li><strong>No Header</strong> will make it so no header appears</li>
+                                    <li><strong>Use Image</strong> allows you to use a banner image</li>
+                                    <li><strong>Use Titles</strong> allows you to enter your own title & subtitle</li>
+                                    <li><strong>Custom Header</strong> allows you to design your own header</li>
+                                </ul>
+                            </li>
+                            <li>Choose your footer option</li>
+                            <li style="list-style: none;">
+                                <ul style="list-style-type: square">
+                                    <li><strong>No Footer</strong> will make it so no footer appears</li>
+                                    <li><strong>Use Template</strong> allows you to use a premade footer template
+                                        <small>(This will include the required disclaimers)</small>
+                                    </li>
+                                    <li><strong>Custom Footer</strong> allows you to design your own footer</li>
+                                </ul>
+                            </li>
+                            <li>Optional: Customize each post's colours by clicking on the coloured box</li>
+                        </ol>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title">How to <strong>Edit</strong> the Newsletter</h3>
+                        <div class="row middle">
+                            <div class="col">
+                                <ol>
+                                    <li>Go to the <strong>Edit Items</strong> tab</li>
+                                    <li>If you have loaded posts during setup you'll see a list of them here</li>
+                                    <li>Clicking the <strong><i class="far fa-plus-square" style="color: #aeaeae;"></i></strong> in the top right will
+                                        create a new
+                                        post
+                                    </li>
+                                    <li>Clicking the <strong><i class="fas fa-trash-alt" style="color: #aeaeae;"></i></strong> to the right of each
+                                        post will
+                                        remove that post</li>
+                                    <li>Clicking the <strong><i class="far fa-clone" style="color: #aeaeae;"></i></strong> to the right of each post
+                                        will
+                                        clone that post</li>
+                                    <li>Clicking the <strong><i class="fas fa-paint-brush" style="color: #aeaeae;"></i></strong> to the right of each
+                                        post will
+                                        allow you to edit the colours for that post</li>
+                                    <li>Edit the contents of each post by clicking on the field and typing</li>
+                                    <li style="list-style: none;">
+                                        <ul style="list-style-type: square">
+                                            <li><strong>Title</strong> will change the title of the post
+                                                <small>(Supports HTML)</small>
+                                            </li>
+                                            <li><strong>Description</strong> will change the description of the post
+                                                <small>(Supports HTML)</small>
+                                            </li>
+                                            <li><strong>Date</strong> will change the subtext under the post's title
+                                                <small>(Supports HTML)</small>
+                                            </li>
+                                            <li><strong>Link</strong> will change where the "Read More" button directs
+                                                to
+                                            </li>
+                                            <li><strong>Read More</strong> will change where the "Read More" button text
+                                            </li>
+                                            <li><strong>Image URL</strong> will change the image to the left of the post
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li>Re-order your posts using the arrow head icons to the left of each post</li>
+                                    <li style="list-style: none;">
+                                        <ul style="list-style-type: square">
+                                            <li><strong><i class="fas fa-chevron-up" style="color: #aeaeae;"></i> <i class="fas fa-chevron-down"
+                                                        style="color: #aeaeae;"></i></strong> will move the
+                                                post to the
+                                                top/bottom
+                                            </li>
+                                            <li><strong><i class="fas fa-sort-up" style="color: #aeaeae;"></i> <i class="fas fa-sort-down"
+                                                        style="color: #aeaeae;vertical-align: super;"></i></strong>
+                                                will
+                                                move the post up/down</li>
+                                        </ul>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title">How to use <strong>Analytics</strong> with the Newsletter</h3>
+                        <p><strong><small>View the Analytics tab for more information on how to view the
+                                    analytics</small></strong></p>
+                        <ol>
+                            <li>Go to the <strong>Analytics</strong> tab</li>
+                            <li>Find your Google Analytics Code by entering your website's URL and clicking <strong>Find
+                                    Code</strong></li>
+                            <li>Enter your Newsletter's name <small>(This can be something simliar to: Winter
+                                    2019)</small></li>
+                        </ol>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title">How To View Analytics?</h3>
+                        <ol>
+                            <li>If you don't have access to your Google Analytics, please send our team at SiteForward
+                                an email requesting access<br><small>Please include your Google Email in your
+                                    request</small></li>
+                            <li>Open your Google Analytics Dashboard</li>
+                            <li>Open your Events Overview tab<br><small>Located under the Behaviour tab</small></li>
+                        </ol>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title">How to <strong>Use</strong> the Newsletter</h3>
+                        <p><strong><small>If you're planning to use the newsletter in MS Word make sure to enable MS
+                                    Word Support in the Settings tab in the newsletter generator</small></strong></p>
+                        <ol>
+                            <li>Go to the <strong>Use Newsletter</strong> tab</li>
+                            <li><strong>Copy Code</strong> will copy the code to your clipboard</li>
+
+                            <li style="list-style: none;">
+                                <ul style="list-style-type: square">
+                                    <li>Use this if you're using a CRM and require HTML code</li>
+                                </ul>
+                            </li>
+                            <li><strong>Copy Newsleter</strong> will copy the whole newsletter to your clipboard</li>
+
+                            <li style="list-style: none;">
+                                <ul style="list-style-type: square">
+                                    <li>Use this if you're using Outlook/Gmail or posting as a blog on your website</li>
+                                </ul>
+                            </li>
+                            <li>Paste the newsletter/code to where you need it</li>
+                        </ol>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title">How to <strong>Load / Save</strong> the Newsletter Options & Posts</h3>
+                        <p><strong><small>If a newsletter has been saved locally you'll recieve a popup in the bottom
+                                    right to quickly load it.</small></strong></p>
+                        <ol>
+                            <li>Go to the <strong>Load / Save</strong> tab</li>
+                            <li>Choose how you want to load/save the newsletter</li>
+                            <li style="list-style: none;">
+                                <ul>
+                                    <li><strong>Local</strong> will let you load/save the newsletter in your web
+                                        browser.
+                                    </li>
+                                    <li style="list-style: none;">
+                                        <ul style="list-style-type: square">
+                                            <li><strong>Save the newsletter</strong> will save the newsletter in your
+                                                web browser.</li>
+                                            <li><strong>Load the newsletter</strong> will load the newsletter from your
+                                                web browser.</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>File</strong> will let you load/save the newsletter in a JSON file.</li>
+                                    <li style="list-style: none;">
+                                        <ul style="list-style-type: square">
+                                            <li><strong>Save the newsletter</strong> will save the newsletter in a JSON
+                                                file.
+                                            </li>
+                                            <li><strong>Load the newsletter</strong> will load the newsletter from a
+                                                JSON file.</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Legacy</strong> only use this if you need to load/save with seperate
+                                        JSON files<br><small>(No longer supported)</small></li>
+                                </ul>
+                        </ol>
+                    </div>
+                    <div class="card">
+                        <h3 class="card-title">How to use a <strong>Custom Banner</strong></h3>
+                        <p><strong><small>Looking for pre-made banner images? Try SiteForward's image bank: <a
+                                        href="https://siteforward.ca/tools/image-bank" target="_blank">https://siteforward.ca/tools/image-bank</a></small></strong></p>
+                        <ol>
+                            <li>Go to the <strong>Tools</strong> tab</li>
+                            <li>Insert a banner image URL</li>
+                            <li style="list-style: none;">
+                                <ul style="list-style-type: square">
+                                    <li><strong>Image Alignment</strong> is the alignment of your banner image</li>
+                                </ul>
+                            </li>
+                            <li>Modify the title and subtitle</li>
+                            <li style="list-style: none;">
+                                <ul style="list-style-type: square">
+                                    <li><strong>Title Size</strong> is the font size for your title</li>
+                                    <li><strong>Subtitle Size</strong> is the font size for your subtitle</li>
+                                    <li><strong>Title Spacing</strong> is the space between your title and subtitle</li>
+                                    <li><strong>Text Vertical Offset</strong> is the vertical offset for your titles
+                                    </li>
+                                    <li><strong>Text Horizontal Offset</strong> is the horizontal offset for your titles
+                                    </li>
+                                    <li><strong>Text Alignment</strong> is the alignment of your titles</li>
+                                </ul>
+                            </li>
+                            <li>Enable/Disable your shadow on your text</li>
+                            <li style="list-style: none;">
+                                <ul style="list-style-type: square">
+                                    <li><strong>Shadow Vertical Offset</strong> is the offset on your shadow for the
+                                        titles
+                                    </li>
+                                    <li><strong>Shadow Horizontal Offset</strong> is the offset on your shadow for the
+                                        titles
+                                    </li>
+                                    <li><strong>Shadow Blur</strong> is the blurriness of the shadow</li>
+                                </ul>
+                            </li>
+                            <li>Modify your logo image</li>
+                            <li style="list-style: none;">
+                                <ul style="list-style-type: square">
+                                    <li><strong>Banner Logo URL</strong> is an image to inset on your banner</li>
+                                    <li><strong>Logo Vertical Offset</strong> is the offset on your logo</li>
+                                    <li><strong>Logo Horizontal Offset</strong> is the offset on your logo</li>
+                                    <li><strong>Logo Width</strong> is the width of the logo image</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="card">
+                        <h3 class="cart-title">Newsletter Generator Changelog</h3>
+                        <p>To view the changelog for the Newsletter Generator click on the link below:<br>
+                            <a
+                                href="https://github.com/SiteForward/Newsletter-Generator/commits">https://github.com/SiteForward/Newsletter-Generator/commits</a>
+                        <p>
+                    </div>
+                </div>
+        </main>
     </div>
 </body>
 <script src="js\scripts.js"></script>
