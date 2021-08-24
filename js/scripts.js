@@ -1,3 +1,5 @@
+let siteForwardNewsletterTemplate = ''
+
 let tinyMCE_settings = {
   selector: ".editable",
   menubar: false,
@@ -57,7 +59,7 @@ Vue.component("editable", {
 //Create Popup component
 Vue.component("popup", {
   template:
-    '<div class="popup"><i class="fas fa-cog tool-icon"></i><div class="popup-outerWrapper"><div class="card popup-wrapper"><h3 class="card-title">{{title}}</h3><span title="Close Popup" class="card-title-icon popup-close"><i class="far fa-window-close tool-icon"></i></span><div class="popup-content"><slot></slot></div></div></div></div>',
+    '<div class="popup"><i class="fas fa-cog tool-icon" title="Open Post Settings"></i><div class="popup-outerWrapper"><div class="card popup-wrapper"><h3 class="card-title">{{title}}</h3><span title="Close Popup" class="card-title-icon popup-close"><i class="far fa-window-close tool-icon"></i></span><div class="popup-content"><slot></slot></div></div></div></div>',
   props: ["title"],
   data: function () {
     return {
@@ -339,6 +341,7 @@ let app = new Vue({
           disclaimer: {
             enable: true,
             insuranceOBA: null,
+            logo: true,
             licenses: {
               iiroc: false,
               mfda: false,
@@ -495,6 +498,9 @@ let app = new Vue({
         this.$set(this.footer.preset.disclaimer.licenses, "mfda", false);
       if (typeof this.footer.preset.disclaimer.licenses.iiroc == "undefined")
         this.$set(this.footer.preset.disclaimer.licenses, "iiroc", false);
+
+      if (typeof this.footer.preset.disclaimer.logo == "undefined")
+        this.$set(this.footer.preset.disclaimer, "logo", true);
 
         if (typeof this.colors.background == "undefined")
         this.$set(this.colors, "background", "#ffffff");
@@ -672,6 +678,9 @@ let app = new Vue({
         if (file.options.loadPost)
           this.$refs.loadPost.value = file.options.loadPost;
 
+        if (file.options.previewText)
+          this.newsletter.previewText = file.options.previewText;
+
         if (file.options.analytics)
           this.settings.analytics = file.options.analytics;
 
@@ -808,6 +817,14 @@ let app = new Vue({
     // DEPRECATED
     importOptions() {
       loadJSONFile((d) => this.loadOptions(d));
+    },
+    loadTemplate(){
+      fetch("templates\Newsletter - Template 1.json")
+      .then(res =>  res.json())
+      .then(data => {
+        this.loadNewsletter(data);
+      })
+      .catch(error => sendError("Unable to load template. ", error))
     },
 
     //Load posts from blog page url
