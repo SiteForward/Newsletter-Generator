@@ -2,6 +2,13 @@ html,
 body {
     height: 100%
 }
+.preview-body{
+    opacity: 0;
+    transition: opacity 0.35s;
+}
+.preview-body.loaded{
+    opacity: 1;
+}
 
 
 /* TinyMCE Styles */

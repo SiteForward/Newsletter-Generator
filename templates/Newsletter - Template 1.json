@@ -1,239 +1,227 @@
 {
-    "version":1,
-    "posts":[
-       {
-          "title":"<h2><span style=\"color: #ffffff;\">KEEPING YOU CONNECTED - Month 2021 Newsletter</span></h2>",
-          "desc":"<p>Life can get busy! In our latest newsletter, we hope to make it easier for you to stay connected and keep informed. As always, we would love to hear your feedback, questions or suggestions for future topics. Happy reading!<br /><br /><strong>Topic #1 | Topic #2 | Topic #3 | Topic #4</strong></p>",
-          "link":"",
-          "img":"https://static.twentyoverten.com/5b6499146b80a9633b347026/igYy98Z-MDgU/F8.png",
-          "linkLabel":"",
-          "style":{
-             "backgroundColor":"#40a758",
-             "textColor":"#ffffff",
-             "buttonBackgroundColor":"#ffffff",
-             "buttonTextColor":"#00a758"
-          },
-          "date":""
-       },
-       {
-          "title":"<h2><span style=\"color: #008a00;\">New Customized Post - Introduction to Newsletter and Personal note</span></h2>",
-          "desc":"<p>This is a good place to give a personal note to your audience. Talk about the state of the world, how your office is holding up, relevant and timely events. Keep this introduction short, to the point and useful - or opt to leave it out.<br /><br />Example: Our office is back in full swing! Following regular Covid protocols we are excited to welcome you back.&nbsp;</p>\n<p>Example: This past quarter our team has been keeping busy. We've participated in this community event, or supported that fundraiser.&nbsp;</p>\n<p>Example: On a personal side, Advisor Joe has a new member to his family - meet Fido the 6month old puppy.&nbsp; Assistant Jim welcomed his first grandchild. Associate Jane completed a course in customer service.&nbsp;</p>",
-          "link":"https://www",
-          "img":"https://static.twentyoverten.com/5b6499146b80a9633b347026/M2bJkNBCJ/Pic9.jpg",
-          "linkLabel":"Visit website ➥",
-          "style":{
-             
-          },
-          "date":""
-       },
-       {
-          "title":"<h2>BUSINESS NEWS &amp; UPDATES</h2>",
-          "desc":"<p>We're working hard to keep you informed on the latest financial and business news and updates from our office and around the country.</p>",
-          "link":"",
-          "img":"https://static.twentyoverten.com/5d4c7ae7196e8802bfb1e84c/zePEADeeNBE/F6.png",
-          "linkLabel":"Button ➥",
-          "style":{
-             "backgroundColor":"#00a758",
-             "textColor":"#f0f0f0",
-             "buttonBackgroundColor":"#ffffff",
-             "buttonTextColor":"#00a758"
-          },
-          "date":""
-       },
-       {
-          "title":"<h2><span style=\"color: #008a00;\">New Customized Post 1 - Business Update</span></h2>",
-          "desc":"<p>This section is a great addition for updates on your business, or the markets in general. It gives you the opportunity to mention any important world events, how you are handling them and any business updates to be aware of. You can greate a custom blog post with full details to link to, or link to an external website page - or give a short informative post directly in the newsletter. Keep posts short, and easily digestable!&nbsp; &nbsp;<br /><br />Here are some examples:</p>\n<ul>\n<li>New features to products, Process or Tools like Client Portals and online forms, or digital enhancements</li>\n<li>Heads up for any emails, notifications or information they may be getting</li>\n<li>Changes to Business Hours, Location, Booking availability etc.</li>\n</ul>\n<p>&nbsp;</p>",
-          "img":"https://static.twentyoverten.com/5b6499146b80a9633b347026/ycewdOenu/Pic11.jpg",
-          "link":"http://www.",
-          "linkLabel":"Button ➥",
-          "style":{
-             
-          },
-          "date":""
-       },
-       {
-          "title":"<h2>CONTENT SEPARATOR - HEADING</h2>",
-          "desc":"<p>Use this separator if you feel there is too much information, or you want to segment the posts with Headings. You can remove this section if it is not needed.&nbsp;</p>",
-          "link":"",
-          "img":"https://static.twentyoverten.com/5d4c7ae7196e8802bfb1e84c/ShowMzC2UvL/FG8.png",
-          "linkLabel":"Button ➥",
-          "style":{
-             "backgroundColor":"#9b9da1",
-             "textColor":"#ffffff",
-             "buttonBackgroundColor":"#ffffff",
-             "buttonTextColor":"#00a758"
-          },
-          "date":""
-       },
-       {
-          "title":"<h2><span style=\"color: #008a00;\">New Customized Post 2 - More Important Information</span></h2>",
-          "desc":"<p>This section is a great addition for updates on your business, or the markets in general. It gives you the opportunity to mention any important world events, how you are handling them and any business updates to be aware of. You can create a custom blog post with full details to link to, or link to an external website page - or give a short informative post directly in the newsletter. Keep posts short, and easily digestible!&nbsp; &nbsp;<br /><br /></p>\n<p>Here are some examples:</p>\n<ul>\n<li>New features to products, Process or Tools like Client Portals and online forms, or digital enhancements</li>\n<li>Heads up for any emails, notifications or information they may be getting</li>\n<li>Changes to Business Hours, Location, Booking availability etc.</li>\n</ul>\n<p>&nbsp;</p>",
-          "img":"https://static.twentyoverten.com/5b6499146b80a9633b347026/6KXy2IwiFU/Pic10.jpg",
-          "link":"https://www.",
-          "linkLabel":"Button ➥",
-          "style":{
-             
-          },
-          "date":""
-       },
-       {
-          "title":"<h2>INSIGHTS &amp; ARTICLES FROM OUR BLOG</h2>",
-          "desc":"<p>We've got something to share with you. Read up on the latest trends, market updates, insightful techniques and financial solutions.&nbsp;</p>",
-          "link":"www.YOURBLOGPAGE.ca",
-          "img":"https://static.twentyoverten.com/5d4c7ae7196e8802bfb1e84c/UTokpSAH7A3/F5.png",
-          "linkLabel":"See all articles ➥",
-          "style":{
-             "backgroundColor":"#40a758",
-             "textColor":"#f0f0f0",
-             "buttonBackgroundColor":"#ffffff",
-             "buttonTextColor":"#00a758"
-          },
-          "date":""
-       },
-       {
-          "title":"<h2><span style=\"color: #008a00;\">Joining forces</span></h2>",
-          "date":"<p>Tue, 26 May 2020</p>",
-          "link":"https:// ",
-          "img":"https://static.twentyoverten.com/content/featured/thumbnail.jpg",
-          "desc":"<p>When a partnership makes sense for your small business.</p>",
-          "style":{
-             
-          }
-       },
-       {
-          "title":"<h2><span style=\"color: #008a00;\">Decoding financial jargon</span></h2>",
-          "date":"<p>Tue, 26 May 2020</p>",
-          "link":"https:// ",
-          "img":"https://static.twentyoverten.com/content/featured/financialjargon.jpg",
-          "desc":"<p>How to understand the language of finance like a boss.</p>",
-          "style":{
-             
-          }
-       },
-       {
-          "title":"<h2><span style=\"color: #008a00;\">Keeping the cottage in the family</span></h2>",
-          "date":"<p>Tue, 26 May 2020</p>",
-          "link":"https:// ",
-          "img":"https://static.twentyoverten.com/content/featured/thumbnail-12.jpg",
-          "desc":"<p>Create a lasting legacy with a smooth transfer of ownership.</p>",
-          "style":{
-             
-          }
-       },
-       {
-          "title":"<h2 style=\"text-align: center;\">&nbsp;<span style=\"color: #ffffff;\"><em>&ldquo;An investment in knowledge pays the best interest.&rdquo;</em></span></h2>",
-          "desc":"<p style=\"text-align: center;\">~ Benjamin Franklin</p>",
-          "link":"",
-          "img":"",
-          "linkLabel":"Button ➥",
-          "style":{
-             "backgroundColor":"#282b3e",
-             "textColor":"#f0f0f0",
-             "buttonBackgroundColor":"#ffffff",
-             "buttonTextColor":"#050381",
-             "buttonAlign":"center"
-          },
-          "date":""
-       },
-       {
-          "title":"<h2 style=\"text-align: center;\"><span style=\"color: #ffffff;\"><em>&nbsp;&ldquo;In the business world, the rearview mirror is always clearer than the windshield.&rdquo;</em></span></h2>",
-          "desc":"<p style=\"text-align: center;\">~ Warren Buffett</p>",
-          "link":"",
-          "img":"",
-          "linkLabel":"Button ➥",
-          "style":{
-             "backgroundColor":"#282b3e",
-             "textColor":"#f0f0f0",
-             "buttonBackgroundColor":"#ffffff",
-             "buttonTextColor":"#050381",
-             "buttonAlign":"center"
-          },
-          "date":""
-       },
-       {
-          "title":"<h2>HAVE QUESTIONS? <br />READY TO SCHEDULE A MEETING?</h2>",
-          "desc":"<p><strong>We'd love to hear from you!</strong> <br />Request a call-back,&nbsp; send us a message or book a meeting with us today.</p>",
-          "link":"mailto:email@manulifesecurities.ca",
-          "img":"https://static.twentyoverten.com/5b6499146b80a9633b347026/GaCwXXo_qVS/F7.png",
-          "linkLabel":"Book Meeting ➥",
-          "style":{
-             "backgroundColor":"#40a758",
-             "textColor":"#f0f0f0",
-             "buttonBackgroundColor":"#ffffff",
-             "buttonTextColor":"#00a758"
-          },
-          "date":""
-       }
-    ],
-    "styles":{
-       "backgroundColor":"#ffffff",
-       "header":{
-          "backgroundColor":"#403f3f",
-          "textColor":"#ffffff"
-       },
-       "post":{
-          "backgroundColor":"#f3f3f3",
-          "textColor":"#403f3f",
-          "borderRadius":0,
-          "spacing":"10",
-          "shadow":false,
-          "buttonBackgroundColor":"#00a758",
-          "buttonTextColor":"#ffffff",
-          "buttonAlign":"left",
-          "buttonWidth":30
-       },
-       "footer":{
-          "backgroundColor":"#282b3e",
-          "linkColor":"#ffffff",
-          "textColor":"#ffffff"
-       }
-    },
-    "header":{
-       "style":1,
-       "html":"",
-       "image":"https://static.twentyoverten.com/5b6499146b80a9633b347026/kTZCeEa54uy8/ManulifeBanner1.jpg",
-       "titles":{
-          "title":"Hello ",
-          "subtitle":"Im a newsletter"
-       }
-    },
-    "footer":{
-       "style":1,
-       "html":"",
-       "preset":{
-          "name":"Advisor Name | Trade Name",
-          "email":"email@manulifesecurities.ca",
-          "phone":"555-555-5555",
-          "website":"https://www.yourwebsite.ca",
-          "social":{
-             "facebook":"https://www.facebook.com",
-             "linkedin":"https://www..linkedin.com",
-             "twitter":null
-          },
-          "location":{
-             "address":"123 Address Street",
-             "city":"City",
-             "province":"PROV",
-             "postal":"A1B 2C3"
-          },
-          "disclaimer":{
-             "enable":true,
-             "insuranceOBA":null,
-             "licenses":{
-                "mfda":false,
-                "iiroc":false
-             },
-             "logo":false
-          }
-       }
-    },
-    "options":{
-       "previewText":"Keeping You Connected - Month 2021 Newsletter",
-       "loadPosts":"https://www.YourWebsiteBlogPage.ca",
-       "loadPost":"",
-       "analytics":{
-          "code":"",
-          "name":""
-       }
-    }
- }
+   "version": 1,
+   "posts": [
+      {
+         "title": "<h2><span style=\"color: #ffffff;\">KEEPING YOU CONNECTED - Month 2021 Newsletter</span></h2>",
+         "desc": "<p>Life can get busy! In our latest newsletter, we hope to make it easier for you to stay connected and keep informed. As always, we would love to hear your feedback, questions, or suggestions for future topics. Happy reading!<br /><br /><strong>Topic #1 | Topic #2 | Topic #3 | Topic #4</strong></p>",
+         "link": "",
+         "img": "https://static.twentyoverten.com/5b6499146b80a9633b347026/igYy98Z-MDgU/F8.png",
+         "linkLabel": "",
+         "style": {
+            "backgroundColor": "#40a758",
+            "textColor": "#ffffff",
+            "buttonBackgroundColor": "#ffffff",
+            "buttonTextColor": "#00a758"
+         },
+         "date": ""
+      },
+      {
+         "title": "<h2><span style=\"color: #008a00;\">New Customized Post - Introduction to Newsletter and Personal note</span></h2>",
+         "desc": "<p>This is a good place to give a personal note to your audience. Talk about the state of the world, how your office is holding up, relevant and timely events. Keep this introduction short, to the point, and useful - or opt to leave it out.<br /><br />Example: Our office is back in full swing! Following regular Covid protocols, we are excited to welcome you back.&nbsp;</p>\n<p>Example: This past quarter our team has been keeping busy. We've participated in this community event, or supported that fundraiser.&nbsp;</p>\n<p>Example: On a personal side, Advisor Joe has a new member of his family - meet Fido the 6month old puppy.&nbsp; Assistant Jim welcomed his first grandchild. Associate Jane completed a course in customer service.&nbsp;</p>",
+         "link": "https://www",
+         "img": "https://static.twentyoverten.com/5b6499146b80a9633b347026/M2bJkNBCJ/Pic9.jpg",
+         "linkLabel": "Visit website ➥",
+         "style": {},
+         "date": ""
+      },
+      {
+         "title": "<h2>BUSINESS NEWS &amp; UPDATES</h2>",
+         "desc": "<p>We're working hard to keep you informed on the latest financial and business news and updates from our office and around the country.</p>",
+         "link": "",
+         "img": "https://static.twentyoverten.com/5d4c7ae7196e8802bfb1e84c/zePEADeeNBE/F6.png",
+         "linkLabel": "Button ➥",
+         "style": {
+            "backgroundColor": "#00a758",
+            "textColor": "#f0f0f0",
+            "buttonBackgroundColor": "#ffffff",
+            "buttonTextColor": "#00a758"
+         },
+         "date": ""
+      },
+      {
+         "title": "<h2><span style=\"color: #008a00;\">New Customized Post 1 - Business Update</span></h2>",
+         "desc": "<p>This section is a great addition for updates on your business, or the markets in general. It gives you the opportunity to mention any important world events, how you are handling them, and any business updates to be aware of. You can create a custom blog post with full details to link to, or link to an external website page - or give a short informative post directly in the newsletter. Keep posts short, and easily digestible!&nbsp; &nbsp;<br /><br />Here are some examples:</p>\n<ul>\n<li>New features to products, Process or Tools like Client Portals and online forms, or digital enhancements</li>\n<li>Heads up for any emails, notifications, or information they may be getting</li>\n<li>Changes to Business Hours, Location, Booking availability, etc.</li>\n</ul>\n<p>&nbsp;</p>",
+         "img": "https://static.twentyoverten.com/5b6499146b80a9633b347026/ycewdOenu/Pic11.jpg",
+         "link": "http://www.",
+         "linkLabel": "Button ➥",
+         "style": {},
+         "date": ""
+      },
+      {
+         "title": "<h2>CONTENT SEPARATOR - HEADING</h2>",
+         "desc": "<p>Use this separator if you feel there is too much information, or you want to segment the posts with Headings. You can remove this section if it is not needed.&nbsp;</p>",
+         "link": "",
+         "img": "https://static.twentyoverten.com/5d4c7ae7196e8802bfb1e84c/ShowMzC2UvL/FG8.png",
+         "linkLabel": "Button ➥",
+         "style": {
+            "backgroundColor": "#9b9da1",
+            "textColor": "#ffffff",
+            "buttonBackgroundColor": "#ffffff",
+            "buttonTextColor": "#00a758"
+         },
+         "date": ""
+      },
+      {
+         "title": "<h2><span style=\"color: #008a00;\">New Customized Post 2 - More Important Information</span></h2>",
+         "desc": "<p>This section is a great addition for updates on your business, or the markets in general. It gives you the opportunity to mention any important world events, how you are handling them, and any business updates to be aware of. You can create a custom blog post with full details to link to, or link to an external website page - or give a short informative post directly in the newsletter. Keep posts short, and easily digestible!&nbsp; &nbsp;<br /><br /></p>\n<p>Here are some examples:</p>\n<ul>\n<li>New features to products, Process or Tools like Client Portals and online forms, or digital enhancements</li>\n<li>Heads up for any emails, notifications, or information they may be getting</li>\n<li>Changes to Business Hours, Location, Booking availability, etc.</li>\n</ul>\n<p>&nbsp;</p>",
+         "img": "https://static.twentyoverten.com/5b6499146b80a9633b347026/6KXy2IwiFU/Pic10.jpg",
+         "link": "https://www.",
+         "linkLabel": "Button ➥",
+         "style": {},
+         "date": ""
+      },
+      {
+         "title": "<h2>INSIGHTS &amp; ARTICLES FROM OUR BLOG</h2>",
+         "desc": "<p>We've got something to share with you. Read up on the latest trends, market updates, insightful techniques and financial solutions.&nbsp;</p>",
+         "link": "www.YOURBLOGPAGE.ca",
+         "img": "https://static.twentyoverten.com/5d4c7ae7196e8802bfb1e84c/UTokpSAH7A3/F5.png",
+         "linkLabel": "See all articles ➥",
+         "style": {
+            "backgroundColor": "#40a758",
+            "textColor": "#f0f0f0",
+            "buttonBackgroundColor": "#ffffff",
+            "buttonTextColor": "#00a758"
+         },
+         "date": ""
+      },
+      {
+         "title": "<h2><span style=\"color: #008a00;\">Joining forces</span></h2>",
+         "date": "<p>Tue, 26 May 2020</p>",
+         "link": "https:// ",
+         "img": "https://static.twentyoverten.com/content/featured/thumbnail.jpg",
+         "desc": "<p>When a partnership makes sense for your small business.</p>",
+         "style": {}
+      },
+      {
+         "title": "<h2><span style=\"color: #008a00;\">Decoding financial jargon</span></h2>",
+         "date": "<p>Tue, 26 May 2020</p>",
+         "link": "https:// ",
+         "img": "https://static.twentyoverten.com/content/featured/financialjargon.jpg",
+         "desc": "<p>How to understand the language of finance like a boss.</p>",
+         "style": {}
+      },
+      {
+         "title": "<h2><span style=\"color: #008a00;\">Keeping the cottage in the family</span></h2>",
+         "date": "<p>Tue, 26 May 2020</p>",
+         "link": "https:// ",
+         "img": "https://static.twentyoverten.com/content/featured/thumbnail-12.jpg",
+         "desc": "<p>Create a lasting legacy with a smooth transfer of ownership.</p>",
+         "style": {}
+      },
+      {
+         "title": "<h2 style=\"text-align: center;\">&nbsp;<span style=\"color: #ffffff;\"><em>&ldquo;An investment in knowledge pays the best interest.&rdquo;</em></span></h2>",
+         "desc": "<p style=\"text-align: center;\">~ Benjamin Franklin</p>",
+         "link": "",
+         "img": "",
+         "linkLabel": "Button ➥",
+         "style": {
+            "backgroundColor": "#282b3e",
+            "textColor": "#f0f0f0",
+            "buttonBackgroundColor": "#ffffff",
+            "buttonTextColor": "#050381",
+            "buttonAlign": "center"
+         },
+         "date": ""
+      },
+      {
+         "title": "<h2 style=\"text-align: center;\"><span style=\"color: #ffffff;\"><em>&nbsp;&ldquo;In the business world, the rearview mirror is always clearer than the windshield.&rdquo;</em></span></h2>",
+         "desc": "<p style=\"text-align: center;\">~ Warren Buffett</p>",
+         "link": "",
+         "img": "",
+         "linkLabel": "Button ➥",
+         "style": {
+            "backgroundColor": "#282b3e",
+            "textColor": "#f0f0f0",
+            "buttonBackgroundColor": "#ffffff",
+            "buttonTextColor": "#050381",
+            "buttonAlign": "center"
+         },
+         "date": ""
+      },
+      {
+         "title": "<h2>HAVE QUESTIONS? <br />READY TO SCHEDULE A MEETING?</h2>",
+         "desc": "<p><strong>We'd love to hear from you!</strong> <br />Request a call-back,&nbsp; send us a message or book a meeting with us today.</p>",
+         "link": "mailto:email@manulifesecurities.ca",
+         "img": "https://static.twentyoverten.com/5b6499146b80a9633b347026/GaCwXXo_qVS/F7.png",
+         "linkLabel": "Book Meeting ➥",
+         "style": {
+            "backgroundColor": "#40a758",
+            "textColor": "#f0f0f0",
+            "buttonBackgroundColor": "#ffffff",
+            "buttonTextColor": "#00a758"
+         },
+         "date": ""
+      }
+   ],
+   "styles": {
+      "backgroundColor": "#ffffff",
+      "header": {
+         "backgroundColor": "#403f3f",
+         "textColor": "#ffffff"
+      },
+      "post": {
+         "backgroundColor": "#f3f3f3",
+         "textColor": "#403f3f",
+         "borderRadius": 0,
+         "spacing": "10",
+         "shadow": false,
+         "buttonBackgroundColor": "#00a758",
+         "buttonTextColor": "#ffffff",
+         "buttonAlign": "left",
+         "buttonWidth": 30
+      },
+      "footer": {
+         "backgroundColor": "#282b3e",
+         "linkColor": "#ffffff",
+         "textColor": "#ffffff"
+      }
+   },
+   "header": {
+      "style": 1,
+      "html": "",
+      "image": "https://static.twentyoverten.com/5b6499146b80a9633b347026/kTZCeEa54uy8/ManulifeBanner1.jpg",
+      "titles": {
+         "title": "Hello ",
+         "subtitle": "Im a newsletter"
+      }
+   },
+   "footer": {
+      "style": 1,
+      "html": "",
+      "preset": {
+         "name": "Advisor Name | Trade Name",
+         "email": "email@manulifesecurities.ca",
+         "phone": "555-555-5555",
+         "website": "https://www.yourwebsite.ca",
+         "social": {
+            "facebook": "https://www.facebook.com",
+            "linkedin": "https://www..linkedin.com",
+            "twitter": null
+         },
+         "location": {
+            "address": "123 Address Street",
+            "city": "City",
+            "province": "PROV",
+            "postal": "A1B 2C3"
+         },
+         "disclaimer": {
+            "enable": true,
+            "insuranceOBA": null,
+            "licenses": {
+               "mfda": false,
+               "iiroc": false
+            },
+            "logo": false
+         }
+      }
+   },
+   "options": {
+      "previewText": "Keeping You Connected - Month 2021 Newsletter",
+      "loadPosts": "https://www.YourWebsiteBlogPage.ca",
+      "loadPost": "",
+      "analytics": {
+         "code": "",
+         "name": ""
+      }
+   }
+}
