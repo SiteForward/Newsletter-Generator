@@ -430,6 +430,7 @@ let app = new Vue({
     },
   },
   mounted() {
+    document.querySelector(".preview-body").classList.add("loaded");
     this.stylesBackup = JSON.parse(JSON.stringify(this.styles));
 
     var style = document.createElement("style");
@@ -819,6 +820,7 @@ let app = new Vue({
       loadJSONFile((d) => this.loadOptions(d));
     },
     loadTemplate(){
+      sendInfo("Loading Template...");
       fetch("templates/Newsletter - Template 1.json")
       .then(res =>  res.json())
       .then(data => {
