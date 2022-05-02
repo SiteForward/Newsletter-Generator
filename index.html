@@ -76,7 +76,7 @@
                     <p class="collapsed">Load / Save</p>
                 </li>
             </ul>
-            <span class="sidebar-split"></span>
+            <!-- <span class="sidebar-split"></span>
             <ul class="sidebar-menu">
                 <li class="sidebar-item" :class="{active: app.activeView === 'analytics'}" @click="app.activeView = 'analytics'; scrollToTop()">
                     <i class="fa fa-chart-pie fa-2x"></i>
@@ -86,7 +86,7 @@
                     <i class="fa fa-image fa-2x"></i>
                     <p class="collapsed">Custom Banner Creator</p>
                 </li>
-            </ul>
+            </ul> -->
             <span class="sidebar-split"></span>
             <ul class="sidebar-menu">
                 <li class="sidebar-item" :class="{active: app.activeView === 'settings'}" @click="app.activeView = 'settings'; scrollToTop()">
@@ -397,13 +397,18 @@
                                 <input type="text" id="header-image" v-model="settings.header.image" required title=" ">
                                 <label for="header-image">Header Image URL</label>
                             </div>
-                            <p class="smallerText">Looking to create a custom banner? - Try the <a href="#"
+                            <!-- <p class="smallerText">Looking to create a custom banner? - Try the <a href="#"
                                     @click="app.activeView = 'banner'; scrollToTop()">custom banner creator</a> in the
                                 tools section in the left navigation or you can try <a
                                     href="https://www.canva.com/design?create&width=800&height=230&units=px&schema=web-2" target="_blank">Canva</a>.
                                 <br>Once the banner is created you will need to upload the banner to your website and
                                 copy the URL into here
-                            </p>
+                            </p> -->
+                            <p class="smallerText">Looking to create a custom banner? - Try <a
+                                href="https://www.canva.com/design?create&width=800&height=230&units=px&schema=web-2" target="_blank">Canva</a>.
+                            <br>Once the banner is created you will need to upload the banner to your website and
+                            copy the URL into here
+                        </p>
                         </div>
                     </div>
                     <div class="accordion" :class="{open: settings.header.style == 2}" @click="settings.header.style = 2">
@@ -1332,7 +1337,7 @@
                                 </ul>
                         </ol>
                     </div>
-                    <div class="card">
+                    <!-- <div class="card">
                         <h3 class="card-title">How to use a <strong>Custom Banner</strong></h3>
                         <p><strong><small>Looking for pre-made banner images? Try SiteForward's image bank: <a
                                         href="https://siteforward.ca/tools/image-bank" target="_blank">https://siteforward.ca/tools/image-bank</a></small></strong></p>
@@ -1379,7 +1384,7 @@
                                 </ul>
                             </li>
                         </ol>
-                    </div>
+                    </div> -->
                     <div class="card">
                         <h3 class="cart-title">Newsletter Generator Changelog</h3>
                         <p>To view the changelog for the Newsletter Generator click on the link below:<br>
