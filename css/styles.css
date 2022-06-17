@@ -49,6 +49,24 @@ body {
     margin-bottom: 5px;
 }
 
+.snotify.snotify-centerCenter{
+    width: 90%;
+    max-width: 500px;
+    left: calc(50% - 500px / 2);
+    text-align: center;
+}
+.snotify.snotify-centerCenter .snotifyToast{
+    background: linear-gradient(0.5turn, #06874e, #00a758);
+}
+.snotify.snotify-centerCenter .snotifyToast__title,
+.snotify.snotify-centerCenter .snotifyToast__body{
+    width: 100%;
+}
+
+.snotify.snotify-centerCenter .snotifyToast__body{
+    padding-bottom: 10px;
+}
+
 
 /* Base styles */
 

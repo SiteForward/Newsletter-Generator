@@ -399,7 +399,7 @@ let app = new Vue({
       )
         sendInfo(
           "Manulife Securities Disclaimer turned " +
-            (this.settings.footer.preset.useDisclaimer ? "on" : "off")
+          (this.settings.footer.preset.useDisclaimer ? "on" : "off")
         );
     },
 
@@ -436,24 +436,40 @@ let app = new Vue({
     var style = document.createElement("style");
     this.$refs.newsletter.prepend(style);
 
-    if (localStorage.newsletter) {
-      this.$snotify.info("Did you want to load the local newsletter", {
-        timeout: 5000,
-        showProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        buttons: [
-          {
-            text: "Yes",
-            action: (toast) => {
-              this.loadNewsletter();
-              this.$snotify.remove(toast.id);
-            },
-          },
-          { text: "No" },
-        ],
-      });
-    }
+    this.$snotify.confirm("For quicker startup please choose one of the options below.", "Newsletter Design Generator", {
+      titleMaxLength: 30,
+      backdrop: 0.2,
+      position: "centerCenter",
+      buttons: [
+        {
+          text: "Start from Scratch",
+          action: (toast) => {
+            console.log("Nothing Done")
+            this.$snotify.remove(toast.id);
+          }
+        },
+        {
+          text: "Start from our template",
+          action: (toast) => {
+            sendInfo("Loading Template...");
+            fetch("templates/Newsletter - Template 1.json")
+              .then(res => res.json())
+              .then(data => {
+                this.loadNewsletter(data);
+              })
+              .catch(error => sendError("Unable to load template. ", error))
+            this.$snotify.remove(toast.id);
+          }
+        },
+        {
+          text: "Load your template",
+          action: (toast) => {
+            this.app.activeView = 'load';
+            this.$snotify.remove(toast.id);
+          }
+        }
+      ],
+    });
   },
   methods: {
     //Update settings to ensure no error on load
@@ -503,14 +519,14 @@ let app = new Vue({
       if (typeof this.footer.preset.disclaimer.logo == "undefined")
         this.$set(this.footer.preset.disclaimer, "logo", true);
 
-        if (typeof this.colors.background == "undefined")
+      if (typeof this.colors.background == "undefined")
         this.$set(this.colors, "background", "#ffffff");
 
-        if (typeof this.header.borderColor == "undefined")
-          this.$set(this.header, "borderColor", "#111111");
+      if (typeof this.header.borderColor == "undefined")
+        this.$set(this.header, "borderColor", "#111111");
 
-        if (typeof this.header.borderWidth == "undefined")
-          this.$set(this.header, "borderWidth", 0);
+      if (typeof this.header.borderWidth == "undefined")
+        this.$set(this.header, "borderWidth", 0);
 
       if (typeof this.styles.post == "undefined")
         this.$set(this.styles, "post", {});
@@ -819,14 +835,14 @@ let app = new Vue({
     importOptions() {
       loadJSONFile((d) => this.loadOptions(d));
     },
-    loadTemplate(){
+    loadTemplate() {
       sendInfo("Loading Template...");
       fetch("templates/Newsletter - Template 1.json")
-      .then(res =>  res.json())
-      .then(data => {
-        this.loadNewsletter(data);
-      })
-      .catch(error => sendError("Unable to load template. ", error))
+        .then(res => res.json())
+        .then(data => {
+          this.loadNewsletter(data);
+        })
+        .catch(error => sendError("Unable to load template. ", error))
     },
 
     //Load posts from blog page url
@@ -905,6 +921,7 @@ let app = new Vue({
     },
 
     // Load single blog post
+    //TODO: Add a way to load blog post similar to how twitter would share the page, look for title, desc, and thumbnail
     loadPostFromURL() {
       var url = this.$refs.loadPost.value;
       if (!url || url.length < 0) sendError("Invalid load Page's URL");
@@ -1130,6 +1147,14 @@ let app = new Vue({
     this.newsletterHTML = this.$refs.newsletter.outerHTML;
   },
 });
+setTimeout(()=>
+  document.querySelector(".snotify-backdrop").addEventListener("click", function(e){
+    app.$snotify.clear()
+    e.target.remove()
+  }), 1
+)
+
+
 // Load JSON File
 function loadJSONFile(cb) {
   var div = document.createElement("div"),
@@ -1179,7 +1204,7 @@ function exportJSONToFile(obj, fileName) {
 // Is the color light
 function isLightColor(color) {
   // Check the format of the color, HEX or RGB?
-  if(!color) return false;
+  if (!color) return false;
 
   if (color.match(/^rgb/)) {
     // If HEX --> store the red, green, blue values in separate variables
