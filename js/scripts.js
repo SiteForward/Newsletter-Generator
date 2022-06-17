@@ -451,6 +451,7 @@ let app = new Vue({
         {
           text: "Start from our template",
           action: (toast) => {
+            this.$snotify.remove(toast.id);
             sendInfo("Loading Template...");
             fetch("templates/Newsletter - Template 1.json")
               .then(res => res.json())
@@ -458,7 +459,6 @@ let app = new Vue({
                 this.loadNewsletter(data);
               })
               .catch(error => sendError("Unable to load template. ", error))
-            this.$snotify.remove(toast.id);
           }
         },
         {
