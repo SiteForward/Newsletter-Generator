@@ -446,12 +446,14 @@ let app = new Vue({
           action: (toast) => {
             console.log("Nothing Done")
             this.$snotify.remove(toast.id);
+            document.querySelector(".snotify-backdrop").remove()
           }
         },
         {
           text: "Start from our template",
           action: (toast) => {
             this.$snotify.remove(toast.id);
+            document.querySelector(".snotify-backdrop").remove()
             sendInfo("Loading Template...");
             fetch("templates/Newsletter - Template 1.json")
               .then(res => res.json())
@@ -466,6 +468,7 @@ let app = new Vue({
           action: (toast) => {
             this.app.activeView = 'load';
             this.$snotify.remove(toast.id);
+            document.querySelector(".snotify-backdrop").remove()
           }
         }
       ],
