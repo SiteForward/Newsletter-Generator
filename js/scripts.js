@@ -331,6 +331,7 @@ let app = new Vue({
             facebook: null,
             linkedin: null,
             twitter: null,
+            instagram: null
           },
           location: {
             address: null,

@@ -283,6 +283,10 @@
                             ><span v-if="settings.footer.preset.website || settings.footer.preset.social.facebook || settings.footer.preset.social.linkedin"> | </span
                             ><a :href="settings.footer.preset.social.twitter" target="_blank" :style="{color: styles.footer.linkColor}">Twitter</a></span
                           >
+                          <span v-if="settings.footer.preset.social.instagram"
+                          ><span v-if="settings.footer.preset.website || settings.footer.preset.social.facebook || settings.footer.preset.social.linkedin || settings.footer.preset.social.twitter"> | </span
+                          ><a :href="settings.footer.preset.social.instagram" target="_blank" :style="{color: styles.footer.linkColor}">Instagram</a></span
+                        >
                         </p>
                         <h3 v-if="settings.footer.preset.name" style="margin: 0; margin-bottom: 10px; text-align: center" :style="{color: styles.footer.textColor}">
                           {{settings.footer.preset.name}}
@@ -309,14 +313,18 @@
                           :style="{color: styles.footer.textColor}"
                         >
                           Copyright &copy; {{(new Date().getFullYear())}}, All rights reserved. <br />
-                          NOTICE: This message is only to be read by the addressee and is not for public distribution. The sender is not responsible for distribution of this message beyond the addressee intended. All information in this message is confidential to the addressee and should be treated as such. <br />
+                          NOTICE: This message is only to be read by the addressee and is not for public distribution. The sender is not responsible for distribution of this
+                          message beyond the addressee intended. All information in this message is confidential to the addressee and should be treated as such. <br />
                           <br />
-                          To ensure that trading instructions are received and executed timely and accurately, please do not send any trading instructions via e-mail. <span v-if="settings.footer.preset.phone">Please contact directly at {{settings.footer.preset.phone}}.</span><span v-else>Please contact directly by phone.</span><br />
+                          To ensure that trading instructions are received and executed timely and accurately, please do not send any trading instructions via e-mail.
+                          <span v-if="settings.footer.preset.phone">Please contact directly at {{settings.footer.preset.phone}}.</span
+                          ><span v-else>Please contact directly by phone.</span><br />
                           <br />
-                          The Advisor(s), Manulife Securities Incorporated, Manulife Securities Investment Services Inc. and/or Manulife Securities Insurance Inc. (“Manulife Securities”) do not make any representation that the information in any linked site and/or 3rd party articles is accurate and will not accept any responsibility or liability for any inaccuracies in the information not maintained by them, such as 3rd party articles and/or linked sites.
-This is not an official publication of Manulife Securities. The views, opinions and recommendations are those of the author alone and they may not necessarily be those of Manulife Securities. This publication is not an offer to sell or a solicitation of an offer to buy any securities. 
-<br />
-                          <br />
+                          The Advisor(s), Manulife Securities Incorporated, Manulife Securities Investment Services Inc. and/or Manulife Securities Insurance Inc. (“Manulife
+                          Securities”) do not make any representation that the information in any linked site and/or 3rd party articles is accurate and will not accept any
+                          responsibility or liability for any inaccuracies in the information not maintained by them, such as 3rd party articles and/or linked sites. This is not an
+                          official publication of Manulife Securities. The views, opinions and recommendations are those of the author alone and they may not necessarily be those
+                          of Manulife Securities. This publication is not an offer to sell or a solicitation of an offer to buy any securities.
                           <span v-if="settings.footer.preset.disclaimer.licenses.mfda">Mutual funds are offered through Manulife Securities Investment Services Inc. </span>
                           <span v-if="settings.footer.preset.disclaimer.licenses.iiroc"
                             >Stocks, Bonds, and Mutual funds are offered through Manulife Securities Incorporated.
@@ -545,7 +553,10 @@ This is not an official publication of Manulife Securities. The views, opinions 
                     <input type="text" id="footer-preset-social-twitter" v-model="settings.footer.preset.social.twitter" required title=" " />
                     <label for="footer-preset-social-twitter">Twitter Page</label>
                   </div>
-                  <div></div>
+                  <div class="border">
+                    <input type="text" id="footer-preset-social-instagram" v-model="settings.footer.preset.social.instagram" required title=" " />
+                    <label for="footer-preset-social-instagram">Instagram Page</label>
+                  </div>
                 </div>
                 <div class="form-item border split even">
                   <div>
@@ -1197,17 +1208,24 @@ This is not an official publication of Manulife Securities. The views, opinions 
         <div id="settings" class="main-view" :class="{open: app.activeView === 'settings'}">
           <div class="card">
             <h3 class="card-title">Use Manulife Securities Disclaimer in Footer Preset</h3>
-            <p><small>
+            <p>
+              <small>
                 Copyright &copy; {{(new Date().getFullYear())}}, All rights reserved. <br />
-                NOTICE: This message is only to be read by the addressee and is not for public distribution. The sender is not responsible for distribution of this message beyond the addressee intended. All information in this message is confidential to the addressee and should be treated as such. <br />
+                NOTICE: This message is only to be read by the addressee and is not for public distribution. The sender is not responsible for distribution of this message beyond
+                the addressee intended. All information in this message is confidential to the addressee and should be treated as such. <br />
                 <br />
-                To ensure that trading instructions are received and executed timely and accurately, please do not send any trading instructions via e-mail. Please contact directly at [PHONE]<br />
+                To ensure that trading instructions are received and executed timely and accurately, please do not send any trading instructions via e-mail. Please contact directly
+                at [PHONE]<br />
                 <br />
-                The Advisor(s), Manulife Securities Incorporated, Manulife Securities Investment Services Inc. and/or Manulife Securities Insurance Inc. (“Manulife Securities”) do not make any representation that the information in any linked site and/or 3rd party articles is accurate and will not accept any responsibility or liability for any inaccuracies in the information not maintained by them, such as 3rd party articles and/or linked sites.
-                This is not an official publication of Manulife Securities. The views, opinions and recommendations are those of the author alone and they may not necessarily be those of Manulife Securities. This publication is not an offer to sell or a solicitation of an offer to buy any securities. 
+                The Advisor(s), Manulife Securities Incorporated, Manulife Securities Investment Services Inc. and/or Manulife Securities Insurance Inc. (“Manulife Securities”) do
+                not make any representation that the information in any linked site and/or 3rd party articles is accurate and will not accept any responsibility or liability for
+                any inaccuracies in the information not maintained by them, such as 3rd party articles and/or linked sites. This is not an official publication of Manulife
+                Securities. The views, opinions and recommendations are those of the author alone and they may not necessarily be those of Manulife Securities. This publication is
+                not an offer to sell or a solicitation of an offer to buy any securities.
                 <br />
                 <br />
-                Legal and Disclaimers | Privacy Policy</small>
+                Legal and Disclaimers | Privacy Policy</small
+              >
             </p>
             <div class="form-item">
               <input type="checkbox" id="useManulifeDisclaimer" v-model="settings.footer.preset.disclaimer.enable" />
