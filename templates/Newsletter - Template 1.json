@@ -192,11 +192,12 @@
          "name": "Advisor Name | Trade Name",
          "email": "email@manulifesecurities.ca",
          "phone": "555-555-5555",
-         "website": "https://www.yourwebsite.ca",
+         "website": "https://yourwebsite.ca",
          "social": {
-            "facebook": "https://www.facebook.com",
-            "linkedin": "https://www..linkedin.com",
-            "twitter": null
+            "facebook": "https://facebook.com",
+            "linkedin": "https://linkedin.com",
+            "twitter": "https://twitter.com",
+            "instagram": "https://instagram.com"
          },
          "location": {
             "address": "123 Address Street",
