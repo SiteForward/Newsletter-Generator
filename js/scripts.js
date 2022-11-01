@@ -340,9 +340,10 @@ let app = new Vue({
             postal: null,
           },
           disclaimer: {
-            enable: true,
             insuranceOBA: null,
+            dealerOBA: null,
             logo: true,
+            banking: true,
             licenses: {
               iiroc: false,
               mfda: false,
@@ -391,16 +392,6 @@ let app = new Vue({
       if (!this.app.silentToggle.includes("app.wordSupport"))
         sendInfo(
           "Word support turned " + (this.app.wordSupport ? "on" : "off")
-        );
-    },
-
-    "settings.footer.preset.useDisclaimer": function () {
-      if (
-        !this.app.silentToggle.includes("settings.footer.preset.useDisclaimer")
-      )
-        sendInfo(
-          "Manulife Securities Disclaimer turned " +
-          (this.settings.footer.preset.useDisclaimer ? "on" : "off")
         );
     },
 
@@ -708,52 +699,10 @@ let app = new Vue({
         this.forceRerender();
         this.posts = file.posts;
 
-        if (file.version == 1) {
-          this.settings.header = file.header;
-          this.settings.footer = file.footer;
-          this.styles = file.styles;
-        } else {
-          this.settings.header = file.options.header;
-          this.settings.footer = file.options.footer;
-
-          this.forceRerender();
-          this.posts = file.posts;
-          if (this.posts.length) {
-            console.log("converting old post styles");
-            this.posts.forEach((item, i) => {
-              item.style = {};
-              if (item.background) item.style.backgroundColor = item.background;
-              if (item.text) item.style.textColor = item.text;
-              delete item.background;
-              delete item.text;
-            });
-          }
-          console.log("converting old colours");
-          if (file.options.colors.background)
-            this.styles.backgroundColor = file.options.colors.background;
-          if (file.options.colors.posts.background)
-            this.styles.post.backgroundColor =
-              file.options.colors.posts.background;
-          if (file.options.colors.posts.text)
-            this.styles.post.textColor = file.options.colors.posts.text;
-          if (file.options.colors.button)
-            this.styles.post.buttonBackgroundColor = file.options.colors.button;
-
-          if (file.options.colors.header.background)
-            this.styles.header.backgroundColor =
-              file.options.colors.header.background;
-          if (file.options.colors.header.text)
-            this.styles.header.textColor = file.options.colors.header.text;
-
-          if (file.options.colors.footer.background)
-            this.styles.footer.backgroundColor =
-              file.options.colors.footer.background;
-          if (file.options.colors.footer.text)
-            this.styles.footer.textColor = file.options.colors.footer.text;
-          if (file.options.colors.links)
-            this.styles.footer.linkColor = file.options.colors.links;
-        }
-
+        this.settings.header = file.header;
+        this.settings.footer = file.footer;
+        this.styles = file.styles;
+        
         sendSuccess("Newsletter Loaded");
       }
     },
@@ -1146,6 +1095,22 @@ let app = new Vue({
     scrollToTop() {
       this.$refs.main.scrollTop = 0;
     },
+
+    //Add footer template HTML into custom footer
+    importFooterTemplateIntoCustom() {
+      setTimeout(()=>{
+        app.settings.footer.style = 1
+        console.log("setting footer style to "+this.settings.footer.style)
+        
+      setTimeout(()=>{
+        console.log(app.$refs.newsletter.querySelector(".newsletter-footer").outerHTML)
+        app.settings.footer.html = app.$refs.newsletter.querySelector(".newsletter-footer").outerHTML
+        app.settings.footer.style = '2'
+        app.forceRerender();
+        sendSuccess("Footer template has been imported into the custom section.")
+      }, 1)
+    }, 1)
+    }
   },
   updated() {
     this.newsletterHTML = this.$refs.newsletter.outerHTML;

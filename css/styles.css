@@ -649,6 +649,7 @@ p.smallerText {
 
 .form-item.border:not(.split) {
     border-bottom: 1px solid #d2d2d2;
+    background: #3a3a3a;
 }
 
 .form-item.split.border>div,

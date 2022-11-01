@@ -264,7 +264,7 @@
 
                     <!-- FOOTER -->
 
-                    <tr v-if="settings.footer.style == '1'">
+                    <tr class="newsletter-footer" v-if="settings.footer.style == '1'">
                       <td :style="{'background-color': styles.footer.backgroundColor}" valign="middle" style="padding: 20px; font-family: 'Muli', Helvetica, sans-serif">
                         <p
                           v-if="settings.footer.preset.website || settings.footer.preset.social.facebook || settings.footer.preset.social.linkedin || settings.footer.preset.social.twitter"
@@ -284,9 +284,12 @@
                             ><a :href="settings.footer.preset.social.twitter" target="_blank" :style="{color: styles.footer.linkColor}">Twitter</a></span
                           >
                           <span v-if="settings.footer.preset.social.instagram"
-                          ><span v-if="settings.footer.preset.website || settings.footer.preset.social.facebook || settings.footer.preset.social.linkedin || settings.footer.preset.social.twitter"> | </span
-                          ><a :href="settings.footer.preset.social.instagram" target="_blank" :style="{color: styles.footer.linkColor}">Instagram</a></span
-                        >
+                            ><span
+                              v-if="settings.footer.preset.website || settings.footer.preset.social.facebook || settings.footer.preset.social.linkedin || settings.footer.preset.social.twitter"
+                            >
+                              | </span
+                            ><a :href="settings.footer.preset.social.instagram" target="_blank" :style="{color: styles.footer.linkColor}">Instagram</a></span
+                          >
                         </p>
                         <h3 v-if="settings.footer.preset.name" style="margin: 0; margin-bottom: 10px; text-align: center" :style="{color: styles.footer.textColor}">
                           {{settings.footer.preset.name}}
@@ -308,33 +311,38 @@
                           {{settings.footer.preset.phone}}
                         </p>
                         <p
-                          v-if="settings.footer.preset.disclaimer.enable"
                           style="margin: 0; margin-bottom: 5px; font-size: 10px; text-align: center"
                           :style="{color: styles.footer.textColor}"
                         >
                           Copyright &copy; {{(new Date().getFullYear())}}, All rights reserved. <br />
                           NOTICE: This message is only to be read by the addressee and is not for public distribution. The sender is not responsible for distribution of this
-                          message beyond the addressee intended. All information in this message is confidential to the addressee and should be treated as such. <br />
-                          <br />
-                          To ensure that trading instructions are received and executed timely and accurately, please do not send any trading instructions via e-mail.
+                          message beyond the addressee intended. All information in this message is confidential to the addressee and should be treated as such. To ensure that trading instructions are received and executed timely and accurately, please do not send any trading instructions via e-mail.
                           <span v-if="settings.footer.preset.phone">Please contact directly at {{settings.footer.preset.phone}}.</span
                           ><span v-else>Please contact directly by phone.</span><br />
                           <br />
-                          The Advisor(s), Manulife Securities Incorporated, Manulife Securities Investment Services Inc. and/or Manulife Securities Insurance Inc. (“Manulife
-                          Securities”) do not make any representation that the information in any linked site and/or 3rd party articles is accurate and will not accept any
-                          responsibility or liability for any inaccuracies in the information not maintained by them, such as 3rd party articles and/or linked sites. This is not an
-                          official publication of Manulife Securities. The views, opinions and recommendations are those of the author alone and they may not necessarily be those
-                          of Manulife Securities. This publication is not an offer to sell or a solicitation of an offer to buy any securities.
                           <span v-if="settings.footer.preset.disclaimer.licenses.mfda">Mutual funds are offered through Manulife Securities Investment Services Inc. </span>
                           <span v-if="settings.footer.preset.disclaimer.licenses.iiroc"
                             >Stocks, Bonds, and Mutual funds are offered through Manulife Securities Incorporated.
                           </span>
-                          <span v-if="settings.footer.preset.disclaimer.insuranceOBA != null"
-                            >Insurance products and services are offered through {{settings.footer.preset.disclaimer.insuranceOBA}}.
+                          <span v-if="settings.footer.preset.disclaimer.insuranceOBA != null">
+                            Insurance products and services are offered through {{settings.footer.preset.disclaimer.insuranceOBA}}.
                           </span>
-                          Banking products and services are offered by referral arrangements through our related company Manulife Bank of Canada. Please confirm with your advisor
-                          which company you are dealing with for each of your products and services.
+                          <span v-if="settings.footer.preset.disclaimer.banking">
+                            Banking products and services are offered by referral arrangements through our related company Manulife Bank of Canada, additional disclosure
+                            information will be provided upon referral.
+                          </span>
+                          Please confirm with your advisor which company you are dealing with for each of your products and services.
                           <br />
+                          <span  v-if="settings.footer.preset.disclaimer.logo">
+                            <br />
+                          This is not an official publication of Manulife Securities. The views, opinions, and recommendations are those of the author alone and they may not
+                          necessarily be those of Manulife Securities or the advisor(s). This publication is not an offer to sell or a solicitation of an offer to buy any securities. This
+                          publication is not meant to provide legal, accounting or account advice. As each situation is different, you should seek advice based on your specific
+                          circumstances. Please call to arrange for an appointment. The information contained herein was obtained from sources believed to be reliable; however, no
+                          representation or warranty, express or implied, is made by the writer, Manulife Securities or any other person as to its accuracy, completeness or
+                          correctness.
+                        </span>
+                        <br />
                           <img
                             v-if="settings.footer.preset.disclaimer.logo"
                             :src="isLight(styles.footer.textColor) ? 'https://static.twentyoverten.com/5b6c40e420726c57d29b423f/EkpFQZQ3Zmy/Manulife_Securities_linear_reversed_rgb.png' : 'https://static.twentyoverten.com/5b6c40e420726c57d29b423f/skkT7LqlHey/Manulife_Securities_linear_rgb.png'"
@@ -358,7 +366,7 @@
                         </p>
                       </td>
                     </tr>
-                    <tr v-else-if="settings.footer.style == '2'">
+                    <tr class="newsletter-footer" v-else-if="settings.footer.style == '2'">
                       <td :style="{'background-color': styles.footer.backgroundColor}" valign="middle" style="padding: 20px; font-family: 'Muli', Helvetica, sans-serif">
                         <span v-html="settings.footer.html" :style="{color: styles.footer.textColor}"></span>
                       </td>
@@ -497,7 +505,7 @@
                 <div class="selector"></div>
               </div>
               <div class="accordion-content">
-                <div class="form-item border">
+                <div class="form-item border" :style="{'background-color': styles.header.backgroundColor}">
                   <editable :key="app.forceRerender" id="header-html" v-model="settings.header.html" :value="settings.header.html"> </editable>
                   <label for="header-html">Header Content</label>
                 </div>
@@ -584,7 +592,8 @@
                       type="checkbox"
                       id="footer-preset-disclaimer-licenses-mfda"
                       v-model="settings.footer.preset.disclaimer.licenses.mfda"
-                      aria-label="Toggle using MFDA Disclaimer"
+                      aria-label="Toggle using MFDA disclaimer"
+                      title="Toggle using MFDA disclaimer"
                       required
                     />
                     <label for="footer-preset-disclaimer-license-mfda">MFDA</label>
@@ -594,7 +603,8 @@
                       type="checkbox"
                       id="footer-preset-disclaimer-licenses-iiroc"
                       v-model="settings.footer.preset.disclaimer.licenses.iiroc"
-                      aria-label="Toggle using IIROC Disclaimer"
+                      aria-label="Toggle using IIROC disclaimer"
+                      title="Toggle using IIROC disclaimer"
                       required
                     />
                     <label for="footer-preset-disclaimer-license-iiroc">IIROC</label>
@@ -610,13 +620,25 @@
                       type="checkbox"
                       id="footer-preset-disclaimer-logo"
                       v-model="settings.footer.preset.disclaimer.logo"
-                      aria-label="Toggle using Securities Logo"
+                      aria-label="Toggle using Manulife Securities branding"
+                      title="Toggle using Manulife Securities branding"
                       checked
                       required
                     />
-                    <label for="footer-reset-disclaimer-logo">Manulife Securities Logo</label>
+                    <label for="footer-reset-disclaimer-logo">Manulife Securities branding</label>
                   </div>
-                  <div></div>
+                  <div class="border">
+                    <input
+                      type="checkbox"
+                      id="footer-preset-disclaimer-banking"
+                      v-model="settings.footer.preset.disclaimer.banking"
+                      aria-label="Toggle using Banking disclaimer"
+                      title="Toggle using Banking disclaimer"
+                      required
+                      checked
+                    />
+                    <label for="footer-preset-disclaimer-banking">Banking</label>
+                  </div>
                   <div></div>
                 </div>
               </div>
@@ -627,10 +649,13 @@
                 <div class="selector"></div>
               </div>
               <div class="accordion-content expandable">
-                <div class="form-item border">
+                <div class="form-item border" :style="{'background-color': styles.footer.backgroundColor}">
                   <editable :key="app.forceRerender" id="footer-html" v-model="settings.footer.html" :value="settings.footer.html"> </editable>
                   <label for="footer-html">Footer Content </label>
                 </div>
+                <p class="smallerText">
+                  Want to edit the template content? Click <a href="#" @click="importFooterTemplateIntoCustom()">here</a> to copy the code and add it into the custom section.<br />
+                  <strong>Warning:</strong> This WILL overwrite anything in the custom section</p>
               </div>
             </div>
           </div>
@@ -1206,32 +1231,6 @@
         </div>
 
         <div id="settings" class="main-view" :class="{open: app.activeView === 'settings'}">
-          <div class="card">
-            <h3 class="card-title">Use Manulife Securities Disclaimer in Footer Preset</h3>
-            <p>
-              <small>
-                Copyright &copy; {{(new Date().getFullYear())}}, All rights reserved. <br />
-                NOTICE: This message is only to be read by the addressee and is not for public distribution. The sender is not responsible for distribution of this message beyond
-                the addressee intended. All information in this message is confidential to the addressee and should be treated as such. <br />
-                <br />
-                To ensure that trading instructions are received and executed timely and accurately, please do not send any trading instructions via e-mail. Please contact directly
-                at [PHONE]<br />
-                <br />
-                The Advisor(s), Manulife Securities Incorporated, Manulife Securities Investment Services Inc. and/or Manulife Securities Insurance Inc. (“Manulife Securities”) do
-                not make any representation that the information in any linked site and/or 3rd party articles is accurate and will not accept any responsibility or liability for
-                any inaccuracies in the information not maintained by them, such as 3rd party articles and/or linked sites. This is not an official publication of Manulife
-                Securities. The views, opinions and recommendations are those of the author alone and they may not necessarily be those of Manulife Securities. This publication is
-                not an offer to sell or a solicitation of an offer to buy any securities.
-                <br />
-                <br />
-                Legal and Disclaimers | Privacy Policy</small
-              >
-            </p>
-            <div class="form-item">
-              <input type="checkbox" id="useManulifeDisclaimer" v-model="settings.footer.preset.disclaimer.enable" />
-              <label for="useManulifeDisclaimer">Use Disclaimer</label>
-            </div>
-          </div>
           <div class="card">
             <h3 class="card-title">Reset Global/Individual Styles</h3>
             <p>
