@@ -211,7 +211,7 @@
                "mfda": false,
                "iiroc": false
             },
-            "logo": false
+            "logo": true
          }
       }
    },
