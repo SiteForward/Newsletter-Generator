@@ -310,6 +310,7 @@
                         <p v-if="settings.footer.preset.phone" style="margin: 0; margin-bottom: 10px; text-align: center" :style="{color: styles.footer.textColor}">
                           {{settings.footer.preset.phone}}
                         </p>
+                        <br v-else>
                         <p
                           style="margin: 0; margin-bottom: 5px; font-size: 10px; text-align: center"
                           :style="{color: styles.footer.textColor}"
@@ -344,10 +345,9 @@
                           circumstances. Please call to arrange for an appointment. The information contained herein was obtained from sources believed to be reliable; however, no
                           representation or warranty, express or implied, is made by the writer, Manulife Securities or any other person as to its accuracy, completeness or
                           correctness.
-                        </span>
+                        
                         <br />
                           <img
-                            v-if="settings.footer.preset.disclaimer.logo"
                             :src="isLight(styles.footer.textColor) ? 'https://static.twentyoverten.com/5b6c40e420726c57d29b423f/EkpFQZQ3Zmy/Manulife_Securities_linear_reversed_rgb.png' : 'https://static.twentyoverten.com/5b6c40e420726c57d29b423f/skkT7LqlHey/Manulife_Securities_linear_rgb.png'"
                             width="350"
                             height="auto"
@@ -359,6 +359,7 @@
                             |
                             <a href="https://www.manulife.ca/privacy-policies.html" target="_blank" :style="{color: styles.footer.linkColor}">Privacy Policy</a></em
                           >
+                        </span>
                         </p>
                         <p v-if="settings.footer.preset.email" style="margin: 0; font-size: 12px; text-align: center">
                           <a
@@ -618,10 +619,10 @@
                       id="footer-preset-disclaimer-licenses-msii"
                       v-model="settings.footer.preset.disclaimer.licenses.msii"
                       aria-label="Toggle using MSII disclaimer"
-                      title="Toggle using MSII disclaimer"
+                      title="Toggle using Manuilife Securities Insurance Inc disclaimer"
                       required
                     />
-                    <label for="footer-preset-disclaimer-license-msii">MSII/IAC</label>
+                    <label for="footer-preset-disclaimer-license-msii">MSII</label>
                   </div>
                 </div>
                 <div class="form-item split even">
@@ -643,11 +644,11 @@
                       id="footer-preset-disclaimer-banking"
                       v-model="settings.footer.preset.disclaimer.banking"
                       aria-label="Toggle using Banking disclaimer"
-                      title="Toggle using Banking disclaimer"
+                      title="Toggle using Manulife Banking disclaimer"
                       required
                       checked
                     />
-                    <label for="footer-preset-disclaimer-banking">Banking</label>
+                    <label for="footer-preset-disclaimer-banking">Manulife Banking</label>
                   </div>
                   <div v-if="!settings.footer.preset.disclaimer.licenses.msii" class="border">
                     <input type="text" id="footer-preset-disclaimer-insuranceOBA" v-model="settings.footer.preset.disclaimer.insuranceOBA" required title=" " />
