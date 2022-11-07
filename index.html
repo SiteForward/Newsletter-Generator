@@ -324,7 +324,7 @@
                           <span v-if="settings.footer.preset.disclaimer.licenses.iiroc"
                             >Stocks, Bonds, and Mutual funds are offered through Manulife Securities Incorporated.
                           </span>
-                          <span v-if="settings.footer.preset.disclaimer.insuranceOBA != null">
+                          <span v-if="settings.footer.preset.disclaimer.insuranceOBA">
                             Insurance products and services are offered through {{settings.footer.preset.disclaimer.insuranceOBA}}.
                           </span>
                           <span v-if="settings.footer.preset.disclaimer.banking">
@@ -505,7 +505,7 @@
                 <div class="selector"></div>
               </div>
               <div class="accordion-content">
-                <div class="form-item border" :style="{'background-color': styles.header.backgroundColor}">
+                <div class="form-item border" :style="{'background-color': styles.header.backgroundColor, color: styles.header.textColor}" style="padding: 5px; border-radius: 5px;">
                   <editable :key="app.forceRerender" id="header-html" v-model="settings.header.html" :value="settings.header.html"> </editable>
                   <label for="header-html">Header Content</label>
                 </div>
@@ -649,7 +649,7 @@
                 <div class="selector"></div>
               </div>
               <div class="accordion-content expandable">
-                <div class="form-item border" :style="{'background-color': styles.footer.backgroundColor}">
+                <div class="form-item border" :style="{'background-color': styles.footer.backgroundColor, color: styles.footer.textColor}" style="padding: 5px; border-radius: 5px;">
                   <editable :key="app.forceRerender" id="footer-html" v-model="settings.footer.html" :value="settings.footer.html"> </editable>
                   <label for="footer-html">Footer Content </label>
                 </div>

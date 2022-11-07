@@ -46,7 +46,7 @@ body {
 .editable h5,
 .editable p {
     margin: 0;
-    margin-bottom: 5px;
+    /* margin-bottom: 5px; */
 }
 
 .snotify.snotify-centerCenter{
@@ -649,7 +649,6 @@ p.smallerText {
 
 .form-item.border:not(.split) {
     border-bottom: 1px solid #d2d2d2;
-    background: #3a3a3a;
 }
 
 .form-item.split.border>div,
@@ -717,7 +716,7 @@ p.smallerText {
 .form-item textarea:valid~label,
 .form-item .editable:focus~label,
 .form-item .editable:not(:empty)~label {
-    top: -12px;
+    top: -13px;
     font-size: 12px;
 }
 
