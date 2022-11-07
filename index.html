@@ -324,7 +324,10 @@
                           <span v-if="settings.footer.preset.disclaimer.licenses.iiroc"
                             >Stocks, Bonds, and Mutual funds are offered through Manulife Securities Incorporated.
                           </span>
-                          <span v-if="settings.footer.preset.disclaimer.insuranceOBA">
+                          <span v-if="settings.footer.preset.disclaimer.licenses.msii">
+                            Insurance products and services are offered through Manulife Securities Insurance Inc.
+                          </span>
+                          <span v-else-if="settings.footer.preset.disclaimer.insuranceOBA">
                             Insurance products and services are offered through {{settings.footer.preset.disclaimer.insuranceOBA}}.
                           </span>
                           <span v-if="settings.footer.preset.disclaimer.banking">
@@ -610,8 +613,15 @@
                     <label for="footer-preset-disclaimer-license-iiroc">IIROC</label>
                   </div>
                   <div>
-                    <input type="text" id="footer-preset-disclaimer-insuranceOBA" v-model="settings.footer.preset.disclaimer.insuranceOBA" required title=" " />
-                    <label for="footer-preset-disclaimer-insuranceOBA">Insurance OBA</label>
+                    <input
+                      type="checkbox"
+                      id="footer-preset-disclaimer-licenses-msii"
+                      v-model="settings.footer.preset.disclaimer.licenses.msii"
+                      aria-label="Toggle using MSII disclaimer"
+                      title="Toggle using MSII disclaimer"
+                      required
+                    />
+                    <label for="footer-preset-disclaimer-license-msii">MSII/IAC</label>
                   </div>
                 </div>
                 <div class="form-item split even">
@@ -639,7 +649,11 @@
                     />
                     <label for="footer-preset-disclaimer-banking">Banking</label>
                   </div>
-                  <div></div>
+                  <div v-if="!settings.footer.preset.disclaimer.licenses.msii" class="border">
+                    <input type="text" id="footer-preset-disclaimer-insuranceOBA" v-model="settings.footer.preset.disclaimer.insuranceOBA" required title=" " />
+                    <label for="footer-preset-disclaimer-insuranceOBA">Insurance OBA</label>
+                  </div>
+                  <div v-else></div>
                 </div>
               </div>
             </div>

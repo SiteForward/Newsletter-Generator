@@ -347,6 +347,7 @@ let app = new Vue({
             licenses: {
               iiroc: false,
               mfda: false,
+              msii: false
             },
           },
         },
