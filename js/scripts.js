@@ -23,7 +23,7 @@ let tinyMCE_settings = {
   contextmenu: false,
   toolbar: [
     "blocks fontsize | bold italic underline | align lineheight",
-    " forecolor backcolor removeformat | numlist  bullist | superscript subscript | link image | undo redo | code",
+    " forecolor backcolor removeformat | numlist  bullist superscript subscript | link image | undo redo | code",
   ],
   block_formats:
     "Paragraph=p;Heading 1=h1;Heading 2=h2;Heading 3=h3;Heading 4=h4;",
