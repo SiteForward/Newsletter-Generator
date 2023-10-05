@@ -22,7 +22,7 @@ let tinyMCE_settings = {
   paste_as_text: true,
   contextmenu: false,
   toolbar: [
-    "formatselect fontsizeselect | bold italic underline | align lineheight",
+    "blocks fontsize | bold italic underline | align lineheight",
     " forecolor backcolor removeformat | numlist  bullist | superscript subscript | link image | undo redo | code",
   ],
   block_formats:
@@ -983,7 +983,7 @@ let app = new Vue({
     },
 
     forceRerender() {
-      while (tinymce.editors.length > 0) tinymce.remove(tinymce.editors[0]);
+      tinymce.remove()
       this.app.forceRerender = !this.app.forceRerender;
     },
 
