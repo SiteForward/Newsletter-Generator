@@ -346,8 +346,7 @@ let app = new Vue({
             logo: true,
             banking: true,
             licenses: {
-              iiroc: false,
-              mfda: false,
+              ciro: false,
               msii: false
             },
           },
@@ -508,10 +507,11 @@ let app = new Vue({
       if (typeof this.footer.preset.disclaimer.licenses == "undefined")
         this.$set(this.footer.preset.disclaimer, "licenses", {});
 
-      if (typeof this.footer.preset.disclaimer.licenses.mfda == "undefined")
-        this.$set(this.footer.preset.disclaimer.licenses, "mfda", false);
-      if (typeof this.footer.preset.disclaimer.licenses.iiroc == "undefined")
-        this.$set(this.footer.preset.disclaimer.licenses, "iiroc", false);
+      if (typeof this.footer.preset.disclaimer.licenses.ciro == "undefined")
+        this.$set(this.footer.preset.disclaimer.licenses, "ciro", false);
+      
+      if (this.footer.preset.disclaimer.licenses.mfda == true || this.footer.preset.disclaimer.licenses.iiroc == true)
+        this.$set(this.footer.preset.disclaimer.licenses, "ciro", true);
 
       if (typeof this.footer.preset.disclaimer.logo == "undefined")
         this.$set(this.footer.preset.disclaimer, "logo", true);

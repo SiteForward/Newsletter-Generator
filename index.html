@@ -321,12 +321,9 @@
                           <span v-if="settings.footer.preset.phone">Please contact directly at {{settings.footer.preset.phone}}.</span
                           ><span v-else>Please contact directly by phone.</span><br />
                           <br />
-                          <span v-if="settings.footer.preset.disclaimer.licenses.mfda">Mutual funds are offered through Manulife Securities Investment Services Inc. </span>
-                          <span v-if="settings.footer.preset.disclaimer.licenses.iiroc"
-                            >Stocks, Bonds, and Mutual funds are offered through Manulife Securities Incorporated.
-                          </span>
+                          <span v-if="settings.footer.preset.disclaimer.licenses.ciro">CIRO DISCLAIMER HERE</span>
                           <span v-if="settings.footer.preset.disclaimer.licenses.msii">
-                            Insurance products and services are offered through Manulife Securities Insurance Inc.
+                            Insurance products and services are offered through Manulife Wealth Insurance Inc.
                           </span>
                           <span v-else-if="settings.footer.preset.disclaimer.insuranceOBA">
                             Insurance products and services are offered through {{settings.footer.preset.disclaimer.insuranceOBA}}.
@@ -339,16 +336,16 @@
                           <br />
                           <span  v-if="settings.footer.preset.disclaimer.logo">
                             <br />
-                          This is not an official publication of Manulife Securities. The views, opinions, and recommendations are those of the author alone and they may not
-                          necessarily be those of Manulife Securities or the advisor(s). This publication is not an offer to sell or a solicitation of an offer to buy any securities. This
+                          This is not an official publication of Manulife Wealth. The views, opinions, and recommendations are those of the author alone and they may not
+                          necessarily be those of Manulife Wealth or the advisor(s). This publication is not an offer to sell or a solicitation of an offer to buy any securities. This
                           publication is not meant to provide legal, accounting or account advice. As each situation is different, you should seek advice based on your specific
                           circumstances. Please call to arrange for an appointment. The information contained herein was obtained from sources believed to be reliable; however, no
-                          representation or warranty, express or implied, is made by the writer, Manulife Securities or any other person as to its accuracy, completeness or
+                          representation or warranty, express or implied, is made by the writer, Manulife Wealth or any other person as to its accuracy, completeness or
                           correctness.
                         
                         <br />
                           <img
-                            :src="isLight(styles.footer.textColor) ? 'https://static.twentyoverten.com/5b6c40e420726c57d29b423f/EkpFQZQ3Zmy/Manulife_Securities_linear_reversed_rgb.png' : 'https://static.twentyoverten.com/5b6c40e420726c57d29b423f/skkT7LqlHey/Manulife_Securities_linear_rgb.png'"
+                            :src="isLight(styles.footer.textColor) ? 'https://static.twentyoverten.com/601b05ba1f9c8f1a03ec1075/pLHufCmY2T8/Manulife_Wealth_linear_white.png' : 'https://static.twentyoverten.com/601b05ba1f9c8f1a03ec1075/OnnY_w9K4bF/Manulife_Wealth_linear_cmyk.png'"
                             width="350"
                             height="auto"
                           /><br />
@@ -594,25 +591,15 @@
                   <div>
                     <input
                       type="checkbox"
-                      id="footer-preset-disclaimer-licenses-mfda"
-                      v-model="settings.footer.preset.disclaimer.licenses.mfda"
-                      aria-label="Toggle using MFDA disclaimer"
-                      title="Toggle using MFDA disclaimer"
+                      id="footer-preset-disclaimer-licenses-ciro"
+                      v-model="settings.footer.preset.disclaimer.licenses.ciro"
+                      aria-label="Toggle using CIRO disclaimer"
+                      title="Toggle using CIRO disclaimer"
                       required
                     />
-                    <label for="footer-preset-disclaimer-license-mfda">MFDA</label>
+                    <label for="footer-preset-disclaimer-license-ciro">CIRO</label>
                   </div>
-                  <div>
-                    <input
-                      type="checkbox"
-                      id="footer-preset-disclaimer-licenses-iiroc"
-                      v-model="settings.footer.preset.disclaimer.licenses.iiroc"
-                      aria-label="Toggle using IIROC disclaimer"
-                      title="Toggle using IIROC disclaimer"
-                      required
-                    />
-                    <label for="footer-preset-disclaimer-license-iiroc">IIROC</label>
-                  </div>
+                  
                   <div>
                     <input
                       type="checkbox"
@@ -631,12 +618,12 @@
                       type="checkbox"
                       id="footer-preset-disclaimer-logo"
                       v-model="settings.footer.preset.disclaimer.logo"
-                      aria-label="Toggle using Manulife Securities branding"
-                      title="Toggle using Manulife Securities branding"
+                      aria-label="Toggle using Manulife Wealth branding"
+                      title="Toggle using Manulife Wealth branding"
                       checked
                       required
                     />
-                    <label for="footer-reset-disclaimer-logo">Manulife Securities branding</label>
+                    <label for="footer-reset-disclaimer-logo">Manulife Wealth branding</label>
                   </div>
                   <div class="border">
                     <input
