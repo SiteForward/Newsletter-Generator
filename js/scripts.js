@@ -4,6 +4,7 @@ let tinyMCE_settings = {
   selector: ".editable",
   menubar: false,
   inline: true,
+  nowrap : true,
   skin: window.matchMedia("(prefers-color-scheme: dark)").matches
     ? "oxide-dark"
     : "oxide",
@@ -22,8 +23,8 @@ let tinyMCE_settings = {
   paste_as_text: true,
   contextmenu: false,
   toolbar: [
-    "blocks fontsize | bold italic underline | align lineheight",
-    " forecolor backcolor removeformat | numlist  bullist superscript subscript | link image | undo redo | code",
+    "blocks fontsize | bold italic underline | align lineheight |  removeformat ",
+    "forecolor backcolor | numlist  bullist | superscript subscript | link image | undo redo | code",
   ],
   block_formats:
     "Paragraph=p;Heading 1=h1;Heading 2=h2;Heading 3=h3;Heading 4=h4;",
