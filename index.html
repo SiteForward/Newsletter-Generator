@@ -321,7 +321,7 @@
                           <span v-if="settings.footer.preset.phone">Please contact directly at {{settings.footer.preset.phone}}.</span
                           ><span v-else>Please contact directly by phone.</span><br />
                           <br />
-                          <span v-if="settings.footer.preset.disclaimer.licenses.ciro">CIRO DISCLAIMER HERE</span>
+                          <span v-if="settings.footer.preset.disclaimer.licenses.ciro">&lt;CIRO Disclaimer Here.&gt;</span>
                           <span v-if="settings.footer.preset.disclaimer.licenses.msii">
                             Insurance products and services are offered through Manulife Wealth Insurance Inc.
                           </span>
@@ -343,7 +343,8 @@
                           representation or warranty, express or implied, is made by the writer, Manulife Wealth or any other person as to its accuracy, completeness or
                           correctness.
                         
-                        <br />
+                          <br />
+                          <br />
                           <img
                             :src="isLight(styles.footer.textColor) ? 'https://static.twentyoverten.com/601b05ba1f9c8f1a03ec1075/pLHufCmY2T8/Manulife_Wealth_linear_white.png' : 'https://static.twentyoverten.com/601b05ba1f9c8f1a03ec1075/OnnY_w9K4bF/Manulife_Wealth_linear_cmyk.png'"
                             width="350"
