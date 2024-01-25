@@ -321,7 +321,8 @@
                           <span v-if="settings.footer.preset.phone">Please contact directly at {{settings.footer.preset.phone}}.</span
                           ><span v-else>Please contact directly by phone.</span><br />
                           <br />
-                          <span v-if="settings.footer.preset.disclaimer.licenses.ciro">&lt;CIRO Disclaimer Here.&gt;</span>
+                          <span v-if="settings.footer.preset.disclaimer.licenses.mfda">Mutual fund dealing representatives (“mutual fund advisors”) registered with Manulife Wealth Inc. offer mutual funds.</span>
+                          <span v-if="settings.footer.preset.disclaimer.licenses.iiroc">Investment dealer dealing representatives (“investment advisors”) registered with Manulife Wealth Inc. offer stocks, bonds, and mutual funds.</span>
                           <span v-if="settings.footer.preset.disclaimer.licenses.msii">
                             Insurance products and services are offered through Manulife Wealth Insurance Inc.
                           </span>
@@ -584,13 +585,24 @@
                   <div>
                     <input
                       type="checkbox"
-                      id="footer-preset-disclaimer-licenses-ciro"
-                      v-model="settings.footer.preset.disclaimer.licenses.ciro"
-                      aria-label="Toggle using CIRO disclaimer"
-                      title="Toggle using CIRO disclaimer"
+                      id="footer-preset-disclaimer-licenses-mfda"
+                      v-model="settings.footer.preset.disclaimer.licenses.mfda"
+                      aria-label="Toggle using MFDA disclaimer"
+                      title="Toggle using MFDA disclaimer"
                       required
                     />
-                    <label for="footer-preset-disclaimer-license-ciro">CIRO</label>
+                    <label for="footer-preset-disclaimer-license-mfda">Mutual Funds</label>
+                  </div>
+                  <div>
+                    <input
+                      type="checkbox"
+                      id="footer-preset-disclaimer-licenses-iiroc"
+                      v-model="settings.footer.preset.disclaimer.licenses.iiroc"
+                      aria-label="Toggle using IIROC disclaimer"
+                      title="Toggle using IIROC disclaimer"
+                      required
+                    />
+                    <label for="footer-preset-disclaimer-license-iiroc">Investment</label>
                   </div>
                   
                   <div>
