@@ -429,7 +429,9 @@ let app = new Vue({
 
     var style = document.createElement("style");
     this.$refs.newsletter.prepend(style);
-
+    alert("The newsletter generator is currently unavailable.\n\nWe're sorry for any inconvience this causes and are hoping to get it back up and running by the end of June 2024.")
+    
+    
     this.$snotify.confirm("For quicker startup please choose one of the options below.", "Newsletter Design Generator", {
       titleMaxLength: 30,
       backdrop: 0.2,
@@ -467,6 +469,7 @@ let app = new Vue({
         }
       ],
     });
+    
   },
   methods: {
     //Update settings to ensure no error on load
