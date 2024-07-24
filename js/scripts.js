@@ -36,8 +36,6 @@ let tinyMCE_settings = {
   },
 };
 
-//tinymce.init(tinyMCE_settings);
-
 Vue.component("editable", {
   template: '<div class="editable" @input="updateInput"></div>',
   props: ["value"],
@@ -50,10 +48,14 @@ Vue.component("editable", {
   mounted() {
     let el = this.$el;
     el.innerHTML = typeof this.value == "undefined" ? "" : this.value;
-
     let tinyMCE_settings_clone = Object.assign({}, tinyMCE_settings);
     tinyMCE_settings_clone.selector = "#" + el.id;
-    tinymce.init(tinyMCE_settings_clone);
+    let mouseover = el.addEventListener("mouseover", function(){
+      if (tinymce.get(el.id) == null){
+        tinymce.init(tinyMCE_settings_clone)
+      }
+      e.removeEventListener(mouseover)
+    })
   },
 });
 

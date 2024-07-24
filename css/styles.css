@@ -634,6 +634,7 @@ p.smallerText {
 .form-item {
     position: relative;
     margin-bottom: 15px;
+    min-height: 20px;
 }
 
 .form-item label {
