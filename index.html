@@ -508,7 +508,16 @@
             </div>
           </div>
           <div class="card">
-            <h3 class="card-title">Footer Settings</h3>
+            <h3 class="card-title">Footer Settings</h3><span class="card-title-icon"
+            ><i class="fas fa-question-circle tool-icon"></i
+            ><span class="card-title-help" style="width: 350px">
+              <p>
+                <strong>Using the template?</strong><br />
+                When using the template you will need to pay attention to the Trade Name/OBA/name field. If you're using your name you will need to ensure you accompany it with your title and legal entity.</p>
+                <p><strong>Note:</strong><br>When signing off with your own name, please use a soft line-break (Hold Shift and press Enter) to produce the example below:<br>Your Name<br>Investment Advisor, Manulife Wealth Inc.
+              </p>
+            </span></span
+          >
             <div class="accordion" :class="{open: settings.footer.style == 0}" @click="settings.footer.style = 0">
               <div class="accordion-title">
                 <p>No Footer</p>
@@ -519,12 +528,13 @@
               <div class="accordion-title">
                 <p>Use Template</p>
                 <div class="selector"></div>
+                
               </div>
               <div class="accordion-content">
                 <div class="form-item border split even">
                   <div>
                     <editable :key="app.forceRerender" :id="footer-preset-name" v-model="settings.footer.preset.name" :value="settings.footer.preset.name"> </editable>
-                    <label for="footer-preset-name">Name</label>
+                    <label for="footer-preset-name">Trade Name / OBA / Name</label>
                   </div>
                   <div>
                     <input type="text" id="footer-preset-email" v-model="settings.footer.preset.email" required title=" " />
@@ -1073,6 +1083,7 @@
             <span class="card-title-icon"
               ><i class="fas fa-question-circle tool-icon"></i
               ><span class="card-title-help" style="width: 400px">
+                <p><strong>Important Note:</strong><br>If you're using this tool to create newsletters that involve dealer content please make sure to submit the final version to Sales Communication for review through Red Oak.</p>
                 <p>
                   <strong><i class="fas fa-code"></i> Copy HTML Code</strong><br />
                   Use this if you need to paste the HTML code into something that allows for code.
@@ -1087,6 +1098,7 @@
                 </p>
               </span></span
             >
+            
             <div class="form-item border">
               <textarea disabled v-model="newsletterHTML" style="min-height: 250px" aria-label="Newsletters HTML Code"></textarea>
             </div>
