@@ -291,8 +291,8 @@
                             ><a :href="settings.footer.preset.social.instagram" target="_blank" :style="{color: styles.footer.linkColor}">Instagram</a></span
                           >
                         </p>
-                        <h3 v-if="settings.footer.preset.name" style="margin: 0; margin-bottom: 10px; text-align: center" :style="{color: styles.footer.textColor}">
-                          {{settings.footer.preset.name}}
+                        <h3 v-html="settings.footer.preset.name" v-if="settings.footer.preset.name" style="margin: 0; margin-bottom: 10px; text-align: center" :style="{color: styles.footer.textColor}">
+                          
                         </h3>
                         <p
                           v-if="settings.footer.preset.location.address || settings.footer.preset.location.city || settings.footer.preset.location.postal"
@@ -523,7 +523,7 @@
               <div class="accordion-content">
                 <div class="form-item border split even">
                   <div>
-                    <input type="text" id="footer-preset-name" v-model="settings.footer.preset.name" required title=" " />
+                    <editable :key="app.forceRerender" :id="footer-preset-name" v-model="settings.footer.preset.name" :value="settings.footer.preset.name"> </editable>
                     <label for="footer-preset-name">Name</label>
                   </div>
                   <div>
