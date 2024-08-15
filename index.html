@@ -324,7 +324,7 @@
                           <span v-if="settings.footer.preset.disclaimer.licenses.mfda">Mutual fund dealing representatives (“mutual fund advisors”) registered with Manulife Wealth Inc. offer mutual funds.</span>
                           <span v-if="settings.footer.preset.disclaimer.licenses.iiroc">Investment dealer dealing representatives (“investment advisors”) registered with Manulife Wealth Inc. offer stocks, bonds, and mutual funds.</span>
                           <span v-if="settings.footer.preset.disclaimer.licenses.msii">
-                            Insurance products and services are offered through Manulife Wealth Insurance Inc.
+                            Insurance products and services are offered through Manulife Wealth Insurance Services Inc.
                           </span>
                           <span v-else-if="settings.footer.preset.disclaimer.insuranceOBA">
                             Insurance products and services are offered through {{settings.footer.preset.disclaimer.insuranceOBA}}.
@@ -620,11 +620,11 @@
                       type="checkbox"
                       id="footer-preset-disclaimer-licenses-msii"
                       v-model="settings.footer.preset.disclaimer.licenses.msii"
-                      aria-label="Toggle using MSII disclaimer"
-                      title="Toggle using Manuilife Securities Insurance Inc disclaimer"
+                      aria-label="Toggle using MWISI disclaimer"
+                      title="Toggle using Manuilife Wealth Insurance Services Inc disclaimer"
                       required
                     />
-                    <label for="footer-preset-disclaimer-licenses-msii">MSII</label>
+                    <label for="footer-preset-disclaimer-licenses-msii">MWISI</label>
                   </div>
                 </div>
                 <div class="form-item split even">
@@ -656,7 +656,9 @@
                     <input type="text" id="footer-preset-disclaimer-insuranceOBA" v-model="settings.footer.preset.disclaimer.insuranceOBA" required title=" " />
                     <label for="footer-preset-disclaimer-insuranceOBA">Insurance OBA</label>
                   </div>
-                  <div v-else></div>
+                  <div v-else><label style="
+                    padding-left: 5px;
+                ">Disable MWISI to change Insurance OBA</label></div>
                 </div>
               </div>
             </div>
